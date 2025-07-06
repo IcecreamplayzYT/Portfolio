@@ -43,9 +43,29 @@ const Portfolio = () => {
     setIsDark(!isDark);
   };
 
+  const skillIcons: { [key: string]: string } = {
+    "Python": "🐍",
+    "Discord.py": "🤖",
+    "HTML": "📄",
+    "Tailwind CSS": "💨",
+    "JavaScript": "⚡",
+    "TypeScript": "📘",
+    "MySQL": "🗄️",
+    "MongoDB": "🍃",
+    "Supabase": "⚡",
+    "Firebase": "🔥",
+    "YouTube API": "📺",
+    "Roblox Studio": "🎮",
+    "Roblox Scripting": "⚙️",
+    "Roblox Animation": "🎬",
+    "Discord Bot Development": "🤖",
+    "Full-Stack Development": "💻",
+    "Computer Science": "🔬"
+  };
+
   const skillCategories = {
     "Core Development": [
-      "Python", "Discord.js", "HTML", "Tailwind CSS", "JavaScript", "TypeScript"
+      "Python", "Discord.py", "HTML", "Tailwind CSS", "JavaScript", "TypeScript"
     ],
     "Backend & Databases": [
       "MySQL", "MongoDB", "Supabase", "Firebase", "YouTube API"
@@ -261,8 +281,9 @@ const Portfolio = () => {
                         <Badge 
                           key={index} 
                           variant="secondary" 
-                          className="text-xs rounded-md px-3 py-1 bg-accent/50 border border-border hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
+                          className="text-xs rounded-md px-3 py-1 bg-accent/50 border border-border hover:bg-primary hover:text-primary-foreground transition-colors duration-200 flex items-center gap-1"
                         >
+                          <span className="text-sm">{skillIcons[skill]}</span>
                           {skill}
                         </Badge>
                       ))}
