@@ -3,20 +3,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import Navigation from "./Navigation";
 import { 
-  Github, 
-  ExternalLink, 
   MapPin, 
   Calendar, 
   Award, 
   Code, 
   Database, 
-  Globe, 
   Youtube,
   Twitter,
-  Mail,
-  Sun,
-  Moon,
   User,
   Briefcase,
   GraduationCap,
@@ -48,16 +43,20 @@ const Portfolio = () => {
     setIsDark(!isDark);
   };
 
-  const skills = [
-    "Python Development", "Discord Bot Development", "Website Developer", 
-    "Fullstack Developer", "Backend Developer", "Roblox Scripting", 
-    "Roblox Animation", "HTML", "Tailwind CSS", "Computer Science"
-  ];
-
-  const technologies = [
-    "Python", "HTML", "Tailwind", "MySQL", "MongoDB", "Supabase", 
-    "Firebase", "YouTube API", "Roblox Studio", "Discord.js"
-  ];
+  const skillCategories = {
+    "Core Development": [
+      "Python", "Discord.js", "HTML", "Tailwind CSS", "JavaScript", "TypeScript"
+    ],
+    "Backend & Databases": [
+      "MySQL", "MongoDB", "Supabase", "Firebase", "YouTube API"
+    ],
+    "Game Development": [
+      "Roblox Studio", "Roblox Scripting", "Roblox Animation"
+    ],
+    "Specializations": [
+      "Discord Bot Development", "Full-Stack Development", "Computer Science"
+    ]
+  };
 
   const projects = [
     {
@@ -98,36 +97,15 @@ const Portfolio = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 transition-colors duration-300">
-      {/* Header */}
-      <header className="border-b border-border/20 backdrop-blur-md supports-[backdrop-filter]:bg-background/80 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg border border-primary/20">
-              <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <span className="font-bold text-foreground text-lg">David</span>
-              <div className="text-xs text-muted-foreground">@Icecreamplayz_YT</div>
-            </div>
-          </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleTheme}
-            className="text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-xl transition-all duration-200"
-          >
-            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-          </Button>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background transition-colors duration-300">
+      <Navigation isDark={isDark} toggleTheme={toggleTheme} />
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-3 gap-8">
+      <div className="container mx-auto px-6 py-8">
+        <div className="grid lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* Profile Card */}
-            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
+            <Card className="border-border bg-card shadow-lg">
               <CardHeader className="text-center pb-4">
                 <div className="w-24 h-24 mx-auto rounded-2xl overflow-hidden mb-6 shadow-lg border-2 border-primary/20">
                   <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
@@ -202,7 +180,7 @@ const Portfolio = () => {
             </Card>
 
             {/* Awards Card */}
-            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
+            <Card className="border-border bg-card shadow-lg">
               <CardHeader>
                 <CardTitle className="flex items-center text-lg">
                   <Trophy className="h-5 w-5 mr-2 text-primary" />
@@ -231,7 +209,7 @@ const Portfolio = () => {
           </div>
 
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-3 space-y-8">
             {/* Hero Section */}
             <div className="text-center lg:text-left">
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">
@@ -257,45 +235,37 @@ const Portfolio = () => {
             </div>
 
             {/* Skills Section */}
-            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
+            <Card className="border-border bg-card shadow-lg" id="skills">
               <CardHeader>
                 <CardTitle className="flex items-center text-xl">
                   <Code className="h-5 w-5 mr-2 text-primary" />
-                  Skills & Expertise
+                  Technologies & Skills
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {skills.map((skill, index) => (
-                    <Badge key={index} variant="secondary" className="text-xs rounded-full px-3 py-1 hover:bg-primary hover:text-primary-foreground transition-colors duration-200">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Technologies Section */}
-            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl">
-                  <Database className="h-5 w-5 mr-2 text-primary" />
-                  Technologies & Tools
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {technologies.map((tech, index) => (
-                    <Badge key={index} variant="outline" className="text-xs rounded-full px-3 py-1 hover:bg-accent hover:border-primary/50 transition-all duration-200">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
+              <CardContent className="space-y-6">
+                {Object.entries(skillCategories).map(([category, skills]) => (
+                  <div key={category}>
+                    <h4 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-primary pl-3">
+                      {category}
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {skills.map((skill, index) => (
+                        <Badge 
+                          key={index} 
+                          variant="secondary" 
+                          className="text-xs rounded-md px-3 py-1 bg-accent/50 border border-border hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
+                        >
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </CardContent>
             </Card>
 
             {/* Projects Section */}
-            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
+            <Card className="border-border bg-card shadow-lg" id="projects">
               <CardHeader>
                 <CardTitle className="flex items-center text-xl">
                   <FolderOpen className="h-5 w-5 mr-2 text-primary" />
@@ -331,7 +301,7 @@ const Portfolio = () => {
             </Card>
 
             {/* Education Section */}
-            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
+            <Card className="border-border bg-card shadow-lg" id="work">
               <CardHeader>
                 <CardTitle className="flex items-center text-xl">
                   <GraduationCap className="h-5 w-5 mr-2 text-primary" />
