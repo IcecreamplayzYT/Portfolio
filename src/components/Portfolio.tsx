@@ -108,7 +108,7 @@ const Portfolio = () => {
             <Card className="border-border bg-card shadow-lg">
               <CardHeader className="text-center pb-4">
                 <div className="w-24 h-24 mx-auto rounded-2xl overflow-hidden mb-6 shadow-lg border-2 border-primary/20">
-                  <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
+                  <img src="/lovable-uploads/e6b1da4a-b248-4e28-8bfa-4d144d53adf8.png" alt="Avatar" className="w-full h-full object-cover" />
                 </div>
                 <CardTitle className="text-2xl font-bold">David</CardTitle>
                 <CardDescription className="text-muted-foreground font-medium">
@@ -173,6 +173,14 @@ const Portfolio = () => {
                   <Button variant="outline" size="icon" className="rounded-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200" asChild>
                     <a href="https://discord.com/users/822804221425614903" target="_blank" rel="noopener noreferrer">
                       <User className="h-4 w-4" />
+                    </a>
+                  </Button>
+                  <Button variant="outline" size="icon" className="rounded-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200" asChild>
+                    <a href="mailto:tonasamya@gmail.com">
+                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                      </svg>
                     </a>
                   </Button>
                 </div>
