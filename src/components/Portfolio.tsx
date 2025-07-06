@@ -97,21 +97,24 @@ const Portfolio = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/5 transition-colors duration-300">
       {/* Header */}
-      <header className="border-b border-border/40 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="border-b border-border/20 backdrop-blur-md supports-[backdrop-filter]:bg-background/80 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">IY</span>
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center shadow-lg">
+              <span className="text-primary-foreground font-bold text-lg">D</span>
             </div>
-            <span className="font-semibold text-foreground">Icecreamplayz_YT</span>
+            <div>
+              <span className="font-bold text-foreground text-lg">David</span>
+              <div className="text-xs text-muted-foreground">@Icecreamplayz_YT</div>
+            </div>
           </div>
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-xl transition-all duration-200"
           >
             {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </Button>
@@ -123,28 +126,28 @@ const Portfolio = () => {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
             {/* Profile Card */}
-            <Card className="border-border/40">
-              <CardHeader className="text-center">
-                <div className="w-20 h-20 mx-auto bg-gradient-to-br from-primary to-primary/70 rounded-full flex items-center justify-center mb-4">
-                  <User className="h-10 w-10 text-primary-foreground" />
+            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
+              <CardHeader className="text-center pb-4">
+                <div className="w-24 h-24 mx-auto bg-gradient-to-br from-primary via-primary to-primary/80 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
+                  <User className="h-12 w-12 text-primary-foreground" />
                 </div>
-                <CardTitle className="text-xl">David</CardTitle>
-                <CardDescription className="text-muted-foreground">
+                <CardTitle className="text-2xl font-bold">David</CardTitle>
+                <CardDescription className="text-muted-foreground font-medium">
                   @Icecreamplayz_YT
                 </CardDescription>
-                <div className="flex items-center justify-center text-sm text-muted-foreground mt-2">
-                  <MapPin className="h-4 w-4 mr-1" />
+                <div className="flex items-center justify-center text-sm text-muted-foreground mt-3 bg-accent/30 rounded-full px-3 py-1.5 inline-flex mx-auto">
+                  <MapPin className="h-4 w-4 mr-2" />
                   London, UK
                 </div>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-medium mb-2 flex items-center">
-                      <Briefcase className="h-4 w-4 mr-2" />
+              <CardContent className="pt-0">
+                <div className="space-y-6">
+                  <div className="p-4 rounded-xl bg-accent/20 border border-border/30">
+                    <h4 className="font-semibold mb-3 flex items-center text-sm">
+                      <Briefcase className="h-4 w-4 mr-2 text-primary" />
                       Current Role
                     </h4>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted-foreground mb-1">
                       Self-employed at ServerSpark Studios
                     </p>
                     <p className="text-sm text-muted-foreground">
@@ -152,41 +155,43 @@ const Portfolio = () => {
                     </p>
                   </div>
                   
-                  <div>
-                    <h4 className="font-medium mb-2 flex items-center">
-                      <Calendar className="h-4 w-4 mr-2" />
-                      Experience
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      {yearsOfExperience} years in development
-                    </p>
-                  </div>
+                  <div className="grid grid-cols-1 gap-4">
+                    <div className="p-3 rounded-lg bg-accent/10">
+                      <h4 className="font-medium mb-1 flex items-center text-sm">
+                        <Calendar className="h-4 w-4 mr-2 text-primary" />
+                        Experience
+                      </h4>
+                      <p className="text-sm text-muted-foreground">
+                        {yearsOfExperience} years in development
+                      </p>
+                    </div>
 
-                  <div>
-                    <h4 className="font-medium mb-2 flex items-center">
-                      <Languages className="h-4 w-4 mr-2" />
-                      Languages
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      English (Native), French (10+ years)
-                    </p>
+                    <div className="p-3 rounded-lg bg-accent/10">
+                      <h4 className="font-medium mb-1 flex items-center text-sm">
+                        <Languages className="h-4 w-4 mr-2 text-primary" />
+                        Languages
+                      </h4>
+                      <p className="text-sm text-muted-foreground">
+                        English (Native), French (10+ years)
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                <Separator className="my-4" />
+                <Separator className="my-6" />
 
-                <div className="flex justify-center space-x-2">
-                  <Button variant="outline" size="icon" asChild>
+                <div className="flex justify-center space-x-3">
+                  <Button variant="outline" size="icon" className="rounded-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200" asChild>
                     <a href="https://x.com/IcecreamplayzYT" target="_blank" rel="noopener noreferrer">
                       <Twitter className="h-4 w-4" />
                     </a>
                   </Button>
-                  <Button variant="outline" size="icon" asChild>
+                  <Button variant="outline" size="icon" className="rounded-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200" asChild>
                     <a href="https://www.youtube.com/@Icecreamplayz_YT" target="_blank" rel="noopener noreferrer">
                       <Youtube className="h-4 w-4" />
                     </a>
                   </Button>
-                  <Button variant="outline" size="icon" asChild>
+                  <Button variant="outline" size="icon" className="rounded-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200" asChild>
                     <a href="https://discord.com/users/822804221425614903" target="_blank" rel="noopener noreferrer">
                       <User className="h-4 w-4" />
                     </a>
@@ -196,26 +201,26 @@ const Portfolio = () => {
             </Card>
 
             {/* Awards Card */}
-            <Card className="border-border/40">
+            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
               <CardHeader>
                 <CardTitle className="flex items-center text-lg">
-                  <Trophy className="h-5 w-5 mr-2" />
+                  <Trophy className="h-5 w-5 mr-2 text-primary" />
                   Awards & Recognition
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-start space-x-2">
-                    <Award className="h-4 w-4 mt-1 text-primary" />
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-accent/10 border border-border/20">
+                    <Award className="h-5 w-5 mt-0.5 text-primary" />
                     <div>
-                      <p className="font-medium text-sm">CAIE Award</p>
+                      <p className="font-semibold text-sm">CAIE Award</p>
                       <p className="text-xs text-muted-foreground">Information Communication and Technology</p>
                     </div>
                   </div>
-                  <div className="flex items-start space-x-2">
-                    <Award className="h-4 w-4 mt-1 text-primary" />
+                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-accent/10 border border-border/20">
+                    <Award className="h-5 w-5 mt-0.5 text-primary" />
                     <div>
-                      <p className="font-medium text-sm">CAIE Award</p>
+                      <p className="font-semibold text-sm">CAIE Award</p>
                       <p className="text-xs text-muted-foreground">English Language</p>
                     </div>
                   </div>
@@ -253,17 +258,17 @@ const Portfolio = () => {
             </div>
 
             {/* Skills Section */}
-            <Card className="border-border/40">
+            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Code className="h-5 w-5 mr-2" />
+                <CardTitle className="flex items-center text-xl">
+                  <Code className="h-5 w-5 mr-2 text-primary" />
                   Skills & Expertise
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {skills.map((skill, index) => (
-                    <Badge key={index} variant="secondary" className="text-xs">
+                    <Badge key={index} variant="secondary" className="text-xs rounded-full px-3 py-1 hover:bg-primary hover:text-primary-foreground transition-colors duration-200">
                       {skill}
                     </Badge>
                   ))}
@@ -272,17 +277,17 @@ const Portfolio = () => {
             </Card>
 
             {/* Technologies Section */}
-            <Card className="border-border/40">
+            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Database className="h-5 w-5 mr-2" />
+                <CardTitle className="flex items-center text-xl">
+                  <Database className="h-5 w-5 mr-2 text-primary" />
                   Technologies & Tools
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                   {technologies.map((tech, index) => (
-                    <Badge key={index} variant="outline" className="text-xs">
+                    <Badge key={index} variant="outline" className="text-xs rounded-full px-3 py-1 hover:bg-accent hover:border-primary/50 transition-all duration-200">
                       {tech}
                     </Badge>
                   ))}
@@ -291,35 +296,35 @@ const Portfolio = () => {
             </Card>
 
             {/* Projects Section */}
-            <Card className="border-border/40">
+            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <FolderOpen className="h-5 w-5 mr-2" />
+                <CardTitle className="flex items-center text-xl">
+                  <FolderOpen className="h-5 w-5 mr-2 text-primary" />
                   Featured Projects
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4">
                   {projects.map((project, index) => (
-                    <div key={index} className="border border-border/40 rounded-lg p-4 hover:bg-accent/50 transition-colors">
-                      <div className="flex justify-between items-start mb-2">
+                    <div key={index} className="border border-border/20 rounded-xl p-5 hover:bg-accent/30 hover:border-primary/30 transition-all duration-300 bg-card/20">
+                      <div className="flex justify-between items-start mb-3">
                         <div>
-                          <h4 className="font-semibold">{project.title}</h4>
-                          <p className="text-sm text-primary">{project.role}</p>
+                          <h4 className="font-semibold text-lg">{project.title}</h4>
+                          <p className="text-sm text-primary font-medium">{project.role}</p>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <Badge variant="outline" className="text-xs">
+                          <Badge variant="outline" className="text-xs rounded-full">
                             {project.type}
                           </Badge>
                           <Badge 
                             variant={project.status === "Active" ? "default" : "secondary"} 
-                            className="text-xs"
+                            className="text-xs rounded-full"
                           >
                             {project.status}
                           </Badge>
                         </div>
                       </div>
-                      <p className="text-sm text-muted-foreground">{project.description}</p>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{project.description}</p>
                     </div>
                   ))}
                 </div>
@@ -327,25 +332,25 @@ const Portfolio = () => {
             </Card>
 
             {/* Education Section */}
-            <Card className="border-border/40">
+            <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <GraduationCap className="h-5 w-5 mr-2" />
+                <CardTitle className="flex items-center text-xl">
+                  <GraduationCap className="h-5 w-5 mr-2 text-primary" />
                   Education
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold">High School - Year 11</h4>
-                    <p className="text-sm text-muted-foreground">Currently preparing for IGCSE examinations</p>
-                    <p className="text-sm text-muted-foreground">
+                <div className="space-y-6">
+                  <div className="p-4 rounded-xl bg-accent/20 border border-border/30">
+                    <h4 className="font-semibold text-lg">High School - Year 11</h4>
+                    <p className="text-sm text-muted-foreground mt-1">Currently preparing for IGCSE examinations</p>
+                    <p className="text-sm text-primary font-medium mt-2">
                       Head of Database Development and IT Team
                     </p>
                   </div>
-                  <div>
-                    <h4 className="font-semibold">Future Studies</h4>
-                    <p className="text-sm text-muted-foreground">
+                  <div className="p-4 rounded-xl bg-accent/10 border border-border/20">
+                    <h4 className="font-semibold text-lg">Future Studies</h4>
+                    <p className="text-sm text-muted-foreground mt-1">
                       Planning to pursue Software Engineering and Data Science
                     </p>
                   </div>
