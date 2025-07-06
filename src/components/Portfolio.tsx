@@ -44,23 +44,23 @@ const Portfolio = () => {
   };
 
   const skillIcons: { [key: string]: string } = {
-    "Python": "🐍",
-    "Discord.py": "🤖",
-    "HTML": "📄",
-    "Tailwind CSS": "💨",
-    "JavaScript": "⚡",
-    "TypeScript": "📘",
-    "MySQL": "🗄️",
-    "MongoDB": "🍃",
-    "Supabase": "⚡",
-    "Firebase": "🔥",
-    "YouTube API": "📺",
-    "Roblox Studio": "🎮",
-    "Roblox Scripting": "⚙️",
-    "Roblox Animation": "🎬",
-    "Discord Bot Development": "🤖",
-    "Full-Stack Development": "💻",
-    "Computer Science": "🔬"
+    "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+    "Discord.py": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg",
+    "HTML": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+    "Tailwind CSS": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
+    "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+    "TypeScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
+    "MySQL": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
+    "MongoDB": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+    "Supabase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg",
+    "Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
+    "YouTube API": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg",
+    "Roblox Studio": "https://images.rbxcdn.com/c69b74f49c785b8ca3fc4b71736b5f0b-roblox.svg",
+    "Roblox Scripting": "https://images.rbxcdn.com/c69b74f49c785b8ca3fc4b71736b5f0b-roblox.svg",
+    "Roblox Animation": "https://images.rbxcdn.com/c69b74f49c785b8ca3fc4b71736b5f0b-roblox.svg",
+    "Discord Bot Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg",
+    "Full-Stack Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
+    "Computer Science": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
   };
 
   const skillCategories = {
@@ -281,9 +281,16 @@ const Portfolio = () => {
                         <Badge 
                           key={index} 
                           variant="secondary" 
-                          className="text-xs rounded-md px-3 py-1 bg-accent/50 border border-border hover:bg-primary hover:text-primary-foreground transition-colors duration-200 flex items-center gap-1"
+                          className="text-xs rounded-md px-3 py-1 bg-accent/50 border border-border hover:bg-primary hover:text-primary-foreground transition-colors duration-200 flex items-center gap-2"
                         >
-                          <span className="text-sm">{skillIcons[skill]}</span>
+                          <img 
+                            src={skillIcons[skill]} 
+                            alt={skill} 
+                            className="w-4 h-4"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
                           {skill}
                         </Badge>
                       ))}
