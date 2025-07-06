@@ -24,6 +24,7 @@ import {
   Languages,
   Trophy
 } from "lucide-react";
+import avatarImage from "@/assets/avatar.png";
 
 const Portfolio = () => {
   const [isDark, setIsDark] = useState(true);
@@ -102,8 +103,8 @@ const Portfolio = () => {
       <header className="border-b border-border/20 backdrop-blur-md supports-[backdrop-filter]:bg-background/80 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-primary-foreground font-bold text-lg">D</span>
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg border border-primary/20">
+              <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
             </div>
             <div>
               <span className="font-bold text-foreground text-lg">David</span>
@@ -128,8 +129,8 @@ const Portfolio = () => {
             {/* Profile Card */}
             <Card className="border-border/20 bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/20">
               <CardHeader className="text-center pb-4">
-                <div className="w-24 h-24 mx-auto bg-gradient-to-br from-primary via-primary to-primary/80 rounded-2xl flex items-center justify-center mb-6 shadow-lg">
-                  <User className="h-12 w-12 text-primary-foreground" />
+                <div className="w-24 h-24 mx-auto rounded-2xl overflow-hidden mb-6 shadow-lg border-2 border-primary/20">
+                  <img src={avatarImage} alt="Avatar" className="w-full h-full object-cover" />
                 </div>
                 <CardTitle className="text-2xl font-bold">David</CardTitle>
                 <CardDescription className="text-muted-foreground font-medium">
@@ -234,12 +235,10 @@ const Portfolio = () => {
             {/* Hero Section */}
             <div className="text-center lg:text-left">
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                I turn your digital <span className="text-primary">vision</span> into reality
+                Life to no <span className="text-primary">Limits</span>
               </h1>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl">
-                Software Engineering and Data Science specialist with expertise in Python development, 
-                Discord bot creation, and full-stack web development. Currently pursuing my passion 
-                while leading multiple innovative projects.
+                Passionate developer specializing in Python, Discord bots, and full-stack web development.
               </p>
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm">
                 <div>
