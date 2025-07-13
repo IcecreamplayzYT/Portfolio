@@ -19,7 +19,7 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
     { icon: Home, label: "Home", href: "#home" },
     { icon: FolderOpen, label: "Projects", href: "#projects" },
     { icon: Briefcase, label: "Work", href: "#work" },
-    { icon: Mail, label: "Contact", href: "#contact" },
+    { icon: Mail, label: "Contact", href: "mailto:icecreamplayz.yt@gmail.com" },
   ];
 
   return (
@@ -29,7 +29,7 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <div className="w-8 h-8 rounded-lg overflow-hidden">
-              <img src="/lovable-uploads/e6b1da4a-b248-4e28-8bfa-4d144d53adf8.png" alt="Avatar" className="w-full h-full object-cover" />
+              <img src="/lovable-uploads/7e25d292-2d3f-44ce-b808-fc0ec2475630.png" alt="Avatar" className="w-full h-full object-cover" />
             </div>
             <span className="text-foreground font-semibold">@Icecreamplayz_YT</span>
           </div>
