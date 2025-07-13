@@ -55,9 +55,9 @@ const Portfolio = () => {
     "Supabase": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg",
     "Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg",
     "YouTube API": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg",
-    "Roblox Studio": "https://images.rbxcdn.com/c69b74f49c6ab3a3d066fa1da40d2486-Roblox%20App%20Icon.png",
-    "Roblox Scripting": "https://images.rbxcdn.com/c69b74f49c6ab3a3d066fa1da40d2486-Roblox%20App%20Icon.png",
-    "Roblox Animation": "https://images.rbxcdn.com/c69b74f49c6ab3a3d066fa1da40d2486-Roblox%20App%20Icon.png",
+    "Roblox Studio": "https://tr.rbxcdn.com/60f37d55bdc5e97c5fcf93b4ef7ebd24/512/512/Image/Png",
+    "Roblox Scripting": "https://tr.rbxcdn.com/60f37d55bdc5e97c5fcf93b4ef7ebd24/512/512/Image/Png",
+    "Roblox Animation": "https://tr.rbxcdn.com/60f37d55bdc5e97c5fcf93b4ef7ebd24/512/512/Image/Png",
     "Discord Bot Development": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/discord/discord-original.svg",
     "Full-Stack Development": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
     "Computer Science": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg"
