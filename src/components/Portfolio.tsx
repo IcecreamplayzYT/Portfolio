@@ -81,7 +81,7 @@ const Portfolio = () => {
   const projects = [
     {
       title: "Main Line Roleplay",
-      role: "Head Scripter",
+      role: "Lua Scripter",
       description: "Realistic train simulation game on Roblox currently in development",
       status: "In Development",
       type: "Game Development"
