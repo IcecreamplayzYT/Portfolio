@@ -45,7 +45,7 @@ const Portfolio = () => {
 
   const skillIcons: { [key: string]: string } = {
     "Python": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
-    "Discord.py": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discordjs/discordjs-original.svg",
+    "Discord.py": "https://cdn-icons-png.flaticon.com/512/2111/2111370.png",
     "HTML": "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg",
     "Tailwind CSS": "https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-plain.svg",
     "JavaScript": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
@@ -54,11 +54,11 @@ const Portfolio = () => {
     "MongoDB": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
     "Supabase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/supabase/supabase-original.svg",
     "Firebase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg",
-    "YouTube API": "https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg",
-    "Roblox Studio": "https://raw.githubusercontent.com/VectorLogoZone/roblox/master/roblox-icon.svg",
-    "Roblox Scripting": "https://raw.githubusercontent.com/VectorLogoZone/roblox/master/roblox-icon.svg",
-    "Roblox Animation": "https://raw.githubusercontent.com/VectorLogoZone/roblox/master/roblox-icon.svg",
-    "Discord Bot Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discordjs/discordjs-original.svg",
+    "YouTube API": "https://www.svgrepo.com/show/13671/youtube.svg",
+    "Roblox Studio": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Roblox_Studio_Icon_2022.png",
+    "Roblox Scripting": "https://seeklogo.com/images/R/roblox-logo-4F7C7D44C1-seeklogo.com.png",
+    "Roblox Animation": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Roblox_Studio_Icon_2022.png",
+    "Discord Bot Development": "https://cdn-icons-png.flaticon.com/512/2111/2111370.png",
     "Full-Stack Development": "https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg",
     "Computer Science": "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg"
   };
