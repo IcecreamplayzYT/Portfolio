@@ -8,12 +8,16 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// IMPORTANT: Replace 'Portfolio' with your exact GitHub repository name, case-sensitive!
+const REPO_BASENAME = "/Portfolio/";
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      {/* Add the basename prop to BrowserRouter */}
+      <BrowserRouter basename={REPO_BASENAME}>
         <Routes>
           <Route path="/" element={<Index />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
