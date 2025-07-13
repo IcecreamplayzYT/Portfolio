@@ -19,7 +19,7 @@ import {
   Languages,
   Trophy
 } from "lucide-react";
-import avatarImage from "@/assets/avatar.png";
+// Profile image will use favicon directly
 
 const Portfolio = () => {
   const [isDark, setIsDark] = useState(true);
@@ -84,8 +84,7 @@ const Portfolio = () => {
       role: "Lua Scripter",
       description: "Realistic train simulation game on Roblox currently in development",
       status: "In Development",
-      type: "Game Development",
-      logo: "https://cdn.worldvectorlogo.com/logos/roblox.svg"
+      type: "Game Development"
     },
     {
       title: "Guildly",
@@ -129,7 +128,7 @@ const Portfolio = () => {
             <Card className="border-border bg-card shadow-lg">
               <CardHeader className="text-center pb-4">
                 <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-6 shadow-lg border-2 border-primary/20">
-                  <img src="/lovable-uploads/e6b1da4a-b248-4e28-8bfa-4d144d53adf8.png" alt="Avatar" className="w-full h-full object-cover" />
+                  <img src="/lovable-uploads/21d2e551-27b6-4654-9abf-556939d22c87.png" alt="Avatar" className="w-full h-full object-cover" />
                 </div>
                 <CardTitle className="text-2xl font-bold">David</CardTitle>
                 <CardDescription className="text-muted-foreground font-medium">
@@ -242,7 +241,7 @@ const Portfolio = () => {
             {/* Hero Section */}
             <div className="text-center lg:text-left">
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                <span className="gta-shine">Life to no </span><span className="limits-gradient">Limits</span>
+                <span className="subtle-grey">Life to no </span><span className="limits-gradient">Limits</span>
               </h1>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl">
                 Passionate developer specializing in Python, Discord bots, and full-stack web development.
@@ -314,14 +313,9 @@ const Portfolio = () => {
                    {projects.map((project, index) => (
                      <div key={index} className="border border-border/20 rounded-xl p-5 hover:bg-accent/30 hover:border-primary/30 transition-all duration-300 bg-card/20">
                        <div className="flex justify-between items-start mb-3">
-                         <div className="flex items-center space-x-3">
-                           {project.logo && (
-                             <img src={project.logo} alt={`${project.title} logo`} className="w-8 h-8 object-contain" />
-                           )}
-                           <div>
-                             <h4 className="font-semibold text-lg">{project.title}</h4>
-                             <p className="text-sm text-primary font-medium">{project.role}</p>
-                           </div>
+                         <div>
+                           <h4 className="font-semibold text-lg">{project.title}</h4>
+                           <p className="text-sm text-primary font-medium">{project.role}</p>
                          </div>
                         <div className="flex items-center space-x-2">
                           <Badge variant="outline" className="text-xs rounded-full">

@@ -142,27 +142,21 @@ All colors MUST be HSL.
   }
 }
 
-/* GTA-style shiny text effects */
+/* Subtle text effects */
 @layer utilities {
-  .gta-shine {
+  .subtle-grey {
     background: linear-gradient(
       90deg,
-      #ffd700 0%, 
-      #ffed4e 25%, 
-      #fff59d 50%, 
-      #ffed4e 75%, 
-      #ffd700 100%
+      #9ca3af 0%, 
+      #d1d5db 50%, 
+      #9ca3af 100%
     );
-    background-size: 300% 100%;
+    background-size: 200% 100%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gta-shimmer 3s ease-in-out infinite;
-    font-weight: 900;
-    text-shadow: 
-      0 0 10px rgba(255, 215, 0, 0.8),
-      0 0 20px rgba(255, 215, 0, 0.6),
-      0 0 30px rgba(255, 215, 0, 0.4);
+    animation: subtle-shimmer 4s ease-in-out infinite;
+    font-weight: 700;
   }
   
   .limits-gradient {
@@ -179,22 +173,23 @@ All colors MUST be HSL.
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: gradient-shift 4s ease infinite;
-    font-weight: 900;
-    text-shadow: 
-      0 0 15px rgba(102, 126, 234, 0.6),
-      0 0 25px rgba(118, 75, 162, 0.4);
+    font-weight: 700;
+  }
+  
+  .favicon-round {
+    border-radius: 50%;
   }
 }
 
-@keyframes gta-shimmer {
+@keyframes subtle-shimmer {
   0% {
-    background-position: -300% 0;
+    background-position: -200% 0;
   }
   50% {
-    background-position: 300% 0;
+    background-position: 200% 0;
   }
   100% {
-    background-position: -300% 0;
+    background-position: -200% 0;
   }
 }
 
