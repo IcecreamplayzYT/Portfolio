@@ -45,7 +45,7 @@ const Portfolio = () => {
 
   const skillIcons: { [key: string]: string } = {
     "Python": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
-    "Discord.py": "https://raw.githubusercontent.com/devicons/devicon/master/icons/discord/discord-original.svg",
+    "Discord.py": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discordjs/discordjs-original.svg",
     "HTML": "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg",
     "Tailwind CSS": "https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-plain.svg",
     "JavaScript": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
@@ -54,11 +54,11 @@ const Portfolio = () => {
     "MongoDB": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
     "Supabase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/supabase/supabase-original.svg",
     "Firebase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg",
-    "YouTube API": "https://raw.githubusercontent.com/devicons/devicon/master/icons/google/google-original.svg",
-    "Roblox Studio": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
-    "Roblox Scripting": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
-    "Roblox Animation": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
-    "Discord Bot Development": "https://raw.githubusercontent.com/devicons/devicon/master/icons/discord/discord-original.svg",
+    "YouTube API": "https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
+    "Roblox Studio": "https://raw.githubusercontent.com/VectorLogoZone/roblox/master/roblox-icon.svg",
+    "Roblox Scripting": "https://raw.githubusercontent.com/VectorLogoZone/roblox/master/roblox-icon.svg",
+    "Roblox Animation": "https://raw.githubusercontent.com/VectorLogoZone/roblox/master/roblox-icon.svg"
+    "Discord Bot Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discordjs/discordjs-original.svg",
     "Full-Stack Development": "https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg",
     "Computer Science": "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg"
   };
