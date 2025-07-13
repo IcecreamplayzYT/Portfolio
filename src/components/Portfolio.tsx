@@ -241,7 +241,7 @@ const Portfolio = () => {
             {/* Hero Section */}
             <div className="text-center lg:text-left">
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                <span className="subtle-grey">Life to no </span><span className="limits-gradient">Limits</span>
+                <span className="life-limits-gradient">Life to no Limits</span>
               </h1>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl">
                 Passionate developer specializing in Python, Discord bots, and full-stack web development.

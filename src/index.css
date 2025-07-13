@@ -159,16 +159,16 @@ All colors MUST be HSL.
     font-weight: 700;
   }
   
-  .limits-gradient {
+  .life-limits-gradient {
     background: linear-gradient(
-      45deg,
-      #667eea 0%,
+      90deg,
+      #f093fb 0%,
       #764ba2 25%,
-      #f093fb 50%,
-      #f5576c 75%,
-      #4facfe 100%
+      #667eea 50%,
+      #764ba2 75%,
+      #f093fb 100%
     );
-    background-size: 400% 400%;
+    background-size: 200% 100%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
