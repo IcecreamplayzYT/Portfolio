@@ -31,26 +31,7 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
             <div className="w-8 h-8 rounded-lg overflow-hidden">
               <img src="/lovable-uploads/7e25d292-2d3f-44ce-b808-fc0ec2475630.png" alt="Avatar" className="w-full h-full object-cover" />
             </div>
-            <span className="text-foreground font-semibold">
-              Helper at{" "}
-              <a 
-                href="https://sillydev.co.uk" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                Silly Development
-              </a>
-              {" | "}
-              <a 
-                href="https://discord.gg/sillydev" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                Discord
-              </a>
-            </span>
+            <span className="text-foreground font-semibold">@Icecreamplayz_YT</span>
           </div>
 
           {/* Navigation */}

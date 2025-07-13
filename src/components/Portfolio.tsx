@@ -44,23 +44,23 @@ const Portfolio = () => {
   };
 
   const skillIcons: { [key: string]: string } = {
-    "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
-    "Discord.py": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg",
-    "HTML": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
-    "Tailwind CSS": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
-    "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
-    "TypeScript": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-    "MySQL": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",
-    "MongoDB": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
-    "Supabase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg",
-    "Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
-    "YouTube API": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg",
-    "Roblox Studio": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
-    "Roblox Scripting": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
-    "Roblox Animation": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
-    "Discord Bot Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg",
-    "Full-Stack Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
-    "Computer Science": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+    "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+    "Discord.py": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/discord/discord-original.svg",
+    "HTML": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
+    "Tailwind CSS": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
+    "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+    "TypeScript": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+    "MySQL": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg",
+    "MongoDB": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
+    "Supabase": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg",
+    "Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg",
+    "YouTube API": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg",
+    "Roblox Studio": "https://images.rbxcdn.com/c69b74f49c6ab3a3d066fa1da40d2486-Roblox%20App%20Icon.png",
+    "Roblox Scripting": "https://images.rbxcdn.com/c69b74f49c6ab3a3d066fa1da40d2486-Roblox%20App%20Icon.png",
+    "Roblox Animation": "https://images.rbxcdn.com/c69b74f49c6ab3a3d066fa1da40d2486-Roblox%20App%20Icon.png",
+    "Discord Bot Development": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/discord/discord-original.svg",
+    "Full-Stack Development": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
+    "Computer Science": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg"
   };
 
   const skillCategories = {
@@ -150,7 +150,15 @@ const Portfolio = () => {
                       Self-employed at ServerSpark Studios
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Helper at Silly Development
+                      Helper at{" "}
+                      <a 
+                        href="https://sillydev.co.uk" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline"
+                      >
+                        Silly Development
+                      </a>
                     </p>
                   </div>
                   
