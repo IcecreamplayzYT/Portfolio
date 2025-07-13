@@ -55,9 +55,9 @@ const Portfolio = () => {
     "Supabase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg",
     "Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
     "YouTube API": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg",
-    "Roblox Studio": "https://images.rbxcdn.com/c69b74f49c785b8ca3fc4b71736b5f0b-roblox.svg",
-    "Roblox Scripting": "https://images.rbxcdn.com/c69b74f49c785b8ca3fc4b71736b5f0b-roblox.svg",
-    "Roblox Animation": "https://images.rbxcdn.com/c69b74f49c785b8ca3fc4b71736b5f0b-roblox.svg",
+    "Roblox Studio": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
+    "Roblox Scripting": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
+    "Roblox Animation": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
     "Discord Bot Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/discord/discord-original.svg",
     "Full-Stack Development": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",
     "Computer Science": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
@@ -127,7 +127,7 @@ const Portfolio = () => {
             {/* Profile Card */}
             <Card className="border-border bg-card shadow-lg">
               <CardHeader className="text-center pb-4">
-                <div className="w-24 h-24 mx-auto rounded-2xl overflow-hidden mb-6 shadow-lg border-2 border-primary/20">
+                <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-6 shadow-lg border-2 border-primary/20">
                   <img src="/lovable-uploads/e6b1da4a-b248-4e28-8bfa-4d144d53adf8.png" alt="Avatar" className="w-full h-full object-cover" />
                 </div>
                 <CardTitle className="text-2xl font-bold">David</CardTitle>
@@ -241,7 +241,7 @@ const Portfolio = () => {
             {/* Hero Section */}
             <div className="text-center lg:text-left">
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                Life to no <span className="text-primary">Limits</span>
+                Life to no <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-blue-600 bg-clip-text text-transparent animate-pulse bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] font-extrabold">Limits</span>
               </h1>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl">
                 Passionate developer specializing in Python, Discord bots, and full-stack web development.
