@@ -84,7 +84,8 @@ const Portfolio = () => {
       role: "Lua Scripter",
       description: "Realistic train simulation game on Roblox currently in development",
       status: "In Development",
-      type: "Game Development"
+      type: "Game Development",
+      logo: "https://cdn.worldvectorlogo.com/logos/roblox.svg"
     },
     {
       title: "Guildly",
@@ -241,7 +242,7 @@ const Portfolio = () => {
             {/* Hero Section */}
             <div className="text-center lg:text-left">
               <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                Life to no <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-blue-600 bg-clip-text text-transparent animate-pulse bg-[length:200%_100%] animate-[shimmer_3s_ease-in-out_infinite] font-extrabold">Limits</span>
+                <span className="gta-shine">Life to no </span><span className="limits-gradient">Limits</span>
               </h1>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl">
                 Passionate developer specializing in Python, Discord bots, and full-stack web development.
@@ -309,14 +310,19 @@ const Portfolio = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid gap-4">
-                  {projects.map((project, index) => (
-                    <div key={index} className="border border-border/20 rounded-xl p-5 hover:bg-accent/30 hover:border-primary/30 transition-all duration-300 bg-card/20">
-                      <div className="flex justify-between items-start mb-3">
-                        <div>
-                          <h4 className="font-semibold text-lg">{project.title}</h4>
-                          <p className="text-sm text-primary font-medium">{project.role}</p>
-                        </div>
+                 <div className="grid gap-4">
+                   {projects.map((project, index) => (
+                     <div key={index} className="border border-border/20 rounded-xl p-5 hover:bg-accent/30 hover:border-primary/30 transition-all duration-300 bg-card/20">
+                       <div className="flex justify-between items-start mb-3">
+                         <div className="flex items-center space-x-3">
+                           {project.logo && (
+                             <img src={project.logo} alt={`${project.title} logo`} className="w-8 h-8 object-contain" />
+                           )}
+                           <div>
+                             <h4 className="font-semibold text-lg">{project.title}</h4>
+                             <p className="text-sm text-primary font-medium">{project.role}</p>
+                           </div>
+                         </div>
                         <div className="flex items-center space-x-2">
                           <Badge variant="outline" className="text-xs rounded-full">
                             {project.type}

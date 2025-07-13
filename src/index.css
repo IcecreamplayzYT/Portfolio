@@ -141,3 +141,71 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* GTA-style shiny text effects */
+@layer utilities {
+  .gta-shine {
+    background: linear-gradient(
+      90deg,
+      #ffd700 0%, 
+      #ffed4e 25%, 
+      #fff59d 50%, 
+      #ffed4e 75%, 
+      #ffd700 100%
+    );
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gta-shimmer 3s ease-in-out infinite;
+    font-weight: 900;
+    text-shadow: 
+      0 0 10px rgba(255, 215, 0, 0.8),
+      0 0 20px rgba(255, 215, 0, 0.6),
+      0 0 30px rgba(255, 215, 0, 0.4);
+  }
+  
+  .limits-gradient {
+    background: linear-gradient(
+      45deg,
+      #667eea 0%,
+      #764ba2 25%,
+      #f093fb 50%,
+      #f5576c 75%,
+      #4facfe 100%
+    );
+    background-size: 400% 400%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 4s ease infinite;
+    font-weight: 900;
+    text-shadow: 
+      0 0 15px rgba(102, 126, 234, 0.6),
+      0 0 25px rgba(118, 75, 162, 0.4);
+  }
+}
+
+@keyframes gta-shimmer {
+  0% {
+    background-position: -300% 0;
+  }
+  50% {
+    background-position: 300% 0;
+  }
+  100% {
+    background-position: -300% 0;
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
