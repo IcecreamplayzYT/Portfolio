@@ -44,23 +44,23 @@ const Portfolio = () => {
   };
 
   const skillIcons: { [key: string]: string } = {
-    "Python": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
-    "Discord.py": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/discord/discord-original.svg",
-    "HTML": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
-    "Tailwind CSS": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg",
-    "JavaScript": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
-    "TypeScript": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
-    "MySQL": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg",
-    "MongoDB": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
-    "Supabase": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/supabase/supabase-original.svg",
-    "Firebase": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg",
-    "YouTube API": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg",
-    "Roblox Studio": "https://tr.rbxcdn.com/60f37d55bdc5e97c5fcf93b4ef7ebd24/512/512/Image/Png",
-    "Roblox Scripting": "https://tr.rbxcdn.com/60f37d55bdc5e97c5fcf93b4ef7ebd24/512/512/Image/Png",
-    "Roblox Animation": "https://tr.rbxcdn.com/60f37d55bdc5e97c5fcf93b4ef7ebd24/512/512/Image/Png",
-    "Discord Bot Development": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/discord/discord-original.svg",
-    "Full-Stack Development": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
-    "Computer Science": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg"
+    "Python": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
+    "Discord.py": "https://raw.githubusercontent.com/devicons/devicon/master/icons/discord/discord-original.svg",
+    "HTML": "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg",
+    "Tailwind CSS": "https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-plain.svg",
+    "JavaScript": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
+    "TypeScript": "https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg",
+    "MySQL": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg",
+    "MongoDB": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
+    "Supabase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/supabase/supabase-original.svg",
+    "Firebase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg",
+    "YouTube API": "https://raw.githubusercontent.com/devicons/devicon/master/icons/google/google-original.svg",
+    "Roblox Studio": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
+    "Roblox Scripting": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
+    "Roblox Animation": "https://cdn.worldvectorlogo.com/logos/roblox.svg",
+    "Discord Bot Development": "https://raw.githubusercontent.com/devicons/devicon/master/icons/discord/discord-original.svg",
+    "Full-Stack Development": "https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg",
+    "Computer Science": "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg"
   };
 
   const skillCategories = {
@@ -127,9 +127,6 @@ const Portfolio = () => {
             {/* Profile Card */}
             <Card className="border-border bg-card shadow-lg">
               <CardHeader className="text-center pb-4">
-                <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-6 shadow-lg border-2 border-primary/20">
-                  <img src="/lovable-uploads/7e25d292-2d3f-44ce-b808-fc0ec2475630.png" alt="Avatar" className="w-full h-full object-cover" />
-                </div>
                 <CardTitle className="text-2xl font-bold">David</CardTitle>
                 <CardDescription className="text-muted-foreground font-medium">
                   @Icecreamplayz_YT
