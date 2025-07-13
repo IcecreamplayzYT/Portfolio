@@ -1,0 +1,47 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # IMPORTANT: Change this to 'master' if your main branch is named 'master'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # You can adjust this Node.js version if your project requires a different one (e.g., '18', '16')
+
+      - name: Install dependencies 🔧
+        run: npm install # This installs dependencies based on your package.json
+
+      - name: Build 🏗️
+        run: npm run build # This runs your project's build command, creating the 'dist' folder
+
+      - name: Configure Git for gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Deploy 🚀
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # This is the folder that your 'npm run build' command creates (for Vite projects, it's usually 'dist')
+
+          # If your GitHub Pages URL is a Project Page (e.g., username.github.io/repo-name/),
+          # you might need to adjust your build output or add a homepage in package.json
+          # For Vite, if you're deploying a project page, you might need to add base: '/your-repo-name/' to vite.config.js
+          # or set "homepage": "https://username.github.io/repo-name/" in package.json.
+          # If unsure, try without these first.
+
+          # publish_branch: gh-pages # This is the branch where the built site will be pushed to by the action. Default is gh-pages.
