@@ -54,7 +54,7 @@ const Portfolio = () => {
     "MongoDB": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
     "Supabase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/supabase/supabase-original.svg",
     "Firebase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg",
-    "YouTube API": "https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
+    "YouTube API": "https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg",
     "Roblox Studio": "https://raw.githubusercontent.com/VectorLogoZone/roblox/master/roblox-icon.svg",
     "Roblox Scripting": "https://raw.githubusercontent.com/VectorLogoZone/roblox/master/roblox-icon.svg",
     "Roblox Animation": "https://raw.githubusercontent.com/VectorLogoZone/roblox/master/roblox-icon.svg"
