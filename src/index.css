@@ -168,11 +168,11 @@ All colors MUST be HSL.
       #764ba2 75%,
       #f093fb 100%
     );
-    background-size: 200% 100%;
+    background-size: 300% 100%;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: gradient-shift 4s ease infinite;
+    animation: smooth-slide 6s ease-in-out infinite;
     font-weight: 700;
   }
   
@@ -193,14 +193,14 @@ All colors MUST be HSL.
   }
 }
 
-@keyframes gradient-shift {
+@keyframes smooth-slide {
   0% {
-    background-position: 0% 50%;
+    background-position: -100% 0;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 0;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: -100% 0;
   }
 }

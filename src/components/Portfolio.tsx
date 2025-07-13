@@ -128,7 +128,7 @@ const Portfolio = () => {
             <Card className="border-border bg-card shadow-lg">
               <CardHeader className="text-center pb-4">
                 <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-6 shadow-lg border-2 border-primary/20">
-                  <img src="/lovable-uploads/21d2e551-27b6-4654-9abf-556939d22c87.png" alt="Avatar" className="w-full h-full object-cover" />
+                  <img src="/lovable-uploads/7e25d292-2d3f-44ce-b808-fc0ec2475630.png" alt="Avatar" className="w-full h-full object-cover" />
                 </div>
                 <CardTitle className="text-2xl font-bold">David</CardTitle>
                 <CardDescription className="text-muted-foreground font-medium">
