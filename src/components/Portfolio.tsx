@@ -67,10 +67,10 @@ const Portfolio = () => {
 
   const skillCategories = {
     "Core Development": [
-      "Python", "Discord.py", "HTML", "Tailwind CSS", "JavaScript", "TypeScript, CSS"
+      "Python", "Discord.py", "HTML", "Tailwind CSS", "JavaScript", "TypeScript", "CSS"
     ],
     "Backend & Databases": [
-      "MySQL", "MongoDB", "Supabase", "Firebase", "YouTube API", "MariaDB
+      "MySQL", "MongoDB", "Supabase", "Firebase", "YouTube API", "MariaDB"
     ],
     "Game Development": [
       "Roblox Studio", "Roblox Scripting", "Roblox Animation"
