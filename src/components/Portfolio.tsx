@@ -60,15 +60,17 @@ const Portfolio = () => {
     "Roblox Animation": "https://cdn.simpleicons.org/roblox/white",
     "Discord Bot Development": "https://cdn.simpleicons.org/discord/blurple",
     "Full-Stack Development": "https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg",
-    "Computer Science": "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg"
+    "Computer Science": "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
+    "CSS": "https://cdn.simpleicons.org/css/blurple",
+    "MariaDB": "https://cdn.simpleicons.org/mariadb/003545"
   };
 
   const skillCategories = {
     "Core Development": [
-      "Python", "Discord.py", "HTML", "Tailwind CSS", "JavaScript", "TypeScript"
+      "Python", "Discord.py", "HTML", "Tailwind CSS", "JavaScript", "TypeScript, CSS"
     ],
     "Backend & Databases": [
-      "MySQL", "MongoDB", "Supabase", "Firebase", "YouTube API"
+      "MySQL", "MongoDB", "Supabase", "Firebase", "YouTube API", "MariaDB
     ],
     "Game Development": [
       "Roblox Studio", "Roblox Scripting", "Roblox Animation"
