@@ -45,7 +45,7 @@ const Portfolio = () => {
 
   const skillIcons: { [key: string]: string } = {
     "Python": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
-    "Discord.py": "https://cdn-icons-png.flaticon.com/512/2111/2111370.png",
+    "Discord.py": "https://cdn.simpleicons.org/discord/blurple",
     "HTML": "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg",
     "Tailwind CSS": "https://cdn.simpleicons.org/tailwindcss/cobalt",
     "JavaScript": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
@@ -58,7 +58,7 @@ const Portfolio = () => {
     "Roblox Studio": "https://cdn.simpleicons.org/roblox/white",
     "Roblox Scripting": "https://cdn.simpleicons.org/roblox/white",
     "Roblox Animation": "https://cdn.simpleicons.org/roblox/white",
-    "Discord Bot Development": "https://cdn-icons-png.flaticon.com/512/2111/2111370.png",
+    "Discord Bot Development": "https://cdn.simpleicons.org/discord/blurple",
     "Full-Stack Development": "https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg",
     "Computer Science": "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg"
   };
