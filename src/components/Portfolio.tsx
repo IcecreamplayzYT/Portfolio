@@ -80,6 +80,13 @@ const Portfolio = () => {
 
   const projects = [
     {
+      title: "Silly Development Helper",
+      role: "Helper",
+      description: "Best free host out there :)",
+      status: "Ongoing",
+      type: "Application Hosting"
+    },
+    {
       title: "Main Line Roleplay",
       role: "Lua Scripter",
       description: "Realistic train simulation game on Roblox currently in development",
@@ -110,7 +117,7 @@ const Portfolio = () => {
     {
       title: "School Database Development",
       role: "Head of IT Team",
-      description: "Managing database development and server infrastructure for educational institution",
+      description: "Managing database development and server infrastructure for an educational institution",
       status: "Ongoing",
       type: "Enterprise"
     }
