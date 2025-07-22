@@ -62,7 +62,8 @@ const Portfolio = () => {
     "Full-Stack Development": "https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg",
     "Computer Science": "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
     "CSS": "https://cdn.simpleicons.org/css/blurple",
-    "MariaDB": "https://cdn.simpleicons.org/mariadb/003545"
+    "MariaDB": "https://cdn.simpleicons.org/mariadb/003545",
+    "Roblox Youtuber": "https://www.svgrepo.com/show/13671/youtube.svg"
   };
 
   const skillCategories = {
@@ -73,7 +74,7 @@ const Portfolio = () => {
       "MySQL", "MongoDB", "Supabase", "Firebase", "YouTube API", "MariaDB"
     ],
     "Game Development": [
-      "Roblox Studio", "Roblox Scripting", "Roblox Animation"
+      "Roblox Studio", "Roblox Scripting", "Roblox Animation", "Roblox Youtuber"
     ],
     "Specializations": [
       "Discord Bot Development", "Full-Stack Development", "Computer Science"
