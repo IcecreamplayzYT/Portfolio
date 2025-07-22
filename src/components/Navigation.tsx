@@ -3,6 +3,7 @@ import {
   Home,
   FolderOpen,
   Briefcase,
+  School,
   Mail,
   Sun,
   Moon
@@ -18,8 +19,8 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
   const navItems = [
     { icon: Home, label: "Home", href: "#home" },
     { icon: FolderOpen, label: "Projects", href: "#projects" },
-    { icon: Briefcase, label: "Work", href: "#work" },
-    { icon: Mail, label: "Contact", href: "mailto:icecreamplayz.yt@gmail.com" },
+    { icon: School, label: "Education", href: "#work" },
+    { icon: Mail, label: "Contact", href: "mailto:tonasamya@gmail.com" },
   ];
 
   return (
