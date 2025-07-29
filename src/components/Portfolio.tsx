@@ -86,7 +86,7 @@ const Portfolio = () => {
       title: "Silly Development Helper",
       role: "Helper",
       description: "Best free host out there :)",
-      status: "Ongoing",
+      status: "Ended",
       type: "Application Hosting"
     },
     {
