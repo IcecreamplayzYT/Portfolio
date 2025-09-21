@@ -85,7 +85,7 @@ const Portfolio = () => {
     {
       title: "Silly Development Helper",
       role: "Helper",
-      description: "Best free host out there :)",
+      description: "Good hosting site",
       status: "Ended",
       type: "Application Hosting"
     },
@@ -93,7 +93,7 @@ const Portfolio = () => {
       title: "Main Line Roleplay",
       role: "Lua Scripter",
       description: "Realistic train simulation game on Roblox currently in development",
-      status: "In Development",
+      status: "Ended",
       type: "Game Development"
     },
     {
@@ -107,7 +107,7 @@ const Portfolio = () => {
       title: "Designy",
       role: "CEO", 
       description: "Design server bot for expression and emotion through creative tools",
-      status: "Active",
+      status: "inactive",
       type: "Discord Bot"
     },
     {
@@ -155,20 +155,7 @@ const Portfolio = () => {
                     </h4>
                     <p className="text-sm text-muted-foreground mb-1">
                       Self-employed at ServerSpark Studios
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Helper at{" "}
-                      <a 
-                        href="https://sillydev.co.uk" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary hover:underline"
-                      >
-                        Silly Development
-                      </a>
-                    </p>
-                  </div>
-                  
+                    </p>                  
                   <div className="grid grid-cols-1 gap-4">
                     <div className="p-3 rounded-lg bg-accent/10">
                       <h4 className="font-medium mb-1 flex items-center text-sm">
