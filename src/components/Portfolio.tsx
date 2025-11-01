@@ -187,22 +187,22 @@ const Portfolio = () => {
             {buttonOrder === 'yes-first' ? (
               // Yes first, then No
               <>
-                <AlertDialogCancel onClick={handleCancel}>
+                <Button variant="outline" onClick={handleCancel}>
                   No
-                </AlertDialogCancel>
-                <AlertDialogAction onClick={handleConfirmationYes}>
+                </Button>
+                <Button onClick={handleConfirmationYes}>
                   Yes
-                </AlertDialogAction>
+                </Button>
               </>
             ) : (
               // No first, then Yes
               <>
-                <AlertDialogAction onClick={handleConfirmationYes}>
+                <Button onClick={handleConfirmationYes}>
                   Yes
-                </AlertDialogAction>
-                <AlertDialogCancel onClick={handleCancel}>
+                </Button>
+                <Button variant="outline" onClick={handleCancel}>
                   No
-                </AlertDialogCancel>
+                </Button>
               </>
             )}
           </AlertDialogFooter>
