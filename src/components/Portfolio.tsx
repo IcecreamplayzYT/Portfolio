@@ -84,7 +84,7 @@ const Portfolio = () => {
   const projects = [
     {
       title: "NeoDesigns Hosting",
-      role: "Lead Developer and Co Founding officer (CFO)",
+      role: "Lead Developer and Co Founding officer",
       description: "NeoDesigns Hosting the perfect place for all your hosting solutions.",
       status: "Active",
       type: "Application Hosting",
