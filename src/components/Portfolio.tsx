@@ -167,7 +167,7 @@ const Portfolio = () => {
       <Navigation isDark={isDark} toggleTheme={toggleTheme} />
 
       {/* Light Mode Confirmation Dialogs */}
-      <AlertDialog open={showLightModeDialog} onOpenChange={setShowLightModeDialog}>
+      <AlertDialog open={showLightModeDialog}>
         <AlertDialogContent className="animate-fade-in">
           <AlertDialogHeader>
             <AlertDialogTitle className="transition-all duration-300">
