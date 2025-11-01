@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import Navigation from "./Navigation";
 import { 
   MapPin, 
@@ -25,6 +26,9 @@ const Portfolio = () => {
   const [isDark, setIsDark] = useState(true);
   const [currentYear] = useState(new Date().getFullYear());
   const [yearsOfExperience, setYearsOfExperience] = useState(3);
+  const [showLightModeDialog, setShowLightModeDialog] = useState(false);
+  const [confirmationStep, setConfirmationStep] = useState(0);
+  const [showNahDialog, setShowNahDialog] = useState(false);
 
   useEffect(() => {
     // Calculate years of experience starting from 2024
@@ -39,8 +43,53 @@ const Portfolio = () => {
     }
   }, [currentYear, isDark]);
 
+  const confirmationMessages = [
+    "Are you really sure?",
+    "You really want light mode?",
+    "Think about your eyes...",
+    "Last chance to reconsider...",
+    "Fine, but I warned you..."
+  ];
+
   const toggleTheme = () => {
-    setIsDark(!isDark);
+    if (isDark) {
+      // Trying to switch to light mode - show confirmation
+      setShowLightModeDialog(true);
+      setConfirmationStep(0);
+    } else {
+      // Switching back to dark mode (shouldn't happen normally due to auto-revert)
+      setIsDark(true);
+    }
+  };
+
+  const handleFirstConfirm = () => {
+    setShowLightModeDialog(false);
+    setConfirmationStep(1);
+    // Show next confirmation immediately
+    setTimeout(() => setShowLightModeDialog(true), 100);
+  };
+
+  const handleConfirmationYes = () => {
+    if (confirmationStep < 5) {
+      setShowLightModeDialog(false);
+      setConfirmationStep(confirmationStep + 1);
+      setTimeout(() => setShowLightModeDialog(true), 100);
+    } else {
+      // All confirmations done - switch to light mode temporarily
+      setShowLightModeDialog(false);
+      setIsDark(false);
+      
+      // After 5 seconds, revert to dark mode and show "nah" dialog
+      setTimeout(() => {
+        setIsDark(true);
+        setShowNahDialog(true);
+      }, 5000);
+    }
+  };
+
+  const handleCancel = () => {
+    setShowLightModeDialog(false);
+    setConfirmationStep(0);
   };
 
   const skillIcons: { [key: string]: string } = {
@@ -137,6 +186,63 @@ const Portfolio = () => {
   return (
     <div className="min-h-screen bg-background transition-colors duration-300">
       <Navigation isDark={isDark} toggleTheme={toggleTheme} />
+
+      {/* Light Mode Confirmation Dialogs */}
+      <AlertDialog open={showLightModeDialog} onOpenChange={setShowLightModeDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {confirmationStep === 0 ? "EWWWW Light Mode User!" : confirmationMessages[confirmationStep - 1]}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {confirmationStep === 0 
+                ? "Are you sure you want to change to Light mode?" 
+                : "Seriously?"}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            {confirmationStep === 1 ? (
+              <>
+                <AlertDialogAction 
+                  onClick={handleCancel}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  No
+                </AlertDialogAction>
+                <AlertDialogCancel onClick={handleConfirmationYes}>
+                  Yes
+                </AlertDialogCancel>
+              </>
+            ) : (
+              <>
+                <AlertDialogCancel onClick={handleCancel}>
+                  No
+                </AlertDialogCancel>
+                <AlertDialogAction onClick={confirmationStep === 0 ? handleFirstConfirm : handleConfirmationYes}>
+                  Yes
+                </AlertDialogAction>
+              </>
+            )}
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* "Nah" Dialog */}
+      <AlertDialog open={showNahDialog} onOpenChange={setShowNahDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Nah</AlertDialogTitle>
+            <AlertDialogDescription>
+              Back to dark mode where you belong 😎
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setShowNahDialog(false)}>
+              Okay
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <div className="container mx-auto px-6 py-8">
         <div className="grid lg:grid-cols-4 gap-8">
