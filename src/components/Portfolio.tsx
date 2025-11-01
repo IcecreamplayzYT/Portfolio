@@ -28,7 +28,6 @@ const Portfolio = () => {
   const [yearsOfExperience, setYearsOfExperience] = useState(3);
   const [showLightModeDialog, setShowLightModeDialog] = useState(false);
   const [confirmationStep, setConfirmationStep] = useState(0);
-  const [showNahDialog, setShowNahDialog] = useState(false);
 
   useEffect(() => {
     // Calculate years of experience starting from 2024
@@ -52,29 +51,18 @@ const Portfolio = () => {
   ];
 
   const toggleTheme = () => {
-    if (isDark) {
-      // Trying to switch to light mode - show confirmation
-      setShowLightModeDialog(true);
-      setConfirmationStep(0);
-    } else {
-      // Switching back to dark mode (shouldn't happen normally due to auto-revert)
-      setIsDark(true);
-    }
+    // Only show dialog, never actually switch from dark mode
+    setShowLightModeDialog(true);
+    setConfirmationStep(0);
   };
 
   const handleConfirmationYes = () => {
     if (confirmationStep < 5) {
       setConfirmationStep(confirmationStep + 1);
     } else {
-      // All confirmations done - switch to light mode temporarily
+      // All confirmations done - just close the dialog, stay in dark mode
       setShowLightModeDialog(false);
-      setIsDark(false);
-      
-      // After 5 seconds, revert to dark mode and show "nah" dialog
-      setTimeout(() => {
-        setIsDark(true);
-        setShowNahDialog(true);
-      }, 5000);
+      setConfirmationStep(0);
     }
   };
 
@@ -239,23 +227,6 @@ const Portfolio = () => {
                 </AlertDialogAction>
               </>
             )}
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-
-      {/* "Nah" Dialog */}
-      <AlertDialog open={showNahDialog} onOpenChange={setShowNahDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Nah</AlertDialogTitle>
-            <AlertDialogDescription>
-              Back to dark mode where you belong 😎
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowNahDialog(false)}>
-              Okay
-            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
