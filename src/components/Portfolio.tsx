@@ -47,6 +47,10 @@ const Portfolio = () => {
     "Are you really sure?",
     "You really want light mode?",
     "Think about your eyes...",
+    "Pick the right one...",
+    "Almost there...",
+    "One more time...",
+    "Okay seriously?",
     "Last chance to reconsider...",
     "Fine, but I warned you..."
   ];
@@ -59,7 +63,7 @@ const Portfolio = () => {
   };
 
   const handleConfirmationYes = () => {
-    if (confirmationStep < 5) {
+    if (confirmationStep < 8) {
       setConfirmationStep(confirmationStep + 1);
       // Randomly swap button order for next step
       setButtonOrder(Math.random() > 0.5 ? 'yes-first' : 'no-first');
@@ -183,8 +187,55 @@ const Portfolio = () => {
                 : "Seriously?"}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            {buttonOrder === 'yes-first' ? (
+          <AlertDialogFooter className="flex-wrap">
+            {confirmationStep === 2 ? (
+              // Hidden No button - three Yes buttons, one is actually No
+              <div className="flex gap-2 w-full justify-end">
+                <Button onClick={handleConfirmationYes}>
+                  Yes
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={handleCancel}
+                  className="opacity-30 hover:opacity-100 transition-opacity"
+                >
+                  No
+                </Button>
+                <Button onClick={handleConfirmationYes}>
+                  Yes
+                </Button>
+              </div>
+            ) : confirmationStep === 4 ? (
+              // Confusing labels - "Agree" and "Disagree"
+              <div className="flex gap-2 w-full justify-end">
+                <Button variant="outline" onClick={handleCancel}>
+                  Disagree
+                </Button>
+                <Button onClick={handleConfirmationYes}>
+                  Agree
+                </Button>
+              </div>
+            ) : confirmationStep === 6 ? (
+              // Multiple Yes buttons with tiny hidden No
+              <div className="flex gap-2 w-full justify-end items-center">
+                <Button onClick={handleConfirmationYes}>
+                  Yes
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  onClick={handleCancel}
+                  className="h-6 px-2 text-[8px] opacity-20 hover:opacity-100"
+                >
+                  no
+                </Button>
+                <Button onClick={handleConfirmationYes}>
+                  Yes
+                </Button>
+                <Button onClick={handleConfirmationYes}>
+                  Yes
+                </Button>
+              </div>
+            ) : buttonOrder === 'yes-first' ? (
               // Yes first, then No
               <>
                 <Button variant="outline" onClick={handleCancel}>
