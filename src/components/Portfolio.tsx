@@ -83,6 +83,14 @@ const Portfolio = () => {
 
   const projects = [
     {
+      title: "NeoDesigns Hosting",
+      role: "Lead Developer and Co Founding officer (CFO)",
+      description: "NeoDesigns Hosting the perfect place for all your hosting solutions.",
+      status: "Active",
+      type: "Application Hosting",
+      link: "https://discord.gg/neodesigns"
+    },
+    {
       title: "Silly Development Helper",
       role: "Helper",
       description: "Good hosting site",
@@ -321,7 +329,20 @@ const Portfolio = () => {
                      <div key={index} className="border border-border/20 rounded-xl p-5 hover:bg-accent/30 hover:border-primary/30 transition-all duration-300 bg-card/20">
                        <div className="flex justify-between items-start mb-3">
                          <div>
-                           <h4 className="font-semibold text-lg">{project.title}</h4>
+                           <h4 className="font-semibold text-lg">
+                             {project.link ? (
+                               <a 
+                                 href={project.link} 
+                                 target="_blank" 
+                                 rel="noopener noreferrer"
+                                 className="hover:text-primary transition-colors"
+                               >
+                                 {project.title}
+                               </a>
+                             ) : (
+                               project.title
+                             )}
+                           </h4>
                            <p className="text-sm text-primary font-medium">{project.role}</p>
                          </div>
                         <div className="flex items-center space-x-2">
