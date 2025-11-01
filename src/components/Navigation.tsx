@@ -54,7 +54,7 @@ const Navigation = ({ isDark, toggleTheme }: NavigationProps) => {
               onClick={toggleTheme}
               className="text-muted-foreground hover:text-foreground hover:bg-accent/50 rounded-lg ml-2"
             >
-              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              <Moon className="h-4 w-4" />
             </Button>
           </nav>
         </div>
