@@ -155,7 +155,9 @@ const Portfolio = () => {
                     </h4>
                     <p className="text-sm text-muted-foreground mb-1">
                       Self-employed at ServerSpark Studios
-                    </p>                  
+                    </p>
+                  </div>
+                  
                   <div className="grid grid-cols-1 gap-4">
                     <div className="p-3 rounded-lg bg-accent/10">
                       <h4 className="font-medium mb-1 flex items-center text-sm">
