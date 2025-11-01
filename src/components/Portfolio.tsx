@@ -62,18 +62,9 @@ const Portfolio = () => {
     }
   };
 
-  const handleFirstConfirm = () => {
-    setShowLightModeDialog(false);
-    setConfirmationStep(1);
-    // Show next confirmation immediately
-    setTimeout(() => setShowLightModeDialog(true), 100);
-  };
-
   const handleConfirmationYes = () => {
     if (confirmationStep < 5) {
-      setShowLightModeDialog(false);
       setConfirmationStep(confirmationStep + 1);
-      setTimeout(() => setShowLightModeDialog(true), 100);
     } else {
       // All confirmations done - switch to light mode temporarily
       setShowLightModeDialog(false);
@@ -189,19 +180,43 @@ const Portfolio = () => {
 
       {/* Light Mode Confirmation Dialogs */}
       <AlertDialog open={showLightModeDialog} onOpenChange={setShowLightModeDialog}>
-        <AlertDialogContent>
+        <AlertDialogContent className="animate-fade-in">
           <AlertDialogHeader>
-            <AlertDialogTitle>
+            <AlertDialogTitle className="transition-all duration-300">
               {confirmationStep === 0 ? "EWWWW Light Mode User!" : confirmationMessages[confirmationStep - 1]}
             </AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogDescription className="transition-all duration-300">
               {confirmationStep === 0 
                 ? "Are you sure you want to change to Light mode?" 
                 : "Seriously?"}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            {confirmationStep === 1 ? (
+            {confirmationStep === 0 ? (
+              // First dialog: Yes, No (normal)
+              <>
+                <AlertDialogCancel onClick={handleCancel}>
+                  No
+                </AlertDialogCancel>
+                <AlertDialogAction onClick={handleConfirmationYes}>
+                  Yes
+                </AlertDialogAction>
+              </>
+            ) : confirmationStep === 1 ? (
+              // Second dialog: No, Yes (Yes in blue)
+              <>
+                <AlertDialogCancel onClick={handleCancel}>
+                  No
+                </AlertDialogCancel>
+                <AlertDialogAction 
+                  onClick={handleConfirmationYes}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90"
+                >
+                  Yes
+                </AlertDialogAction>
+              </>
+            ) : confirmationStep === 2 ? (
+              // Third dialog: No (in blue), Yes
               <>
                 <AlertDialogAction 
                   onClick={handleCancel}
@@ -214,11 +229,12 @@ const Portfolio = () => {
                 </AlertDialogCancel>
               </>
             ) : (
+              // Rest: Yes, No (normal)
               <>
                 <AlertDialogCancel onClick={handleCancel}>
                   No
                 </AlertDialogCancel>
-                <AlertDialogAction onClick={confirmationStep === 0 ? handleFirstConfirm : handleConfirmationYes}>
+                <AlertDialogAction onClick={handleConfirmationYes}>
                   Yes
                 </AlertDialogAction>
               </>
