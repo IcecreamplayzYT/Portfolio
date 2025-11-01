@@ -8,54 +8,54 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 222 84% 4%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
 
-    --card: 220 13% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
 
-    --popover: 220 13% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 220 100% 70%;
-    --primary-foreground: 220 13% 8%;
+    --primary: 220 100% 50%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 220 13% 12%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 220 13% 12%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 220 13% 10%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 13% 15%;
-    --input: 220 13% 12%;
-    --ring: 220 100% 70%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 220 100% 50%;
 
     --radius: 0.75rem;
 
-/* Dark theme colors */
-    --midnight: 222 84% 4%;
-    --midnight-light: 220 13% 8%;
-    --grey-50: 220 13% 8%;
-    --grey-100: 220 13% 12%;
-    --grey-200: 220 13% 15%;
-    --grey-300: 220 13% 20%;
-    --grey-400: 215 20% 65%;
-    --grey-500: 210 40% 80%;
-    --grey-600: 210 40% 90%;
-    --grey-700: 210 40% 95%;
-    --grey-800: 210 40% 98%;
-    --grey-900: 0 0% 100%;
+/* Light theme colors */
+    --midnight: 0 0% 100%;
+    --midnight-light: 0 0% 98%;
+    --grey-50: 0 0% 98%;
+    --grey-100: 210 40% 96%;
+    --grey-200: 214 32% 91%;
+    --grey-300: 213 27% 84%;
+    --grey-400: 215 16% 47%;
+    --grey-500: 215 20% 35%;
+    --grey-600: 217 19% 27%;
+    --grey-700: 217 33% 17%;
+    --grey-800: 222 47% 11%;
+    --grey-900: 0 0% 0%;
     
     /* Gradients for sleek effects */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(221 83% 45%));
-    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(220 13% 22%));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(220 13% 4%));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(210 40% 98%));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(0 0% 98%));
     
     /* Enhanced shadows */
     --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.2);
