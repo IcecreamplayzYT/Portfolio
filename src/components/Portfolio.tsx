@@ -28,6 +28,7 @@ const Portfolio = () => {
   const [yearsOfExperience, setYearsOfExperience] = useState(3);
   const [showLightModeDialog, setShowLightModeDialog] = useState(false);
   const [confirmationStep, setConfirmationStep] = useState(0);
+  const [buttonOrder, setButtonOrder] = useState<'yes-first' | 'no-first'>('yes-first');
 
   useEffect(() => {
     // Calculate years of experience starting from 2024
@@ -54,11 +55,14 @@ const Portfolio = () => {
     // Only show dialog, never actually switch from dark mode
     setShowLightModeDialog(true);
     setConfirmationStep(0);
+    setButtonOrder(Math.random() > 0.5 ? 'yes-first' : 'no-first');
   };
 
   const handleConfirmationYes = () => {
     if (confirmationStep < 5) {
       setConfirmationStep(confirmationStep + 1);
+      // Randomly swap button order for next step
+      setButtonOrder(Math.random() > 0.5 ? 'yes-first' : 'no-first');
     } else {
       // All confirmations done - just close the dialog, stay in dark mode
       setShowLightModeDialog(false);
@@ -180,8 +184,8 @@ const Portfolio = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            {confirmationStep === 0 ? (
-              // First dialog: Yes, No (normal)
+            {buttonOrder === 'yes-first' ? (
+              // Yes first, then No
               <>
                 <AlertDialogCancel onClick={handleCancel}>
                   No
@@ -189,42 +193,16 @@ const Portfolio = () => {
                 <AlertDialogAction onClick={handleConfirmationYes}>
                   Yes
                 </AlertDialogAction>
-              </>
-            ) : confirmationStep === 1 ? (
-              // Second dialog: No, Yes (Yes in blue)
-              <>
-                <AlertDialogCancel onClick={handleCancel}>
-                  No
-                </AlertDialogCancel>
-                <AlertDialogAction 
-                  onClick={handleConfirmationYes}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90"
-                >
-                  Yes
-                </AlertDialogAction>
-              </>
-            ) : confirmationStep === 2 ? (
-              // Third dialog: No (in blue), Yes
-              <>
-                <AlertDialogAction 
-                  onClick={handleCancel}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90"
-                >
-                  No
-                </AlertDialogAction>
-                <AlertDialogCancel onClick={handleConfirmationYes}>
-                  Yes
-                </AlertDialogCancel>
               </>
             ) : (
-              // Rest: Yes, No (normal)
+              // No first, then Yes
               <>
-                <AlertDialogCancel onClick={handleCancel}>
-                  No
-                </AlertDialogCancel>
                 <AlertDialogAction onClick={handleConfirmationYes}>
                   Yes
                 </AlertDialogAction>
+                <AlertDialogCancel onClick={handleCancel}>
+                  No
+                </AlertDialogCancel>
               </>
             )}
           </AlertDialogFooter>
