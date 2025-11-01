@@ -84,7 +84,7 @@ const Portfolio = () => {
   const projects = [
     {
       title: "NeoDesigns Hosting",
-      role: "Lead Developer of NeoDesigns Hosting",
+      role: "Lead Developer of NeoDesigns",
       description: "NeoDesigns Hosting the perfect place for all your hosting solutions.",
       status: "Active",
       type: "Application Hosting",
