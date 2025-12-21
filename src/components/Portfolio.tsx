@@ -81,7 +81,6 @@ const Portfolio = () => {
 
   const skillIcons: { [key: string]: string } = {
     "Python": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
-    "Discord.py": "https://cdn.simpleicons.org/discord/blurple",
     "HTML": "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg",
     "Tailwind CSS": "https://cdn.simpleicons.org/tailwindcss/cobalt",
     "JavaScript": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
@@ -104,7 +103,7 @@ const Portfolio = () => {
 
   const skillCategories = {
     "Core Development": [
-      "Python", "Discord.py", "HTML", "Tailwind CSS", "JavaScript", "TypeScript", "CSS"
+      "Python", "HTML", "Tailwind CSS", "JavaScript", "TypeScript", "CSS"
     ],
     "Backend & Databases": [
       "MySQL", "MongoDB", "Supabase", "Firebase", "YouTube API", "MariaDB"
@@ -119,6 +118,14 @@ const Portfolio = () => {
 
   const projects = [
     {
+      title: "Anti Nuke Bot",
+      role: "Developer / Management",
+      description: "Ultimate Discord Protection Your Discord Guardian Against Nukes, Raids & Malicious Attacks with over 1.5 Million users.",
+      status: "Active",
+      type: "Discord Bot",
+      link: "https://discord.gg/R8jdmteT7X"
+    },
+    {
       title: "NeoDesigns Hosting",
       role: "Lead Developer of NeoDesigns",
       description: "NeoDesigns Hosting the perfect place for all your hosting solutions.",
@@ -127,31 +134,25 @@ const Portfolio = () => {
       link: "https://discord.gg/neodesigns"
     },
     {
-      title: "Silly Development Helper",
-      role: "Helper",
-      description: "Good hosting site",
-      status: "Ended",
-      type: "Application Hosting"
+      title: "Starlit Profiles",
+      role: "Developer of Starlit.you",
+      description: "Everything you need to showcase your creative work | Starlit, lighting your way!.",
+      status: "Active",
+      type: "Portfolio Website",
+      link: "https://starlit-development.vercel.app"
     },
     {
-      title: "Main Line Roleplay",
-      role: "Lua Scripter",
-      description: "Realistic train simulation game on Roblox currently in development",
+      title: "Former Silly Development Helper",
+      role: "Helper",
+      description: "Meh hosting Service",
       status: "Ended",
-      type: "Game Development"
+      type: "Application Hosting"
     },
     {
       title: "Guildly",
       role: "CEO",
       description: "Discord templating bot for server management and automation",
-      status: "Active",
-      type: "Discord Bot"
-    },
-    {
-      title: "Designy",
-      role: "CEO", 
-      description: "Design server bot for expression and emotion through creative tools",
-      status: "inactive",
+      status: "Ended",
       type: "Discord Bot"
     },
     {
@@ -160,13 +161,6 @@ const Portfolio = () => {
       description: "Discord bot connecting ChatGPT to Discord with advanced memory features",
       status: "Active",
       type: "AI Integration"
-    },
-    {
-      title: "School Database Development",
-      role: "Head of IT Team",
-      description: "Managing database development and server infrastructure for an educational institution",
-      status: "Ongoing",
-      type: "Enterprise"
     }
   ];
 
@@ -269,7 +263,7 @@ const Portfolio = () => {
               <CardHeader className="text-center pb-4">
                 <CardTitle className="text-2xl font-bold">David</CardTitle>
                 <CardDescription className="text-muted-foreground font-medium">
-                  @Icecreamplayz_YT
+                  @Realice
                 </CardDescription>
                 <div className="flex items-center justify-center text-sm text-muted-foreground mt-3 bg-accent/30 rounded-full px-3 py-1.5 inline-flex mx-auto">
                   <MapPin className="h-4 w-4 mr-2" />
@@ -323,7 +317,7 @@ const Portfolio = () => {
                     </a>
                   </Button>
                   <Button variant="outline" size="icon" className="rounded-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200" asChild>
-                    <a href="https://www.youtube.com/@Icecreamplayz_YT" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.youtube.com/@RealiceYT" target="_blank" rel="noopener noreferrer">
                       <Youtube className="h-4 w-4" />
                     </a>
                   </Button>
@@ -390,7 +384,7 @@ const Portfolio = () => {
                 </div>
                 <div>
                   <span className="font-semibold">5+</span>
-                  <span className="text-muted-foreground ml-1">active projects</span>
+                  <span className="text-muted-foreground mla-1">active projects</span>
                 </div>
                 <div>
                   <span className="font-semibold">Year 11</span>
@@ -442,7 +436,7 @@ const Portfolio = () => {
               <CardHeader>
                 <CardTitle className="flex items-center text-xl">
                   <FolderOpen className="h-5 w-5 mr-2 text-primary" />
-                  Featured Projects
+                  Projects
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -506,7 +500,7 @@ const Portfolio = () => {
                   <div className="p-4 rounded-xl bg-accent/10 border border-border/20">
                     <h4 className="font-semibold text-lg">Future Studies</h4>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Planning to pursue Software Engineering and Data Science
+                      Planning to pursue Software Engineering in the University of Kentucky
                     </p>
                   </div>
                 </div>
