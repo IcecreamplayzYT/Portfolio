@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { 
-  Play, Pause, SkipBack, SkipForward, Volume2, 
-  Twitter, Youtube, Mail, ExternalLink, Music,
-  Code, Database, FolderOpen, Award, GraduationCap
+  Play, Pause, Volume2, Repeat,
+  Twitter, Youtube, Mail, ExternalLink,
+  Code, FolderOpen, Award, GraduationCap, ChevronLeft, ChevronRight
 } from "lucide-react";
 import backgroundImage from "@/assets/background.jpg";
 import robloxBanner from "@/assets/roblox-banner.png";
@@ -13,84 +12,113 @@ import robloxBanner from "@/assets/roblox-banner.png";
 // Discord & Roblox IDs for integration
 const DISCORD_ID = "822804221425614903";
 const ROBLOX_ID = "1610763045";
+const API_ENDPOINT = "http://209.74.83.91:25566/api/profile";
+
+// Spotify Track: "LET IT HAPPEN" by Tame Impala
+const SPOTIFY_TRACK = {
+  id: "1Hv1VTm8zeOeybub15mA2R",
+  title: "LET IT HAPPEN",
+  artist: "Tame Impala",
+  cover: "https://i.scdn.co/image/ab67616d0000b2739e1cfc756886ac782e363d79",
+  duration: "7:46",
+  spotifyUrl: "https://open.spotify.com/track/1Hv1VTm8zeOeybub15mA2R"
+};
 
 const Portfolio = () => {
-  const [isDark] = useState(true);
   const [currentYear] = useState(new Date().getFullYear());
   const [yearsOfExperience, setYearsOfExperience] = useState(3);
-  const [showLightModeDialog, setShowLightModeDialog] = useState(false);
-  const [confirmationStep, setConfirmationStep] = useState(0);
-  const [buttonOrder, setButtonOrder] = useState<'yes-first' | 'no-first'>('yes-first');
   const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(35);
+  const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(80);
+  const [techIndex, setTechIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [audioRef] = useState<HTMLAudioElement | null>(null);
 
-  // Simulated Discord/Roblox data (would be fetched from your bot's API)
-  const [discordData] = useState({
+  // Profile data from API
+  const [profileData, setProfileData] = useState<{
+    discord: {
+      user_id?: string;
+      username?: string;
+      display_name?: string;
+      avatar_url?: string;
+      status?: string;
+      custom_status?: string;
+    };
+    roblox: {
+      user_id?: number;
+      username?: string;
+      display_name?: string;
+      avatar_url?: string;
+      friends_count?: number;
+      followers_count?: number;
+      following_count?: number;
+    };
+  } | null>(null);
+
+  // Fallback data
+  const fallbackDiscord = {
     username: "Realice",
-    displayName: "David",
-    avatar: `https://cdn.discordapp.com/avatars/${DISCORD_ID}/a_placeholder.png`,
-    status: "online" as const,
-    customStatus: "Life to no Limits",
-    badges: ["HypeSquad", "Nitro"],
-  });
+    display_name: "David",
+    avatar_url: `https://cdn.discordapp.com/avatars/${DISCORD_ID}/placeholder.png`,
+    status: "online",
+    custom_status: "Life to no Limits",
+  };
 
-  const [robloxData] = useState({
+  const fallbackRoblox = {
     username: "Realice",
-    displayName: "David",
-    avatar: `https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=150&height=150&format=png`,
-    friends: 150,
-    followers: 89,
-    following: 45,
-  });
+    display_name: "David",
+    avatar_url: `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=150x150&format=Png`,
+    friends_count: 150,
+    followers_count: 89,
+    following_count: 45,
+  };
 
-  // Currently playing track (simulated Spotify)
-  const [currentTrack] = useState({
-    title: "Midnight City",
-    artist: "M83",
-    cover: "https://i.scdn.co/image/ab67616d0000b273c2504e80ba2f258697ab2954",
-    duration: "4:03",
-    current: "1:25",
-  });
+  const discordData = profileData?.discord || fallbackDiscord;
+  const robloxData = profileData?.roblox || fallbackRoblox;
 
   useEffect(() => {
     const experienceYears = currentYear >= 2024 ? currentYear - 2024 + 3 : 3;
     setYearsOfExperience(experienceYears);
     document.documentElement.classList.add('dark');
+
+    // Check for mobile
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    // Fetch profile data from API
+    const fetchProfileData = async () => {
+      try {
+        const response = await fetch(API_ENDPOINT);
+        if (response.ok) {
+          const data = await response.json();
+          setProfileData(data);
+          // Update favicon with Discord avatar
+          if (data.discord?.avatar_url) {
+            const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+            if (link) link.href = data.discord.avatar_url;
+          }
+        }
+      } catch (error) {
+        console.log("Using fallback profile data");
+      }
+    };
+
+    fetchProfileData();
+
+    return () => window.removeEventListener('resize', checkMobile);
   }, [currentYear]);
 
-  const confirmationMessages = [
-    "Are you really sure?",
-    "You really want light mode?",
-    "Think about your eyes...",
-    "Pick the right one...",
-    "Almost there...",
-    "One more time...",
-    "Okay seriously?",
-    "Last chance to reconsider...",
-    "Fine, but I warned you..."
-  ];
-
-  const toggleTheme = () => {
-    setShowLightModeDialog(true);
-    setConfirmationStep(0);
-    setButtonOrder(Math.random() > 0.5 ? 'yes-first' : 'no-first');
-  };
-
-  const handleConfirmationYes = () => {
-    if (confirmationStep < 8) {
-      setConfirmationStep(confirmationStep + 1);
-      setButtonOrder(Math.random() > 0.5 ? 'yes-first' : 'no-first');
-    } else {
-      setShowLightModeDialog(false);
-      setConfirmationStep(0);
+  // Progress simulation for music player
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setProgress(prev => prev >= 100 ? 0 : prev + 0.2);
+      }, 1000);
     }
-  };
-
-  const handleCancel = () => {
-    setShowLightModeDialog(false);
-    setConfirmationStep(0);
-  };
+    return () => clearInterval(interval);
+  }, [isPlaying]);
 
   const skillIcons: { [key: string]: string } = {
     "Python": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
@@ -104,7 +132,13 @@ const Portfolio = () => {
     "Firebase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg",
     "Discord Bot": "https://cdn.simpleicons.org/discord/blurple",
     "Roblox": "https://cdn.simpleicons.org/roblox/white",
+    "React": "https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg",
   };
+
+  const skillsArray = Object.entries(skillIcons);
+  const visibleSkills = skillsArray.slice(techIndex, techIndex + 3);
+  const canScrollLeft = techIndex > 0;
+  const canScrollRight = techIndex + 3 < skillsArray.length;
 
   const projects = [
     { title: "Anti Nuke Bot", role: "Developer / Management", description: "Ultimate Discord Protection with over 1.5M users.", status: "Active", type: "Discord Bot", link: "https://discord.gg/R8jdmteT7X" },
@@ -121,6 +155,278 @@ const Portfolio = () => {
     { name: "Email", icon: <Mail className="w-5 h-5" />, url: "mailto:tonasamya@gmail.com", color: "#EA4335" },
   ];
 
+  // Get Roblox avatar URL via the Roblox API (uses their thumbnail service)
+  const getRobloxAvatar = () => {
+    if (robloxData.avatar_url && robloxData.avatar_url.startsWith('http')) {
+      return robloxData.avatar_url;
+    }
+    return `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=150x150&format=Png`;
+  };
+
+  // Mobile Layout
+  if (isMobile) {
+    return (
+      <div 
+        className="min-h-screen w-screen overflow-x-hidden relative"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+        }}
+      >
+        <div className="absolute inset-0 bg-black/50" />
+
+        <div className="relative z-10 p-4 space-y-4 pb-24">
+          {/* Spotify Player - Top Fixed */}
+          <div className="glass-card-strong rounded-2xl p-3 flex items-center gap-3">
+            <a href={SPOTIFY_TRACK.spotifyUrl} target="_blank" rel="noopener noreferrer">
+              <img src={SPOTIFY_TRACK.cover} alt="Album" className="w-12 h-12 rounded-lg" />
+            </a>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium truncate">{SPOTIFY_TRACK.title}</p>
+              <p className="text-xs text-muted-foreground truncate">{SPOTIFY_TRACK.artist}</p>
+              <div className="flex items-center gap-2 mt-1">
+                <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
+                  <div className="h-full progress-glow rounded-full transition-all" style={{ width: `${progress}%` }} />
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-1">
+              <Repeat className="w-4 h-4 text-primary" />
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="w-10 h-10 rounded-full bg-primary/20 hover:bg-primary/30"
+                onClick={() => setIsPlaying(!isPlaying)}
+              >
+                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+              </Button>
+            </div>
+          </div>
+
+          {/* Profile Card */}
+          <div className="glass-card-strong rounded-2xl p-4">
+            <div className="relative -mx-4 -mt-4 mb-4 h-20 overflow-hidden rounded-t-2xl">
+              <img src={robloxBanner} alt="Banner" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </div>
+            
+            <div className="flex items-center gap-3 -mt-10 relative z-10">
+              <div className="relative">
+                <img 
+                  src={discordData.avatar_url || getRobloxAvatar()}
+                  alt="Avatar"
+                  className="w-14 h-14 rounded-full border-4 border-black/50 shadow-lg"
+                  onError={(e) => { e.currentTarget.src = getRobloxAvatar(); }}
+                />
+                <div className="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-black status-online" />
+              </div>
+              <div className="pt-6">
+                <h1 className="text-lg font-bold text-foreground">{discordData.display_name || "David"}</h1>
+                <p className="text-xs text-muted-foreground">@{discordData.username || "Realice"}</p>
+              </div>
+            </div>
+
+            <p className="text-xs text-muted-foreground mt-3 italic">"{discordData.custom_status || 'Life to no Limits'}"</p>
+
+            <div className="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div className="glass-card rounded-lg p-2">
+                <p className="text-base font-bold gradient-purple">{yearsOfExperience}</p>
+                <p className="text-[9px] text-muted-foreground">Years</p>
+              </div>
+              <div className="glass-card rounded-lg p-2">
+                <p className="text-base font-bold gradient-purple">5+</p>
+                <p className="text-[9px] text-muted-foreground">Projects</p>
+              </div>
+              <div className="glass-card rounded-lg p-2">
+                <p className="text-base font-bold gradient-purple">Y11</p>
+                <p className="text-[9px] text-muted-foreground">Student</p>
+              </div>
+            </div>
+
+            {/* Connections */}
+            <div className="flex items-center gap-2 mt-4 justify-center">
+              {connections.map((conn, i) => (
+                <a
+                  key={i}
+                  href={conn.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass-card connection-icon rounded-full p-2 hover-glow"
+                  style={{ '--glow-color': conn.color } as React.CSSProperties}
+                >
+                  {conn.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Discord & Roblox Integration */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* Discord */}
+            <div className="glass-card-strong rounded-2xl p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <svg className="w-4 h-4 text-[#5865F2]" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                <span className="text-xs font-medium">Discord</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <img 
+                  src={discordData.avatar_url || getRobloxAvatar()}
+                  alt="Discord Avatar"
+                  className="w-8 h-8 rounded-full"
+                  onError={(e) => { e.currentTarget.src = getRobloxAvatar(); }}
+                />
+                <div>
+                  <p className="text-xs font-medium">{discordData.display_name || "David"}</p>
+                  <p className="text-[10px] text-muted-foreground">@{discordData.username || "Realice"}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Roblox */}
+            <div className="glass-card-strong rounded-2xl p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <img src="https://cdn.simpleicons.org/roblox/white" alt="Roblox" className="w-4 h-4" />
+                <span className="text-xs font-medium">Roblox</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <img 
+                  src={getRobloxAvatar()}
+                  alt="Roblox Avatar"
+                  className="w-8 h-8 rounded-full"
+                />
+                <div>
+                  <p className="text-xs font-medium">{robloxData.display_name || "David"}</p>
+                  <p className="text-[10px] text-muted-foreground">@{robloxData.username || "Realice"}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Technologies Carousel */}
+          <div className="glass-card-strong rounded-2xl p-4">
+            <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+              <Code className="w-4 h-4 text-primary" />
+              Technologies
+            </h3>
+            <div className="flex items-center gap-2">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="w-8 h-8 rounded-full glass-card shrink-0"
+                onClick={() => setTechIndex(Math.max(0, techIndex - 1))}
+                disabled={!canScrollLeft}
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <div className="flex-1 grid grid-cols-3 gap-2">
+                {visibleSkills.map(([skill, icon]) => (
+                  <div 
+                    key={skill}
+                    className="glass-card rounded-xl p-3 flex flex-col items-center justify-center gap-2 hover-glow cursor-default transition-all hover:scale-105"
+                  >
+                    <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10">
+                      <img 
+                        src={icon} 
+                        alt={skill} 
+                        className="w-5 h-5 object-contain" 
+                        onError={(e) => e.currentTarget.style.display = 'none'} 
+                      />
+                    </div>
+                    <span className="text-[9px] font-medium text-center text-muted-foreground leading-tight">
+                      {skill}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="w-8 h-8 rounded-full glass-card shrink-0"
+                onClick={() => setTechIndex(Math.min(skillsArray.length - 3, techIndex + 1))}
+                disabled={!canScrollRight}
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          {/* Projects */}
+          <div className="glass-card-strong rounded-2xl p-4">
+            <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+              <FolderOpen className="w-4 h-4 text-primary" />
+              Projects
+            </h3>
+            <div className="space-y-2">
+              {projects.slice(0, 3).map((project, i) => (
+                <div key={i} className="glass-card rounded-xl p-3 hover-glow transition-all">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      {project.link ? (
+                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-xs font-medium hover:text-primary transition-colors flex items-center gap-1">
+                          {project.title}
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      ) : (
+                        <p className="text-xs font-medium">{project.title}</p>
+                      )}
+                      <p className="text-[10px] text-muted-foreground truncate">{project.description}</p>
+                    </div>
+                    <Badge variant={project.status === "Active" ? "default" : "secondary"} className="text-[9px] shrink-0">
+                      {project.status}
+                    </Badge>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Awards & Education Row */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="glass-card-strong rounded-2xl p-3">
+              <h3 className="text-xs font-semibold mb-2 flex items-center gap-1">
+                <Award className="w-3 h-3 text-primary" />
+                Awards
+              </h3>
+              <div className="space-y-1">
+                <div className="glass-card rounded-lg p-2">
+                  <p className="text-[10px] font-medium">CAIE - ICT</p>
+                </div>
+                <div className="glass-card rounded-lg p-2">
+                  <p className="text-[10px] font-medium">CAIE - English</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="glass-card-strong rounded-2xl p-3">
+              <h3 className="text-xs font-semibold mb-2 flex items-center gap-1">
+                <GraduationCap className="w-3 h-3 text-primary" />
+                Education
+              </h3>
+              <div className="glass-card rounded-lg p-2">
+                <p className="text-[10px] font-medium">Year 11 - IGCSE</p>
+                <p className="text-[9px] text-primary">Head of Database Dev</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Location */}
+          <div className="glass-card-strong rounded-2xl p-3">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🇬🇧</span>
+              <div>
+                <p className="text-xs font-medium">London, UK</p>
+                <p className="text-[10px] text-muted-foreground">English (Native), French (10+ yrs)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Desktop Layout
   return (
     <div 
       className="h-screen w-screen overflow-hidden relative no-scrollbar"
@@ -133,47 +439,6 @@ const Portfolio = () => {
     >
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/50" />
-
-      {/* Light Mode Dialog */}
-      <AlertDialog open={showLightModeDialog}>
-        <AlertDialogContent className="glass-card-strong border-border/30">
-          <AlertDialogHeader>
-            <AlertDialogTitle>{confirmationStep === 0 ? "EWWWW Light Mode User!" : confirmationMessages[confirmationStep - 1]}</AlertDialogTitle>
-            <AlertDialogDescription>{confirmationStep === 0 ? "Are you sure you want to change to Light mode?" : "Seriously?"}</AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="flex-wrap">
-            {confirmationStep === 2 ? (
-              <div className="flex gap-2 w-full justify-end">
-                <Button onClick={handleConfirmationYes}>Yes</Button>
-                <Button variant="outline" onClick={handleCancel} className="opacity-30 hover:opacity-100">No</Button>
-                <Button onClick={handleConfirmationYes}>Yes</Button>
-              </div>
-            ) : confirmationStep === 4 ? (
-              <div className="flex gap-2 w-full justify-end">
-                <Button variant="outline" onClick={handleCancel}>Disagree</Button>
-                <Button onClick={handleConfirmationYes}>Agree</Button>
-              </div>
-            ) : confirmationStep === 6 ? (
-              <div className="flex gap-2 w-full justify-end items-center">
-                <Button onClick={handleConfirmationYes}>Yes</Button>
-                <Button variant="ghost" onClick={handleCancel} className="h-6 px-2 text-[8px] opacity-20 hover:opacity-100">no</Button>
-                <Button onClick={handleConfirmationYes}>Yes</Button>
-                <Button onClick={handleConfirmationYes}>Yes</Button>
-              </div>
-            ) : buttonOrder === 'yes-first' ? (
-              <>
-                <Button variant="outline" onClick={handleCancel}>No</Button>
-                <Button onClick={handleConfirmationYes}>Yes</Button>
-              </>
-            ) : (
-              <>
-                <Button onClick={handleConfirmationYes}>Yes</Button>
-                <Button variant="outline" onClick={handleCancel}>No</Button>
-              </>
-            )}
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
 
       {/* Main Content - Single Page Layout */}
       <div className="relative z-10 h-full p-4 md:p-6 flex flex-col lg:flex-row gap-4">
@@ -192,20 +457,21 @@ const Portfolio = () => {
             <div className="flex items-center gap-4 -mt-12 relative z-10">
               <div className="relative">
                 <img 
-                  src={`https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=150&height=150&format=png`}
+                  src={discordData.avatar_url || getRobloxAvatar()}
                   alt="Avatar"
                   className="w-16 h-16 rounded-full border-4 border-black/50 shadow-lg"
+                  onError={(e) => { e.currentTarget.src = getRobloxAvatar(); }}
                 />
-                <div className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-black status-${discordData.status}`} />
+                <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-black status-online" />
               </div>
               <div className="pt-8">
-                <h1 className="text-xl font-bold text-foreground">David</h1>
-                <p className="text-sm text-muted-foreground">@Realice</p>
+                <h1 className="text-xl font-bold text-foreground">{discordData.display_name || "David"}</h1>
+                <p className="text-sm text-muted-foreground">@{discordData.username || "Realice"}</p>
               </div>
             </div>
 
             {/* Status */}
-            <p className="text-xs text-muted-foreground mt-3 italic">"{discordData.customStatus}"</p>
+            <p className="text-xs text-muted-foreground mt-3 italic">"{discordData.custom_status || 'Life to no Limits'}"</p>
 
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-2 mt-4 text-center">
@@ -232,14 +498,14 @@ const Portfolio = () => {
             </div>
             <div className="flex items-center gap-3">
               <img 
-                src={`https://cdn.discordapp.com/avatars/${DISCORD_ID}/placeholder.png`}
+                src={discordData.avatar_url || getRobloxAvatar()}
                 alt="Discord Avatar"
                 className="w-10 h-10 rounded-full"
-                onError={(e) => { e.currentTarget.src = `https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=150&height=150&format=png`; }}
+                onError={(e) => { e.currentTarget.src = getRobloxAvatar(); }}
               />
               <div>
-                <p className="text-sm font-medium">Realice</p>
-                <p className="text-xs text-muted-foreground">Online</p>
+                <p className="text-sm font-medium">{discordData.display_name || "David"}</p>
+                <p className="text-xs text-muted-foreground">@{discordData.username || "Realice"}</p>
               </div>
             </div>
           </div>
@@ -252,26 +518,26 @@ const Portfolio = () => {
             </div>
             <div className="flex items-center gap-3 mb-3">
               <img 
-                src={`https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=150&height=150&format=png`}
+                src={getRobloxAvatar()}
                 alt="Roblox Avatar"
                 className="w-10 h-10 rounded-full"
               />
               <div>
-                <p className="text-sm font-medium">Realice</p>
-                <p className="text-xs text-muted-foreground">ID: {ROBLOX_ID}</p>
+                <p className="text-sm font-medium">{robloxData.display_name || "David"}</p>
+                <p className="text-xs text-muted-foreground">@{robloxData.username || "Realice"}</p>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2 text-center text-xs">
               <div className="glass-card rounded p-2">
-                <p className="font-bold">{robloxData.friends}</p>
+                <p className="font-bold">{robloxData.friends_count || 0}</p>
                 <p className="text-muted-foreground">Friends</p>
               </div>
               <div className="glass-card rounded p-2">
-                <p className="font-bold">{robloxData.followers}</p>
+                <p className="font-bold">{robloxData.followers_count || 0}</p>
                 <p className="text-muted-foreground">Followers</p>
               </div>
               <div className="glass-card rounded p-2">
-                <p className="font-bold">{robloxData.following}</p>
+                <p className="font-bold">{robloxData.following_count || 0}</p>
                 <p className="text-muted-foreground">Following</p>
               </div>
             </div>
@@ -280,39 +546,26 @@ const Portfolio = () => {
 
         {/* Center Content */}
         <div className="flex-1 flex flex-col gap-4 min-w-0 overflow-hidden">
-          {/* Top Bar with Theme Toggle & Media Controls */}
-          <div className="flex items-center justify-between gap-4">
-            {/* Theme Toggle */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={toggleTheme}
-              className="glass-card-strong rounded-full w-10 h-10 hover-glow"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg>
-            </Button>
-
-            {/* Spotify Media Controls */}
+          {/* Top Bar with Media Controls */}
+          <div className="flex items-center justify-end gap-4">
+            {/* Spotify Media Controls - Single Song on Repeat */}
             <div className="glass-card-strong rounded-2xl px-4 py-2 flex items-center gap-4 max-w-md">
-              <img src={currentTrack.cover} alt="Album" className="w-10 h-10 rounded-lg" />
+              <a href={SPOTIFY_TRACK.spotifyUrl} target="_blank" rel="noopener noreferrer">
+                <img src={SPOTIFY_TRACK.cover} alt="Album" className="w-10 h-10 rounded-lg hover:opacity-80 transition-opacity" />
+              </a>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{currentTrack.title}</p>
-                <p className="text-xs text-muted-foreground truncate">{currentTrack.artist}</p>
+                <p className="text-sm font-medium truncate">{SPOTIFY_TRACK.title}</p>
+                <p className="text-xs text-muted-foreground truncate">{SPOTIFY_TRACK.artist}</p>
                 {/* Progress bar */}
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="text-[10px] text-muted-foreground">{currentTrack.current}</span>
                   <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
-                    <div className="h-full progress-glow rounded-full" style={{ width: `${progress}%` }} />
+                    <div className="h-full progress-glow rounded-full transition-all" style={{ width: `${progress}%` }} />
                   </div>
-                  <span className="text-[10px] text-muted-foreground">{currentTrack.duration}</span>
+                  <span className="text-[10px] text-muted-foreground">{SPOTIFY_TRACK.duration}</span>
                 </div>
               </div>
               <div className="flex items-center gap-1">
-                <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full hover:bg-muted/30">
-                  <SkipBack className="w-4 h-4" />
-                </Button>
+                <Repeat className="w-4 h-4 text-primary" />
                 <Button 
                   variant="ghost" 
                   size="icon" 
@@ -320,9 +573,6 @@ const Portfolio = () => {
                   onClick={() => setIsPlaying(!isPlaying)}
                 >
                   {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-                </Button>
-                <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full hover:bg-muted/30">
-                  <SkipForward className="w-4 h-4" />
                 </Button>
               </div>
               <div className="hidden md:flex items-center gap-2">
@@ -368,31 +618,51 @@ const Portfolio = () => {
 
           {/* Main Content Grid */}
           <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-0 overflow-hidden">
-            {/* Skills */}
+            {/* Skills - Carousel Style */}
             <div className="glass-card-strong rounded-2xl p-4 overflow-hidden flex flex-col">
               <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
                 <Code className="w-4 h-4 text-primary" />
                 Technologies
               </h3>
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 overflow-y-auto no-scrollbar flex-1">
-                {Object.entries(skillIcons).map(([skill, icon]) => (
-                  <div 
-                    key={skill}
-                    className="glass-card rounded-xl p-3 flex flex-col items-center justify-center gap-2 hover-glow cursor-default transition-all hover:scale-105 group"
-                  >
-                    <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 group-hover:bg-white/20 transition-colors">
-                      <img 
-                        src={icon} 
-                        alt={skill} 
-                        className="w-5 h-5 object-contain" 
-                        onError={(e) => e.currentTarget.style.display = 'none'} 
-                      />
+              <div className="flex items-center gap-3 flex-1">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="w-8 h-8 rounded-full glass-card shrink-0"
+                  onClick={() => setTechIndex(Math.max(0, techIndex - 1))}
+                  disabled={!canScrollLeft}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </Button>
+                <div className="flex-1 grid grid-cols-3 gap-3">
+                  {visibleSkills.map(([skill, icon]) => (
+                    <div 
+                      key={skill}
+                      className="glass-card rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover-glow cursor-default transition-all hover:scale-105 group"
+                    >
+                      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/10 group-hover:bg-white/20 transition-colors">
+                        <img 
+                          src={icon} 
+                          alt={skill} 
+                          className="w-7 h-7 object-contain" 
+                          onError={(e) => e.currentTarget.style.display = 'none'} 
+                        />
+                      </div>
+                      <span className="text-xs font-medium text-center text-muted-foreground group-hover:text-foreground transition-colors leading-tight">
+                        {skill}
+                      </span>
                     </div>
-                    <span className="text-[10px] font-medium text-center text-muted-foreground group-hover:text-foreground transition-colors leading-tight">
-                      {skill}
-                    </span>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="w-8 h-8 rounded-full glass-card shrink-0"
+                  onClick={() => setTechIndex(Math.min(skillsArray.length - 3, techIndex + 1))}
+                  disabled={!canScrollRight}
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
               </div>
             </div>
 
