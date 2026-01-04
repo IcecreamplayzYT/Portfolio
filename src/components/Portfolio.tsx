@@ -374,16 +374,24 @@ const Portfolio = () => {
                 <Code className="w-4 h-4 text-primary" />
                 Technologies
               </h3>
-              <div className="flex flex-wrap gap-2 overflow-y-auto no-scrollbar flex-1">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 overflow-y-auto no-scrollbar flex-1">
                 {Object.entries(skillIcons).map(([skill, icon]) => (
-                  <Badge 
+                  <div 
                     key={skill}
-                    variant="secondary" 
-                    className="text-xs rounded-full px-3 py-1 glass-card border-0 flex items-center gap-1.5 hover-glow cursor-default"
+                    className="glass-card rounded-xl p-3 flex flex-col items-center justify-center gap-2 hover-glow cursor-default transition-all hover:scale-105 group"
                   >
-                    <img src={icon} alt={skill} className="w-3 h-3" onError={(e) => e.currentTarget.style.display = 'none'} />
-                    {skill}
-                  </Badge>
+                    <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 group-hover:bg-white/20 transition-colors">
+                      <img 
+                        src={icon} 
+                        alt={skill} 
+                        className="w-5 h-5 object-contain" 
+                        onError={(e) => e.currentTarget.style.display = 'none'} 
+                      />
+                    </div>
+                    <span className="text-[10px] font-medium text-center text-muted-foreground group-hover:text-foreground transition-colors leading-tight">
+                      {skill}
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>
