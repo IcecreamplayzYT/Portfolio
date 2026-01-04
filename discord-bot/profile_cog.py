@@ -1,21 +1,21 @@
 """
 Profile Tracking Cog for Discord Bot with Flask API Server
-Tracks and stores Discord/Roblox profile data for drift.rip style display.
+Tracks and stores Discord/Roblox profile data for portfolio display.
 Updates profile picture and data every 2 days automatically.
 Serves data via HTTP API at /api/profile
 
 Setup:
-1. Add this cog to your existing Discord bot
-2. Create a 'profile_data.json' file in your bot's directory
-3. The bot will automatically update data every 2 days
-4. Use !profile or /profile to manually trigger an update
+1. pip install discord.py aiohttp flask flask-cors python-dotenv
+2. Add this cog to your existing Discord bot OR run standalone
+3. Set DISCORD_BOT_TOKEN in .env file
+4. The bot will automatically update data every 2 days
 5. API is served at http://your-ip:25566/api/profile
 
-Requirements:
-- discord.py 2.0+
-- aiohttp
-- flask
-- flask-cors
+Commands:
+- !profile - Manually update and display profile data
+- !profiledata - Get raw JSON profile data
+- !avatar - Get current avatar URLs
+- !apiinfo - Display API endpoint information
 """
 
 import discord
@@ -28,59 +28,133 @@ from datetime import datetime, timedelta
 from typing import Optional
 import asyncio
 import threading
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-# Configuration - Update these with your IDs
+# ==================== CONFIGURATION ====================
+# Update these with your IDs
 DISCORD_USER_ID = 822804221425614903
 ROBLOX_USER_ID = 1610763045
 DATA_FILE = "profile_data.json"
 UPDATE_INTERVAL_DAYS = 2
 API_PORT = 25566
 API_HOST = "0.0.0.0"
+# ========================================================
 
 # Flask app for API
 api_app = Flask(__name__)
-CORS(api_app)  # Enable CORS for all routes
+CORS(api_app, resources={
+    r"/api/*": {
+        "origins": "*",
+        "methods": ["GET", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"]
+    }
+})
+
 
 def get_profile_data():
     """Load profile data from JSON file for API."""
     if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, 'r') as f:
-            return json.load(f)
+        try:
+            with open(DATA_FILE, 'r') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading profile data: {e}")
+    
+    # Return default data if file doesn't exist
     return {
-        "last_update": None,
-        "discord": {},
-        "roblox": {}
+        "last_update": datetime.now().isoformat(),
+        "discord": {
+            "user_id": str(DISCORD_USER_ID),
+            "username": "Realice",
+            "display_name": "David",
+            "avatar_url": None,
+            "status": "online",
+            "custom_status": "Life to no Limits"
+        },
+        "roblox": {
+            "user_id": ROBLOX_USER_ID,
+            "username": "Realice",
+            "display_name": "David",
+            "avatar_url": None,
+            "friends_count": 0,
+            "followers_count": 0,
+            "following_count": 0
+        }
     }
 
-@api_app.route('/api/profile', methods=['GET'])
+
+@api_app.after_request
+def after_request(response):
+    """Add CORS headers to all responses."""
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,OPTIONS')
+    response.headers.add('Cache-Control', 'public, max-age=300')  # Cache for 5 minutes
+    return response
+
+
+@api_app.route('/api/profile', methods=['GET', 'OPTIONS'])
 def profile_endpoint():
-    """API endpoint to get profile data."""
+    """API endpoint to get full profile data."""
+    if request.method == 'OPTIONS':
+        return '', 204
+    
     data = get_profile_data()
+    print(f"[API] Serving profile data - Last update: {data.get('last_update', 'never')}")
     return jsonify(data)
 
-@api_app.route('/api/profile/discord', methods=['GET'])
+
+@api_app.route('/api/profile/discord', methods=['GET', 'OPTIONS'])
 def discord_endpoint():
     """API endpoint to get Discord data only."""
+    if request.method == 'OPTIONS':
+        return '', 204
+    
     data = get_profile_data()
     return jsonify(data.get("discord", {}))
 
-@api_app.route('/api/profile/roblox', methods=['GET'])
+
+@api_app.route('/api/profile/roblox', methods=['GET', 'OPTIONS'])
 def roblox_endpoint():
     """API endpoint to get Roblox data only."""
+    if request.method == 'OPTIONS':
+        return '', 204
+    
     data = get_profile_data()
     return jsonify(data.get("roblox", {}))
+
 
 @api_app.route('/api/health', methods=['GET'])
 def health_check():
     """Health check endpoint."""
-    return jsonify({"status": "ok", "timestamp": datetime.now().isoformat()})
+    return jsonify({
+        "status": "ok",
+        "timestamp": datetime.now().isoformat(),
+        "discord_user_id": DISCORD_USER_ID,
+        "roblox_user_id": ROBLOX_USER_ID
+    })
+
+
+@api_app.route('/', methods=['GET'])
+def root():
+    """Root endpoint with API info."""
+    return jsonify({
+        "name": "Profile API",
+        "version": "1.0.0",
+        "endpoints": {
+            "profile": "/api/profile",
+            "discord": "/api/profile/discord",
+            "roblox": "/api/profile/roblox",
+            "health": "/api/health"
+        }
+    })
 
 
 def run_flask():
     """Run Flask server in a separate thread."""
-    api_app.run(host=API_HOST, port=API_PORT, debug=False, use_reloader=False)
+    print(f"[API] Starting Flask server on {API_HOST}:{API_PORT}")
+    api_app.run(host=API_HOST, port=API_PORT, debug=False, use_reloader=False, threaded=True)
 
 
 class ProfileCog(commands.Cog):
@@ -90,12 +164,14 @@ class ProfileCog(commands.Cog):
         self.bot = bot
         self.session: Optional[aiohttp.ClientSession] = None
         self.profile_data = self.load_data()
-        self.auto_update.start()
         
         # Start Flask API server in a separate thread
         self.api_thread = threading.Thread(target=run_flask, daemon=True)
         self.api_thread.start()
         print(f"[ProfileCog] API server started at http://{API_HOST}:{API_PORT}/api/profile")
+        
+        # Start auto-update task
+        self.auto_update.start()
     
     def cog_unload(self):
         self.auto_update.cancel()
@@ -105,8 +181,11 @@ class ProfileCog(commands.Cog):
     def load_data(self) -> dict:
         """Load profile data from JSON file."""
         if os.path.exists(DATA_FILE):
-            with open(DATA_FILE, 'r') as f:
-                return json.load(f)
+            try:
+                with open(DATA_FILE, 'r') as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"[ProfileCog] Error loading data: {e}")
         return {
             "last_update": None,
             "discord": {},
@@ -115,8 +194,12 @@ class ProfileCog(commands.Cog):
     
     def save_data(self):
         """Save profile data to JSON file."""
-        with open(DATA_FILE, 'w') as f:
-            json.dump(self.profile_data, f, indent=2, default=str)
+        try:
+            with open(DATA_FILE, 'w') as f:
+                json.dump(self.profile_data, f, indent=2, default=str)
+            print(f"[ProfileCog] Data saved to {DATA_FILE}")
+        except Exception as e:
+            print(f"[ProfileCog] Error saving data: {e}")
     
     async def get_session(self) -> aiohttp.ClientSession:
         """Get or create aiohttp session."""
@@ -132,7 +215,6 @@ class ProfileCog(commands.Cog):
             # Get avatar URL (animated if available)
             avatar_url = str(user.display_avatar.url)
             
-            # Fetch user profile for additional data
             data = {
                 "user_id": str(user.id),
                 "username": user.name,
@@ -145,6 +227,8 @@ class ProfileCog(commands.Cog):
                 "public_flags": user.public_flags.value if user.public_flags else 0,
                 "banner_url": str(user.banner.url) if user.banner else None,
                 "accent_color": str(user.accent_color) if user.accent_color else None,
+                "status": "online",
+                "custom_status": None
             }
             
             # Try to get presence/status if in a shared guild
@@ -157,10 +241,17 @@ class ProfileCog(commands.Cog):
                         data["custom_status"] = member.activity.name
                     break
             
+            print(f"[ProfileCog] Discord data fetched: {data['display_name']} (@{data['username']})")
             return data
         except Exception as e:
-            print(f"Error fetching Discord data: {e}")
-            return {}
+            print(f"[ProfileCog] Error fetching Discord data: {e}")
+            return {
+                "user_id": str(DISCORD_USER_ID),
+                "username": "Realice",
+                "display_name": "David",
+                "status": "online",
+                "custom_status": "Life to no Limits"
+            }
     
     async def fetch_roblox_data(self) -> dict:
         """Fetch Roblox user data using Roblox API with OpenCloud thumbnail."""
@@ -173,19 +264,20 @@ class ProfileCog(commands.Cog):
             ) as resp:
                 if resp.status == 200:
                     user_data = await resp.json()
+                    print(f"[ProfileCog] Roblox user data: {user_data}")
                 else:
-                    return {}
+                    print(f"[ProfileCog] Failed to fetch Roblox user: {resp.status}")
+                    return self._default_roblox_data()
             
-            # Fetch avatar using OpenCloud API (thumbnail service)
-            # This uses the v1 thumbnails API which is publicly accessible
+            # Fetch avatar using Roblox Thumbnails API (420x420 for best quality)
             async with session.get(
                 f"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={ROBLOX_USER_ID}&size=420x420&format=Png&isCircular=false"
             ) as resp:
+                avatar_url = None
                 if resp.status == 200:
                     avatar_data = await resp.json()
                     avatar_url = avatar_data.get("data", [{}])[0].get("imageUrl", "")
-                else:
-                    avatar_url = ""
+                    print(f"[ProfileCog] Roblox avatar URL: {avatar_url}")
             
             # Fetch friend count
             async with session.get(
@@ -214,7 +306,7 @@ class ProfileCog(commands.Cog):
                     following_data = await resp.json()
                     following_count = following_data.get("count", 0)
             
-            return {
+            result = {
                 "user_id": ROBLOX_USER_ID,
                 "username": user_data.get("name", ""),
                 "display_name": user_data.get("displayName", ""),
@@ -226,13 +318,29 @@ class ProfileCog(commands.Cog):
                 "followers_count": followers_count,
                 "following_count": following_count,
             }
+            
+            print(f"[ProfileCog] Roblox data fetched: {result['display_name']} (@{result['username']})")
+            return result
+            
         except Exception as e:
-            print(f"Error fetching Roblox data: {e}")
-            return {}
+            print(f"[ProfileCog] Error fetching Roblox data: {e}")
+            return self._default_roblox_data()
+    
+    def _default_roblox_data(self) -> dict:
+        """Return default Roblox data."""
+        return {
+            "user_id": ROBLOX_USER_ID,
+            "username": "Realice",
+            "display_name": "David",
+            "avatar_url": f"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={ROBLOX_USER_ID}&size=420x420&format=Png",
+            "friends_count": 0,
+            "followers_count": 0,
+            "following_count": 0
+        }
     
     async def update_all_data(self) -> dict:
         """Update all profile data from Discord and Roblox."""
-        print(f"[ProfileCog] Updating profile data at {datetime.now()}")
+        print(f"[ProfileCog] ========== Updating profile data at {datetime.now()} ==========")
         
         discord_data = await self.fetch_discord_data()
         roblox_data = await self.fetch_roblox_data()
@@ -244,8 +352,8 @@ class ProfileCog(commands.Cog):
         }
         
         self.save_data()
-        print(f"[ProfileCog] Profile data updated successfully")
-        print(f"[ProfileCog] Data available at http://{API_HOST}:{API_PORT}/api/profile")
+        print(f"[ProfileCog] ========== Profile data updated successfully ==========")
+        print(f"[ProfileCog] API endpoint: http://209.74.83.91:{API_PORT}/api/profile")
         
         return self.profile_data
     
@@ -271,8 +379,11 @@ class ProfileCog(commands.Cog):
     @auto_update.before_loop
     async def before_auto_update(self):
         await self.bot.wait_until_ready()
+        # Do initial update on startup
+        print("[ProfileCog] Running initial data update...")
+        await self.update_all_data()
     
-    # ========== Commands ==========
+    # ==================== COMMANDS ====================
     
     @commands.hybrid_command(name="profile", description="Update and display profile data")
     async def profile(self, ctx: commands.Context):
@@ -290,7 +401,7 @@ class ProfileCog(commands.Cog):
         # Build response embed
         embed = discord.Embed(
             title="✅ Profile Data Updated",
-            description=f"Last update: {data['last_update']}\n\n**API Endpoint:** `http://209.74.83.91:{API_PORT}/api/profile`",
+            description=f"**Last update:** {data['last_update']}\n\n**API Endpoint:**\n`http://209.74.83.91:{API_PORT}/api/profile`",
             color=discord.Color.green()
         )
         
@@ -298,8 +409,8 @@ class ProfileCog(commands.Cog):
         if data.get("discord"):
             d = data["discord"]
             embed.add_field(
-                name="Discord",
-                value=f"**{d.get('display_name', 'N/A')}** (@{d.get('username', 'N/A')})\nStatus: {d.get('status', 'Unknown')}",
+                name="🎮 Discord",
+                value=f"**{d.get('display_name', 'N/A')}**\n@{d.get('username', 'N/A')}\nStatus: {d.get('status', 'Unknown')}",
                 inline=True
             )
             if d.get("avatar_url"):
@@ -309,8 +420,8 @@ class ProfileCog(commands.Cog):
         if data.get("roblox"):
             r = data["roblox"]
             embed.add_field(
-                name="Roblox",
-                value=f"**{r.get('display_name', 'N/A')}** (@{r.get('username', 'N/A')})\n👥 {r.get('friends_count', 0)} friends | ❤️ {r.get('followers_count', 0)} followers",
+                name="🎲 Roblox",
+                value=f"**{r.get('display_name', 'N/A')}**\n@{r.get('username', 'N/A')}\n👥 {r.get('friends_count', 0)} friends\n❤️ {r.get('followers_count', 0)} followers",
                 inline=True
             )
         
@@ -330,7 +441,7 @@ class ProfileCog(commands.Cog):
             # Send as file if too long
             with open("temp_profile.json", "w") as f:
                 f.write(json_str)
-            await ctx.send("Profile data:", file=discord.File("temp_profile.json"))
+            await ctx.send("📄 Profile data:", file=discord.File("temp_profile.json"))
             os.remove("temp_profile.json")
         else:
             await ctx.send(f"```json\n{json_str}\n```")
@@ -340,12 +451,12 @@ class ProfileCog(commands.Cog):
         """Get current avatar URLs for use in portfolio."""
         data = await self.update_all_data()
         
-        embed = discord.Embed(title="Avatar URLs", color=discord.Color.purple())
+        embed = discord.Embed(title="🖼️ Avatar URLs", color=discord.Color.purple())
         
         if data.get("discord", {}).get("avatar_url"):
             embed.add_field(
                 name="Discord Avatar",
-                value=data["discord"]["avatar_url"],
+                value=f"```{data['discord']['avatar_url']}```",
                 inline=False
             )
             embed.set_thumbnail(url=data["discord"]["avatar_url"])
@@ -353,11 +464,11 @@ class ProfileCog(commands.Cog):
         if data.get("roblox", {}).get("avatar_url"):
             embed.add_field(
                 name="Roblox Avatar",
-                value=data["roblox"]["avatar_url"],
+                value=f"```{data['roblox']['avatar_url']}```",
                 inline=False
             )
         
-        embed.set_footer(text="Use these URLs in your portfolio to always show current avatars")
+        embed.set_footer(text="Use these URLs in your portfolio for current avatars")
         await ctx.send(embed=embed)
     
     @commands.hybrid_command(name="apiinfo", description="Get API endpoint information")
@@ -365,48 +476,87 @@ class ProfileCog(commands.Cog):
         """Display API endpoint information."""
         embed = discord.Embed(
             title="🌐 Profile API Information",
+            description="Your profile data is being served via HTTP API.",
             color=discord.Color.blue()
         )
         
         embed.add_field(
-            name="Main Endpoint",
-            value=f"`http://209.74.83.91:{API_PORT}/api/profile`",
+            name="📍 Main Endpoint",
+            value=f"```http://209.74.83.91:{API_PORT}/api/profile```",
             inline=False
         )
         embed.add_field(
-            name="Discord Only",
-            value=f"`http://209.74.83.91:{API_PORT}/api/profile/discord`",
+            name="🎮 Discord Only",
+            value=f"`/api/profile/discord`",
             inline=True
         )
         embed.add_field(
-            name="Roblox Only",
-            value=f"`http://209.74.83.91:{API_PORT}/api/profile/roblox`",
+            name="🎲 Roblox Only",
+            value=f"`/api/profile/roblox`",
             inline=True
         )
         embed.add_field(
-            name="Health Check",
-            value=f"`http://209.74.83.91:{API_PORT}/api/health`",
+            name="💓 Health Check",
+            value=f"`/api/health`",
             inline=True
         )
         
-        embed.set_footer(text=f"Server running on port {API_PORT}")
+        embed.add_field(
+            name="📖 Usage",
+            value="```javascript\nfetch('http://209.74.83.91:25566/api/profile')\n  .then(res => res.json())\n  .then(data => console.log(data));\n```",
+            inline=False
+        )
+        
+        embed.set_footer(text=f"Server running on port {API_PORT} | Data updates every {UPDATE_INTERVAL_DAYS} days")
         await ctx.send(embed=embed)
+    
+    @commands.hybrid_command(name="forceupdate", description="Force update profile data immediately")
+    async def forceupdate(self, ctx: commands.Context):
+        """Force an immediate update of profile data."""
+        await ctx.defer()
+        
+        embed = discord.Embed(
+            title="⚡ Force Updating...",
+            description="Fetching latest data from Discord and Roblox APIs",
+            color=discord.Color.orange()
+        )
+        msg = await ctx.send(embed=embed)
+        
+        data = await self.update_all_data()
+        
+        embed = discord.Embed(
+            title="✅ Force Update Complete",
+            description=f"Profile data has been refreshed.\n\n**Timestamp:** {data['last_update']}",
+            color=discord.Color.green()
+        )
+        
+        if data.get("discord", {}).get("avatar_url"):
+            embed.set_thumbnail(url=data["discord"]["avatar_url"])
+        
+        await msg.edit(embed=embed)
 
 
 async def setup(bot: commands.Bot):
     """Setup function for loading the cog."""
     await bot.add_cog(ProfileCog(bot))
-    print("[ProfileCog] Loaded successfully")
+    print("[ProfileCog] Cog loaded successfully")
 
 
-# ========== Standalone Usage ==========
-# If you want to run this as a standalone bot:
+# ==================== STANDALONE USAGE ====================
+# Run this file directly to start the bot
 
 if __name__ == "__main__":
-    import os
     from dotenv import load_dotenv
     
     load_dotenv()
+    
+    print("=" * 50)
+    print("Profile Bot + API Server")
+    print("=" * 50)
+    print(f"Discord User ID: {DISCORD_USER_ID}")
+    print(f"Roblox User ID: {ROBLOX_USER_ID}")
+    print(f"API Port: {API_PORT}")
+    print("=" * 50)
     
     intents = discord.Intents.default()
     intents.members = True
@@ -417,17 +567,29 @@ if __name__ == "__main__":
     
     @bot.event
     async def on_ready():
-        print(f"Logged in as {bot.user}")
+        print(f"\n✅ Logged in as {bot.user}")
+        print(f"📊 Connected to {len(bot.guilds)} guilds")
+        
         await bot.add_cog(ProfileCog(bot))
+        
         try:
             synced = await bot.tree.sync()
-            print(f"Synced {len(synced)} slash commands")
+            print(f"🔄 Synced {len(synced)} slash commands")
         except Exception as e:
-            print(f"Error syncing commands: {e}")
+            print(f"❌ Error syncing commands: {e}")
+        
+        print("\n" + "=" * 50)
+        print("🌐 API Endpoints:")
+        print(f"   http://209.74.83.91:{API_PORT}/api/profile")
+        print(f"   http://209.74.83.91:{API_PORT}/api/profile/discord")
+        print(f"   http://209.74.83.91:{API_PORT}/api/profile/roblox")
+        print(f"   http://209.74.83.91:{API_PORT}/api/health")
+        print("=" * 50)
     
     # Get token from environment variable
     token = os.getenv("DISCORD_BOT_TOKEN")
     if token:
         bot.run(token)
     else:
-        print("Error: DISCORD_BOT_TOKEN not found in environment variables")
+        print("\n❌ Error: DISCORD_BOT_TOKEN not found in environment variables")
+        print("Create a .env file with: DISCORD_BOT_TOKEN=your_token_here")
