@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
-  Play, Pause, Volume2, Repeat,
   Twitter, Youtube, Mail, ExternalLink,
   Code, FolderOpen, Award, GraduationCap, ChevronLeft, ChevronRight
 } from "lucide-react";
@@ -14,25 +13,18 @@ const DISCORD_ID = "822804221425614903";
 const ROBLOX_ID = "1610763045";
 const API_ENDPOINT = "http://209.74.83.91:25566/api/profile";
 
-// Spotify Track: "LET IT HAPPEN" by Tame Impala
+// Spotify Track: "Smooth Operator" by Sade
 const SPOTIFY_TRACK = {
-  id: "1Hv1VTm8zeOeybub15mA2R",
-  title: "LET IT HAPPEN",
-  artist: "Tame Impala",
-  cover: "https://i.scdn.co/image/ab67616d0000b2739e1cfc756886ac782e363d79",
-  duration: "7:46",
-  spotifyUrl: "https://open.spotify.com/track/1Hv1VTm8zeOeybub15mA2R"
+  id: "4eU6Dvqjlpmp1UbQoMcRMm",
+  title: "Smooth Operator",
+  artist: "Sade",
 };
 
 const Portfolio = () => {
   const [currentYear] = useState(new Date().getFullYear());
   const [yearsOfExperience, setYearsOfExperience] = useState(3);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [volume, setVolume] = useState(80);
   const [techIndex, setTechIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const [audioRef] = useState<HTMLAudioElement | null>(null);
 
   // Profile data from API
   const [profileData, setProfileData] = useState<{
@@ -109,17 +101,6 @@ const Portfolio = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, [currentYear]);
 
-  // Progress simulation for music player
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isPlaying) {
-      interval = setInterval(() => {
-        setProgress(prev => prev >= 100 ? 0 : prev + 0.2);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isPlaying]);
-
   const skillIcons: { [key: string]: string } = {
     "Python": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
     "HTML": "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg",
@@ -178,31 +159,18 @@ const Portfolio = () => {
         <div className="absolute inset-0 bg-black/50" />
 
         <div className="relative z-10 p-4 space-y-4 pb-24">
-          {/* Spotify Player - Top Fixed */}
-          <div className="glass-card-strong rounded-2xl p-3 flex items-center gap-3">
-            <a href={SPOTIFY_TRACK.spotifyUrl} target="_blank" rel="noopener noreferrer">
-              <img src={SPOTIFY_TRACK.cover} alt="Album" className="w-12 h-12 rounded-lg" />
-            </a>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{SPOTIFY_TRACK.title}</p>
-              <p className="text-xs text-muted-foreground truncate">{SPOTIFY_TRACK.artist}</p>
-              <div className="flex items-center gap-2 mt-1">
-                <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
-                  <div className="h-full progress-glow rounded-full transition-all" style={{ width: `${progress}%` }} />
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-1">
-              <Repeat className="w-4 h-4 text-primary" />
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="w-10 h-10 rounded-full bg-primary/20 hover:bg-primary/30"
-                onClick={() => setIsPlaying(!isPlaying)}
-              >
-                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-              </Button>
-            </div>
+          {/* Spotify Player - Real Embed */}
+          <div className="glass-card-strong rounded-2xl p-2 overflow-hidden">
+            <iframe 
+              src={`https://open.spotify.com/embed/track/${SPOTIFY_TRACK.id}?utm_source=generator&theme=0`}
+              width="100%" 
+              height="80" 
+              frameBorder="0" 
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+              loading="lazy"
+              className="rounded-xl"
+              style={{ borderRadius: '12px' }}
+            />
           </div>
 
           {/* Profile Card */}
@@ -546,46 +514,20 @@ const Portfolio = () => {
 
         {/* Center Content */}
         <div className="flex-1 flex flex-col gap-4 min-w-0 overflow-hidden">
-          {/* Top Bar with Media Controls */}
+          {/* Top Bar with Real Spotify Embed */}
           <div className="flex items-center justify-end gap-4">
-            {/* Spotify Media Controls - Single Song on Repeat */}
-            <div className="glass-card-strong rounded-2xl px-4 py-2 flex items-center gap-4 max-w-md">
-              <a href={SPOTIFY_TRACK.spotifyUrl} target="_blank" rel="noopener noreferrer">
-                <img src={SPOTIFY_TRACK.cover} alt="Album" className="w-10 h-10 rounded-lg hover:opacity-80 transition-opacity" />
-              </a>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{SPOTIFY_TRACK.title}</p>
-                <p className="text-xs text-muted-foreground truncate">{SPOTIFY_TRACK.artist}</p>
-                {/* Progress bar */}
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
-                    <div className="h-full progress-glow rounded-full transition-all" style={{ width: `${progress}%` }} />
-                  </div>
-                  <span className="text-[10px] text-muted-foreground">{SPOTIFY_TRACK.duration}</span>
-                </div>
-              </div>
-              <div className="flex items-center gap-1">
-                <Repeat className="w-4 h-4 text-primary" />
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="w-10 h-10 rounded-full bg-primary/20 hover:bg-primary/30"
-                  onClick={() => setIsPlaying(!isPlaying)}
-                >
-                  {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-                </Button>
-              </div>
-              <div className="hidden md:flex items-center gap-2">
-                <Volume2 className="w-4 h-4 text-muted-foreground" />
-                <input 
-                  type="range" 
-                  min="0" 
-                  max="100" 
-                  value={volume}
-                  onChange={(e) => setVolume(Number(e.target.value))}
-                  className="w-16 h-1 bg-muted rounded-full appearance-none cursor-pointer"
-                />
-              </div>
+            {/* Spotify Player - Real Embed */}
+            <div className="glass-card-strong rounded-2xl p-2 overflow-hidden max-w-lg w-full">
+              <iframe 
+                src={`https://open.spotify.com/embed/track/${SPOTIFY_TRACK.id}?utm_source=generator&theme=0`}
+                width="100%" 
+                height="80" 
+                frameBorder="0" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy"
+                className="rounded-xl"
+                style={{ borderRadius: '12px' }}
+              />
             </div>
           </div>
 
