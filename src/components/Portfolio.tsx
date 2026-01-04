@@ -1,47 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import Navigation from "./Navigation";
+import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { 
-  MapPin, 
-  Calendar, 
-  Award, 
-  Code, 
-  Database, 
-  Youtube,
-  Twitter,
-  User,
-  Briefcase,
-  GraduationCap,
-  FolderOpen,
-  Languages,
-  Trophy
+  Play, Pause, SkipBack, SkipForward, Volume2, 
+  Twitter, Youtube, Mail, ExternalLink, Music,
+  Code, Database, FolderOpen, Award, GraduationCap
 } from "lucide-react";
-// Profile image will use favicon directly
+import backgroundImage from "@/assets/background.jpg";
+import robloxBanner from "@/assets/roblox-banner.png";
+
+// Discord & Roblox IDs for integration
+const DISCORD_ID = "822804221425614903";
+const ROBLOX_ID = "1610763045";
 
 const Portfolio = () => {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark] = useState(true);
   const [currentYear] = useState(new Date().getFullYear());
   const [yearsOfExperience, setYearsOfExperience] = useState(3);
   const [showLightModeDialog, setShowLightModeDialog] = useState(false);
   const [confirmationStep, setConfirmationStep] = useState(0);
   const [buttonOrder, setButtonOrder] = useState<'yes-first' | 'no-first'>('yes-first');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(35);
+  const [volume, setVolume] = useState(80);
+
+  // Simulated Discord/Roblox data (would be fetched from your bot's API)
+  const [discordData] = useState({
+    username: "Realice",
+    displayName: "David",
+    avatar: `https://cdn.discordapp.com/avatars/${DISCORD_ID}/a_placeholder.png`,
+    status: "online" as const,
+    customStatus: "Life to no Limits",
+    badges: ["HypeSquad", "Nitro"],
+  });
+
+  const [robloxData] = useState({
+    username: "Realice",
+    displayName: "David",
+    avatar: `https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=150&height=150&format=png`,
+    friends: 150,
+    followers: 89,
+    following: 45,
+  });
+
+  // Currently playing track (simulated Spotify)
+  const [currentTrack] = useState({
+    title: "Midnight City",
+    artist: "M83",
+    cover: "https://i.scdn.co/image/ab67616d0000b273c2504e80ba2f258697ab2954",
+    duration: "4:03",
+    current: "1:25",
+  });
 
   useEffect(() => {
-    // Calculate years of experience starting from 2024
     const experienceYears = currentYear >= 2024 ? currentYear - 2024 + 3 : 3;
     setYearsOfExperience(experienceYears);
-    
-    // Apply theme
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [currentYear, isDark]);
+    document.documentElement.classList.add('dark');
+  }, [currentYear]);
 
   const confirmationMessages = [
     "Are you really sure?",
@@ -56,7 +72,6 @@ const Portfolio = () => {
   ];
 
   const toggleTheme = () => {
-    // Only show dialog, never actually switch from dark mode
     setShowLightModeDialog(true);
     setConfirmationStep(0);
     setButtonOrder(Math.random() > 0.5 ? 'yes-first' : 'no-first');
@@ -65,10 +80,8 @@ const Portfolio = () => {
   const handleConfirmationYes = () => {
     if (confirmationStep < 8) {
       setConfirmationStep(confirmationStep + 1);
-      // Randomly swap button order for next step
       setButtonOrder(Math.random() > 0.5 ? 'yes-first' : 'no-first');
     } else {
-      // All confirmations done - just close the dialog, stay in dark mode
       setShowLightModeDialog(false);
       setConfirmationStep(0);
     }
@@ -89,423 +102,372 @@ const Portfolio = () => {
     "MongoDB": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
     "Supabase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/supabase/supabase-original.svg",
     "Firebase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg",
-    "YouTube API": "https://www.svgrepo.com/show/13671/youtube.svg",
-    "Roblox Studio": "https://cdn.simpleicons.org/roblox/white",
-    "Roblox Scripting": "https://cdn.simpleicons.org/roblox/white",
-    "Roblox Animation": "https://cdn.simpleicons.org/roblox/white",
-    "Discord Bot Development": "https://cdn.simpleicons.org/discord/blurple",
-    "Full-Stack Development": "https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg",
-    "Computer Science": "https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg",
-    "CSS": "https://cdn.simpleicons.org/css/blurple",
-    "MariaDB": "https://cdn.simpleicons.org/mariadb/003545",
-    "Roblox Youtuber": "https://www.svgrepo.com/show/13671/youtube.svg"
-  };
-
-  const skillCategories = {
-    "Core Development": [
-      "Python", "HTML", "Tailwind CSS", "JavaScript", "TypeScript", "CSS"
-    ],
-    "Backend & Databases": [
-      "MySQL", "MongoDB", "Supabase", "Firebase", "YouTube API", "MariaDB"
-    ],
-    "Game Development": [
-      "Roblox Studio", "Roblox Scripting", "Roblox Animation", "Roblox Youtuber"
-    ],
-    "Specializations": [
-      "Discord Bot Development", "Full-Stack Development", "Computer Science"
-    ]
+    "Discord Bot": "https://cdn.simpleicons.org/discord/blurple",
+    "Roblox": "https://cdn.simpleicons.org/roblox/white",
   };
 
   const projects = [
-    {
-      title: "Anti Nuke Bot",
-      role: "Developer / Management",
-      description: "Ultimate Discord Protection Your Discord Guardian Against Nukes, Raids & Malicious Attacks with over 1.5 Million users.",
-      status: "Active",
-      type: "Discord Bot",
-      link: "https://discord.gg/R8jdmteT7X"
-    },
-    {
-      title: "NeoDesigns Hosting",
-      role: "Lead Developer of NeoDesigns",
-      description: "NeoDesigns Hosting the perfect place for all your hosting solutions.",
-      status: "Active",
-      type: "Application Hosting",
-      link: "https://discord.gg/neodesigns"
-    },
-    {
-      title: "Starlit Profiles",
-      role: "Developer of Starlit.you",
-      description: "Everything you need to showcase your creative work | Starlit, lighting your way!.",
-      status: "Active",
-      type: "Portfolio Website",
-      link: "https://starlit-development.vercel.app"
-    },
-    {
-      title: "Former Silly Development Helper",
-      role: "Helper",
-      description: "Meh hosting Service",
-      status: "Ended",
-      type: "Application Hosting"
-    },
-    {
-      title: "Guildly",
-      role: "CEO",
-      description: "Discord templating bot for server management and automation",
-      status: "Ended",
-      type: "Discord Bot"
-    },
-    {
-      title: "DiscordGPT",
-      role: "CEO",
-      description: "Discord bot connecting ChatGPT to Discord with advanced memory features",
-      status: "Active",
-      type: "AI Integration"
-    }
+    { title: "Anti Nuke Bot", role: "Developer / Management", description: "Ultimate Discord Protection with over 1.5M users.", status: "Active", type: "Discord Bot", link: "https://discord.gg/R8jdmteT7X" },
+    { title: "NeoDesigns Hosting", role: "Lead Developer", description: "The perfect place for all your hosting solutions.", status: "Active", type: "Hosting", link: "https://discord.gg/neodesigns" },
+    { title: "Starlit Profiles", role: "Developer", description: "Everything you need to showcase your creative work.", status: "Active", type: "Portfolio", link: "https://starlit-development.vercel.app" },
+    { title: "DiscordGPT", role: "CEO", description: "Discord bot connecting ChatGPT with advanced memory features.", status: "Active", type: "AI Integration" },
+    { title: "Guildly", role: "CEO", description: "Discord templating bot for server management.", status: "Ended", type: "Discord Bot" },
+  ];
+
+  const connections = [
+    { name: "Twitter", icon: <Twitter className="w-5 h-5" />, url: "https://x.com/IcecreamplayzYT", color: "#1DA1F2" },
+    { name: "YouTube", icon: <Youtube className="w-5 h-5" />, url: "https://www.youtube.com/@RealiceYT", color: "#FF0000" },
+    { name: "Discord", icon: <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>, url: `https://discord.com/users/${DISCORD_ID}`, color: "#5865F2" },
+    { name: "Email", icon: <Mail className="w-5 h-5" />, url: "mailto:tonasamya@gmail.com", color: "#EA4335" },
   ];
 
   return (
-    <div className="min-h-screen bg-background transition-colors duration-300">
-      <Navigation isDark={isDark} toggleTheme={toggleTheme} />
+    <div 
+      className="h-screen w-screen overflow-hidden relative no-scrollbar"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-black/50" />
 
-      {/* Light Mode Confirmation Dialogs */}
+      {/* Light Mode Dialog */}
       <AlertDialog open={showLightModeDialog}>
-        <AlertDialogContent className="animate-fade-in">
+        <AlertDialogContent className="glass-card-strong border-border/30">
           <AlertDialogHeader>
-            <AlertDialogTitle className="transition-all duration-300">
-              {confirmationStep === 0 ? "EWWWW Light Mode User!" : confirmationMessages[confirmationStep - 1]}
-            </AlertDialogTitle>
-            <AlertDialogDescription className="transition-all duration-300">
-              {confirmationStep === 0 
-                ? "Are you sure you want to change to Light mode?" 
-                : "Seriously?"}
-            </AlertDialogDescription>
+            <AlertDialogTitle>{confirmationStep === 0 ? "EWWWW Light Mode User!" : confirmationMessages[confirmationStep - 1]}</AlertDialogTitle>
+            <AlertDialogDescription>{confirmationStep === 0 ? "Are you sure you want to change to Light mode?" : "Seriously?"}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex-wrap">
             {confirmationStep === 2 ? (
-              // Hidden No button - three Yes buttons, one is actually No
               <div className="flex gap-2 w-full justify-end">
-                <Button onClick={handleConfirmationYes}>
-                  Yes
-                </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={handleCancel}
-                  className="opacity-30 hover:opacity-100 transition-opacity"
-                >
-                  No
-                </Button>
-                <Button onClick={handleConfirmationYes}>
-                  Yes
-                </Button>
+                <Button onClick={handleConfirmationYes}>Yes</Button>
+                <Button variant="outline" onClick={handleCancel} className="opacity-30 hover:opacity-100">No</Button>
+                <Button onClick={handleConfirmationYes}>Yes</Button>
               </div>
             ) : confirmationStep === 4 ? (
-              // Confusing labels - "Agree" and "Disagree"
               <div className="flex gap-2 w-full justify-end">
-                <Button variant="outline" onClick={handleCancel}>
-                  Disagree
-                </Button>
-                <Button onClick={handleConfirmationYes}>
-                  Agree
-                </Button>
+                <Button variant="outline" onClick={handleCancel}>Disagree</Button>
+                <Button onClick={handleConfirmationYes}>Agree</Button>
               </div>
             ) : confirmationStep === 6 ? (
-              // Multiple Yes buttons with tiny hidden No
               <div className="flex gap-2 w-full justify-end items-center">
-                <Button onClick={handleConfirmationYes}>
-                  Yes
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  onClick={handleCancel}
-                  className="h-6 px-2 text-[8px] opacity-20 hover:opacity-100"
-                >
-                  no
-                </Button>
-                <Button onClick={handleConfirmationYes}>
-                  Yes
-                </Button>
-                <Button onClick={handleConfirmationYes}>
-                  Yes
-                </Button>
+                <Button onClick={handleConfirmationYes}>Yes</Button>
+                <Button variant="ghost" onClick={handleCancel} className="h-6 px-2 text-[8px] opacity-20 hover:opacity-100">no</Button>
+                <Button onClick={handleConfirmationYes}>Yes</Button>
+                <Button onClick={handleConfirmationYes}>Yes</Button>
               </div>
             ) : buttonOrder === 'yes-first' ? (
-              // Yes first, then No
               <>
-                <Button variant="outline" onClick={handleCancel}>
-                  No
-                </Button>
-                <Button onClick={handleConfirmationYes}>
-                  Yes
-                </Button>
+                <Button variant="outline" onClick={handleCancel}>No</Button>
+                <Button onClick={handleConfirmationYes}>Yes</Button>
               </>
             ) : (
-              // No first, then Yes
               <>
-                <Button onClick={handleConfirmationYes}>
-                  Yes
-                </Button>
-                <Button variant="outline" onClick={handleCancel}>
-                  No
-                </Button>
+                <Button onClick={handleConfirmationYes}>Yes</Button>
+                <Button variant="outline" onClick={handleCancel}>No</Button>
               </>
             )}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
 
-      <div className="container mx-auto px-6 py-8">
-        <div className="grid lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Profile Card */}
-            <Card className="border-border bg-card shadow-lg">
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="text-2xl font-bold">David</CardTitle>
-                <CardDescription className="text-muted-foreground font-medium">
-                  @Realice
-                </CardDescription>
-                <div className="flex items-center justify-center text-sm text-muted-foreground mt-3 bg-accent/30 rounded-full px-3 py-1.5 inline-flex mx-auto">
-                  <MapPin className="h-4 w-4 mr-2" />
-                  London, UK
-                </div>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="space-y-6">
-                  <div className="p-4 rounded-xl bg-accent/20 border border-border/30">
-                    <h4 className="font-semibold mb-3 flex items-center text-sm">
-                      <Briefcase className="h-4 w-4 mr-2 text-primary" />
-                      Current Role
-                    </h4>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      Self-employed at ServerSpark Studios
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Former Sillydev Helper
-                    </p>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 gap-4">
-                    <div className="p-3 rounded-lg bg-accent/10">
-                      <h4 className="font-medium mb-1 flex items-center text-sm">
-                        <Calendar className="h-4 w-4 mr-2 text-primary" />
-                        Experience
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        {yearsOfExperience} years in development
-                      </p>
-                    </div>
-
-                    <div className="p-3 rounded-lg bg-accent/10">
-                      <h4 className="font-medium mb-1 flex items-center text-sm">
-                        <Languages className="h-4 w-4 mr-2 text-primary" />
-                        Languages
-                      </h4>
-                      <p className="text-sm text-muted-foreground">
-                        English (Native), French (10+ years)
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <Separator className="my-6" />
-
-                <div className="flex justify-center space-x-3">
-                  <Button variant="outline" size="icon" className="rounded-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200" asChild>
-                    <a href="https://x.com/IcecreamplayzYT" target="_blank" rel="noopener noreferrer">
-                      <Twitter className="h-4 w-4" />
-                    </a>
-                  </Button>
-                  <Button variant="outline" size="icon" className="rounded-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200" asChild>
-                    <a href="https://www.youtube.com/@RealiceYT" target="_blank" rel="noopener noreferrer">
-                      <Youtube className="h-4 w-4" />
-                    </a>
-                  </Button>
-                  <Button variant="outline" size="icon" className="rounded-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200" asChild>
-                    <a href="https://discord.com/users/822804221425614903" target="_blank" rel="noopener noreferrer">
-                      <User className="h-4 w-4" />
-                    </a>
-                  </Button>
-                  <Button variant="outline" size="icon" className="rounded-xl hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200" asChild>
-                    <a href="mailto:tonasamya@gmail.com">
-                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                        <polyline points="22,6 12,13 2,6"/>
-                      </svg>
-                    </a>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Awards Card */}
-            <Card className="border-border bg-card shadow-lg">
-              <CardHeader>
-                <CardTitle className="flex items-center text-lg">
-                  <Trophy className="h-5 w-5 mr-2 text-primary" />
-                  Awards & Recognition
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-accent/10 border border-border/20">
-                    <Award className="h-5 w-5 mt-0.5 text-primary" />
-                    <div>
-                      <p className="font-semibold text-sm">CAIE Award</p>
-                      <p className="text-xs text-muted-foreground">Information Communication and Technology</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3 p-3 rounded-lg bg-accent/10 border border-border/20">
-                    <Award className="h-5 w-5 mt-0.5 text-primary" />
-                    <div>
-                      <p className="font-semibold text-sm">CAIE Award</p>
-                      <p className="text-xs text-muted-foreground">English Language</p>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Main Content */}
-          <div className="lg:col-span-3 space-y-8">
-            {/* Hero Section */}
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl lg:text-5xl font-bold mb-4">
-                <span className="life-limits-gradient">Life to no Limits</span>
-              </h1>
-              <p className="text-lg text-muted-foreground mb-6 max-w-2xl">
-                Passionate developer specializing in Python, Discord bots, and full-stack web development.
-              </p>
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm">
-                <div>
-                  <span className="font-semibold">{yearsOfExperience}</span>
-                  <span className="text-muted-foreground ml-1">years experience</span>
-                </div>
-                <div>
-                  <span className="font-semibold">5+</span>
-                  <span className="text-muted-foreground mla-1">active projects</span>
-                </div>
-                <div>
-                  <span className="font-semibold">Year 11</span>
-                  <span className="text-muted-foreground ml-1">student</span>
-                </div>
+      {/* Main Content - Single Page Layout */}
+      <div className="relative z-10 h-full p-4 md:p-6 flex flex-col lg:flex-row gap-4">
+        
+        {/* Left Sidebar - Profile & Discord */}
+        <div className="w-full lg:w-80 flex flex-col gap-4 shrink-0">
+          {/* Main Profile Card */}
+          <div className="glass-card-strong rounded-2xl p-5 flex-shrink-0">
+            {/* Banner */}
+            <div className="relative -mx-5 -mt-5 mb-4 h-24 overflow-hidden rounded-t-2xl">
+              <img src={robloxBanner} alt="Banner" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </div>
+            
+            {/* Avatar & Info */}
+            <div className="flex items-center gap-4 -mt-12 relative z-10">
+              <div className="relative">
+                <img 
+                  src={`https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=150&height=150&format=png`}
+                  alt="Avatar"
+                  className="w-16 h-16 rounded-full border-4 border-black/50 shadow-lg"
+                />
+                <div className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-black status-${discordData.status}`} />
+              </div>
+              <div className="pt-8">
+                <h1 className="text-xl font-bold text-foreground">David</h1>
+                <p className="text-sm text-muted-foreground">@Realice</p>
               </div>
             </div>
 
-            {/* Skills Section */}
-            <Card className="border-border bg-card shadow-lg" id="skills">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl">
-                  <Code className="h-5 w-5 mr-2 text-primary" />
-                  Technologies & Skills
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {Object.entries(skillCategories).map(([category, skills]) => (
-                  <div key={category}>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-3 border-l-2 border-primary pl-3">
-                      {category}
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {skills.map((skill, index) => (
-                        <Badge 
-                          key={index} 
-                          variant="secondary" 
-                          className="text-xs rounded-md px-3 py-1 bg-accent/50 border border-border hover:bg-primary hover:text-primary-foreground transition-colors duration-200 flex items-center gap-2"
-                        >
-                          <img 
-                            src={skillIcons[skill]} 
-                            alt={skill} 
-                            className="w-4 h-4"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none';
-                            }}
-                          />
-                          {skill}
-                        </Badge>
-                      ))}
+            {/* Status */}
+            <p className="text-xs text-muted-foreground mt-3 italic">"{discordData.customStatus}"</p>
+
+            {/* Quick Stats */}
+            <div className="grid grid-cols-3 gap-2 mt-4 text-center">
+              <div className="glass-card rounded-lg p-2">
+                <p className="text-lg font-bold gradient-purple">{yearsOfExperience}</p>
+                <p className="text-[10px] text-muted-foreground">Years</p>
+              </div>
+              <div className="glass-card rounded-lg p-2">
+                <p className="text-lg font-bold gradient-purple">5+</p>
+                <p className="text-[10px] text-muted-foreground">Projects</p>
+              </div>
+              <div className="glass-card rounded-lg p-2">
+                <p className="text-lg font-bold gradient-purple">Y11</p>
+                <p className="text-[10px] text-muted-foreground">Student</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Discord Integration Card */}
+          <div className="glass-card-strong rounded-2xl p-4 flex-shrink-0">
+            <div className="flex items-center gap-3 mb-3">
+              <svg className="w-5 h-5 text-[#5865F2]" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              <span className="text-sm font-medium">Discord</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <img 
+                src={`https://cdn.discordapp.com/avatars/${DISCORD_ID}/placeholder.png`}
+                alt="Discord Avatar"
+                className="w-10 h-10 rounded-full"
+                onError={(e) => { e.currentTarget.src = `https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=150&height=150&format=png`; }}
+              />
+              <div>
+                <p className="text-sm font-medium">Realice</p>
+                <p className="text-xs text-muted-foreground">Online</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Roblox Integration Card */}
+          <div className="glass-card-strong rounded-2xl p-4 flex-1 min-h-0">
+            <div className="flex items-center gap-3 mb-3">
+              <img src="https://cdn.simpleicons.org/roblox/white" alt="Roblox" className="w-5 h-5" />
+              <span className="text-sm font-medium">Roblox</span>
+            </div>
+            <div className="flex items-center gap-3 mb-3">
+              <img 
+                src={`https://www.roblox.com/headshot-thumbnail/image?userId=${ROBLOX_ID}&width=150&height=150&format=png`}
+                alt="Roblox Avatar"
+                className="w-10 h-10 rounded-full"
+              />
+              <div>
+                <p className="text-sm font-medium">Realice</p>
+                <p className="text-xs text-muted-foreground">ID: {ROBLOX_ID}</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center text-xs">
+              <div className="glass-card rounded p-2">
+                <p className="font-bold">{robloxData.friends}</p>
+                <p className="text-muted-foreground">Friends</p>
+              </div>
+              <div className="glass-card rounded p-2">
+                <p className="font-bold">{robloxData.followers}</p>
+                <p className="text-muted-foreground">Followers</p>
+              </div>
+              <div className="glass-card rounded p-2">
+                <p className="font-bold">{robloxData.following}</p>
+                <p className="text-muted-foreground">Following</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Center Content */}
+        <div className="flex-1 flex flex-col gap-4 min-w-0 overflow-hidden">
+          {/* Top Bar with Theme Toggle & Media Controls */}
+          <div className="flex items-center justify-between gap-4">
+            {/* Theme Toggle */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={toggleTheme}
+              className="glass-card-strong rounded-full w-10 h-10 hover-glow"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            </Button>
+
+            {/* Spotify Media Controls */}
+            <div className="glass-card-strong rounded-2xl px-4 py-2 flex items-center gap-4 max-w-md">
+              <img src={currentTrack.cover} alt="Album" className="w-10 h-10 rounded-lg" />
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium truncate">{currentTrack.title}</p>
+                <p className="text-xs text-muted-foreground truncate">{currentTrack.artist}</p>
+                {/* Progress bar */}
+                <div className="flex items-center gap-2 mt-1">
+                  <span className="text-[10px] text-muted-foreground">{currentTrack.current}</span>
+                  <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
+                    <div className="h-full progress-glow rounded-full" style={{ width: `${progress}%` }} />
+                  </div>
+                  <span className="text-[10px] text-muted-foreground">{currentTrack.duration}</span>
+                </div>
+              </div>
+              <div className="flex items-center gap-1">
+                <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full hover:bg-muted/30">
+                  <SkipBack className="w-4 h-4" />
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="w-10 h-10 rounded-full bg-primary/20 hover:bg-primary/30"
+                  onClick={() => setIsPlaying(!isPlaying)}
+                >
+                  {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+                </Button>
+                <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full hover:bg-muted/30">
+                  <SkipForward className="w-4 h-4" />
+                </Button>
+              </div>
+              <div className="hidden md:flex items-center gap-2">
+                <Volume2 className="w-4 h-4 text-muted-foreground" />
+                <input 
+                  type="range" 
+                  min="0" 
+                  max="100" 
+                  value={volume}
+                  onChange={(e) => setVolume(Number(e.target.value))}
+                  className="w-16 h-1 bg-muted rounded-full appearance-none cursor-pointer"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Hero Section */}
+          <div className="glass-card-strong rounded-2xl p-6 text-center lg:text-left">
+            <h1 className="text-3xl lg:text-4xl font-bold mb-2">
+              <span className="life-limits-gradient">Life to no Limits</span>
+            </h1>
+            <p className="text-muted-foreground text-sm max-w-xl">
+              Passionate developer specializing in Python, Discord bots, and full-stack web development.
+              Currently in Year 11, preparing for IGCSE examinations.
+            </p>
+            
+            {/* Connections */}
+            <div className="flex items-center gap-3 mt-4 justify-center lg:justify-start">
+              {connections.map((conn, i) => (
+                <a
+                  key={i}
+                  href={conn.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glass-card connection-icon rounded-full p-3 hover-glow"
+                  style={{ '--glow-color': conn.color } as React.CSSProperties}
+                >
+                  {conn.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Main Content Grid */}
+          <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-0 overflow-hidden">
+            {/* Skills */}
+            <div className="glass-card-strong rounded-2xl p-4 overflow-hidden flex flex-col">
+              <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                <Code className="w-4 h-4 text-primary" />
+                Technologies
+              </h3>
+              <div className="flex flex-wrap gap-2 overflow-y-auto no-scrollbar flex-1">
+                {Object.entries(skillIcons).map(([skill, icon]) => (
+                  <Badge 
+                    key={skill}
+                    variant="secondary" 
+                    className="text-xs rounded-full px-3 py-1 glass-card border-0 flex items-center gap-1.5 hover-glow cursor-default"
+                  >
+                    <img src={icon} alt={skill} className="w-3 h-3" onError={(e) => e.currentTarget.style.display = 'none'} />
+                    {skill}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            {/* Projects */}
+            <div className="glass-card-strong rounded-2xl p-4 overflow-hidden flex flex-col">
+              <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                <FolderOpen className="w-4 h-4 text-primary" />
+                Projects
+              </h3>
+              <div className="space-y-2 overflow-y-auto no-scrollbar flex-1">
+                {projects.map((project, i) => (
+                  <div key={i} className="glass-card rounded-xl p-3 hover-glow transition-all">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        {project.link ? (
+                          <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-sm font-medium hover:text-primary transition-colors flex items-center gap-1">
+                            {project.title}
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        ) : (
+                          <p className="text-sm font-medium">{project.title}</p>
+                        )}
+                        <p className="text-xs text-muted-foreground truncate">{project.description}</p>
+                      </div>
+                      <Badge variant={project.status === "Active" ? "default" : "secondary"} className="text-[10px] shrink-0">
+                        {project.status}
+                      </Badge>
                     </div>
                   </div>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
+          </div>
+        </div>
 
-            {/* Projects Section */}
-            <Card className="border-border bg-card shadow-lg" id="projects">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl">
-                  <FolderOpen className="h-5 w-5 mr-2 text-primary" />
-                  Projects
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                 <div className="grid gap-4">
-                   {projects.map((project, index) => (
-                     <div key={index} className="border border-border/20 rounded-xl p-5 hover:bg-accent/30 hover:border-primary/30 transition-all duration-300 bg-card/20">
-                       <div className="flex justify-between items-start mb-3">
-                         <div>
-                           <h4 className="font-semibold text-lg">
-                             {project.link ? (
-                               <a 
-                                 href={project.link} 
-                                 target="_blank" 
-                                 rel="noopener noreferrer"
-                                 className="hover:text-primary transition-colors"
-                               >
-                                 {project.title}
-                               </a>
-                             ) : (
-                               project.title
-                             )}
-                           </h4>
-                           <p className="text-sm text-primary font-medium">{project.role}</p>
-                         </div>
-                        <div className="flex items-center space-x-2">
-                          <Badge variant="outline" className="text-xs rounded-full">
-                            {project.type}
-                          </Badge>
-                          <Badge 
-                            variant={project.status === "Active" ? "default" : "secondary"} 
-                            className="text-xs rounded-full"
-                          >
-                            {project.status}
-                          </Badge>
-                        </div>
-                      </div>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{project.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+        {/* Right Sidebar - Awards & Education */}
+        <div className="hidden xl:flex w-72 flex-col gap-4 shrink-0">
+          {/* Awards */}
+          <div className="glass-card-strong rounded-2xl p-4">
+            <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+              <Award className="w-4 h-4 text-primary" />
+              Awards
+            </h3>
+            <div className="space-y-2">
+              <div className="glass-card rounded-lg p-3">
+                <p className="text-xs font-medium">CAIE Award</p>
+                <p className="text-[10px] text-muted-foreground">Information Communication & Technology</p>
+              </div>
+              <div className="glass-card rounded-lg p-3">
+                <p className="text-xs font-medium">CAIE Award</p>
+                <p className="text-[10px] text-muted-foreground">English Language</p>
+              </div>
+            </div>
+          </div>
 
-            {/* Education Section */}
-            <Card className="border-border bg-card shadow-lg" id="work">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl">
-                  <GraduationCap className="h-5 w-5 mr-2 text-primary" />
-                  Education
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div className="p-4 rounded-xl bg-accent/20 border border-border/30">
-                    <h4 className="font-semibold text-lg">High School - Year 11</h4>
-                    <p className="text-sm text-muted-foreground mt-1">Currently preparing for IGCSE examinations</p>
-                    <p className="text-sm text-primary font-medium mt-2">
-                      Head of Database Development and IT Team
-                    </p>
-                  </div>
-                  <div className="p-4 rounded-xl bg-accent/10 border border-border/20">
-                    <h4 className="font-semibold text-lg">Future Studies</h4>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Planning to pursue Software Engineering in the University of Kentucky
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Education */}
+          <div className="glass-card-strong rounded-2xl p-4 flex-1">
+            <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+              <GraduationCap className="w-4 h-4 text-primary" />
+              Education
+            </h3>
+            <div className="space-y-3">
+              <div className="glass-card rounded-lg p-3">
+                <p className="text-xs font-medium">High School - Year 11</p>
+                <p className="text-[10px] text-muted-foreground">Preparing for IGCSE</p>
+                <p className="text-[10px] text-primary mt-1">Head of Database Development</p>
+              </div>
+              <div className="glass-card rounded-lg p-3">
+                <p className="text-xs font-medium">Future Studies</p>
+                <p className="text-[10px] text-muted-foreground">Software Engineering @ University of Kentucky</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Location & Languages */}
+          <div className="glass-card-strong rounded-2xl p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xl">🇬🇧</span>
+              <div>
+                <p className="text-xs font-medium">London, UK</p>
+                <p className="text-[10px] text-muted-foreground">English (Native), French (10+ yrs)</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
