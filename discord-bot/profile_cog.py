@@ -1,18 +1,21 @@
 """
-Profile Tracking Cog for Discord Bot
+Profile Tracking Cog for Discord Bot with Flask API Server
 Tracks and stores Discord/Roblox profile data for drift.rip style display.
 Updates profile picture and data every 2 days automatically.
+Serves data via HTTP API at /api/profile
 
 Setup:
 1. Add this cog to your existing Discord bot
 2. Create a 'profile_data.json' file in your bot's directory
 3. The bot will automatically update data every 2 days
 4. Use !profile or /profile to manually trigger an update
+5. API is served at http://your-ip:25566/api/profile
 
 Requirements:
 - discord.py 2.0+
 - aiohttp
-- Pillow (for avatar processing)
+- flask
+- flask-cors
 """
 
 import discord
@@ -24,12 +27,61 @@ import os
 from datetime import datetime, timedelta
 from typing import Optional
 import asyncio
+import threading
+from flask import Flask, jsonify
+from flask_cors import CORS
 
 # Configuration - Update these with your IDs
 DISCORD_USER_ID = 822804221425614903
 ROBLOX_USER_ID = 1610763045
 DATA_FILE = "profile_data.json"
 UPDATE_INTERVAL_DAYS = 2
+API_PORT = 25566
+API_HOST = "0.0.0.0"
+
+# Flask app for API
+api_app = Flask(__name__)
+CORS(api_app)  # Enable CORS for all routes
+
+def get_profile_data():
+    """Load profile data from JSON file for API."""
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, 'r') as f:
+            return json.load(f)
+    return {
+        "last_update": None,
+        "discord": {},
+        "roblox": {}
+    }
+
+@api_app.route('/api/profile', methods=['GET'])
+def profile_endpoint():
+    """API endpoint to get profile data."""
+    data = get_profile_data()
+    return jsonify(data)
+
+@api_app.route('/api/profile/discord', methods=['GET'])
+def discord_endpoint():
+    """API endpoint to get Discord data only."""
+    data = get_profile_data()
+    return jsonify(data.get("discord", {}))
+
+@api_app.route('/api/profile/roblox', methods=['GET'])
+def roblox_endpoint():
+    """API endpoint to get Roblox data only."""
+    data = get_profile_data()
+    return jsonify(data.get("roblox", {}))
+
+@api_app.route('/api/health', methods=['GET'])
+def health_check():
+    """Health check endpoint."""
+    return jsonify({"status": "ok", "timestamp": datetime.now().isoformat()})
+
+
+def run_flask():
+    """Run Flask server in a separate thread."""
+    api_app.run(host=API_HOST, port=API_PORT, debug=False, use_reloader=False)
+
 
 class ProfileCog(commands.Cog):
     """Cog to track and update profile data for portfolio display."""
@@ -39,6 +91,11 @@ class ProfileCog(commands.Cog):
         self.session: Optional[aiohttp.ClientSession] = None
         self.profile_data = self.load_data()
         self.auto_update.start()
+        
+        # Start Flask API server in a separate thread
+        self.api_thread = threading.Thread(target=run_flask, daemon=True)
+        self.api_thread.start()
+        print(f"[ProfileCog] API server started at http://{API_HOST}:{API_PORT}/api/profile")
     
     def cog_unload(self):
         self.auto_update.cancel()
@@ -53,8 +110,7 @@ class ProfileCog(commands.Cog):
         return {
             "last_update": None,
             "discord": {},
-            "roblox": {},
-            "spotify": {}
+            "roblox": {}
         }
     
     def save_data(self):
@@ -107,7 +163,7 @@ class ProfileCog(commands.Cog):
             return {}
     
     async def fetch_roblox_data(self) -> dict:
-        """Fetch Roblox user data using Roblox API."""
+        """Fetch Roblox user data using Roblox API with OpenCloud thumbnail."""
         session = await self.get_session()
         
         try:
@@ -120,9 +176,10 @@ class ProfileCog(commands.Cog):
                 else:
                     return {}
             
-            # Fetch avatar headshot
+            # Fetch avatar using OpenCloud API (thumbnail service)
+            # This uses the v1 thumbnails API which is publicly accessible
             async with session.get(
-                f"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={ROBLOX_USER_ID}&size=150x150&format=Png"
+                f"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds={ROBLOX_USER_ID}&size=420x420&format=Png&isCircular=false"
             ) as resp:
                 if resp.status == 200:
                     avatar_data = await resp.json()
@@ -188,6 +245,7 @@ class ProfileCog(commands.Cog):
         
         self.save_data()
         print(f"[ProfileCog] Profile data updated successfully")
+        print(f"[ProfileCog] Data available at http://{API_HOST}:{API_PORT}/api/profile")
         
         return self.profile_data
     
@@ -232,7 +290,7 @@ class ProfileCog(commands.Cog):
         # Build response embed
         embed = discord.Embed(
             title="✅ Profile Data Updated",
-            description=f"Last update: {data['last_update']}",
+            description=f"Last update: {data['last_update']}\n\n**API Endpoint:** `http://209.74.83.91:{API_PORT}/api/profile`",
             color=discord.Color.green()
         )
         
@@ -256,7 +314,7 @@ class ProfileCog(commands.Cog):
                 inline=True
             )
         
-        embed.set_footer(text=f"Auto-updates every {UPDATE_INTERVAL_DAYS} days")
+        embed.set_footer(text=f"Auto-updates every {UPDATE_INTERVAL_DAYS} days | API on port {API_PORT}")
         
         await msg.edit(embed=embed)
     
@@ -301,11 +359,39 @@ class ProfileCog(commands.Cog):
         
         embed.set_footer(text="Use these URLs in your portfolio to always show current avatars")
         await ctx.send(embed=embed)
+    
+    @commands.hybrid_command(name="apiinfo", description="Get API endpoint information")
+    async def apiinfo(self, ctx: commands.Context):
+        """Display API endpoint information."""
+        embed = discord.Embed(
+            title="🌐 Profile API Information",
+            color=discord.Color.blue()
+        )
+        
+        embed.add_field(
+            name="Main Endpoint",
+            value=f"`http://209.74.83.91:{API_PORT}/api/profile`",
+            inline=False
+        )
+        embed.add_field(
+            name="Discord Only",
+            value=f"`http://209.74.83.91:{API_PORT}/api/profile/discord`",
+            inline=True
+        )
+        embed.add_field(
+            name="Roblox Only",
+            value=f"`http://209.74.83.91:{API_PORT}/api/profile/roblox`",
+            inline=True
+        )
+        embed.add_field(
+            name="Health Check",
+            value=f"`http://209.74.83.91:{API_PORT}/api/health`",
+            inline=True
+        )
+        
+        embed.set_footer(text=f"Server running on port {API_PORT}")
+        await ctx.send(embed=embed)
 
-
-# ========== API Endpoint (Optional) ==========
-# If you want to serve this data via an API endpoint,
-# you can add a simple Flask/FastAPI server or use Discord webhooks
 
 async def setup(bot: commands.Bot):
     """Setup function for loading the cog."""
