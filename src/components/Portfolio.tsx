@@ -9,11 +9,11 @@ import backgroundImage from "@/assets/background.jpg";
 import robloxBanner from "@/assets/roblox-banner.png";
 import avatarImage from "@/assets/avatar.png";
 import AudioPlayer from "@/components/AudioPlayer";
+import { supabase } from "@/integrations/supabase/client";
 
 // Discord & Roblox IDs for integration
 const DISCORD_ID = "822804221425614903";
 const ROBLOX_ID = "1610763045";
-const API_ENDPOINT = "http://209.74.83.91:25566/api/profile"; // Note: may be blocked on HTTPS due to mixed content
 
 // Technology skills with progress percentages
 const TECH_SKILLS = [
@@ -86,12 +86,19 @@ const Portfolio = () => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // Fetch all profile data from bot API (Discord + Roblox)
+    // Fetch all profile data via edge function proxy (Discord + Roblox)
     const fetchProfileData = async () => {
       try {
-        const response = await fetch(API_ENDPOINT);
-        if (response.ok) {
-          const data = await response.json();
+        console.log("Fetching profile data via edge function...");
+        const { data, error } = await supabase.functions.invoke('profile-proxy');
+        
+        if (error) {
+          console.error("Edge function error:", error);
+          return;
+        }
+        
+        if (data) {
+          console.log("Profile data received:", data);
           setProfileData(data);
           
           // Update favicon with Discord avatar
@@ -101,7 +108,7 @@ const Portfolio = () => {
           }
         }
       } catch (error) {
-        console.log("Bot API unavailable, using fallback data");
+        console.log("Failed to fetch profile data:", error);
       }
     };
 

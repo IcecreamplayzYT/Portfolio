@@ -1,0 +1,4 @@
+project_id = "czbzbqxoohkkoopkvpxi"
+
+[functions.profile-proxy]
+verify_jwt = false
