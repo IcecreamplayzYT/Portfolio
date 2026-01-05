@@ -158,6 +158,7 @@
 
 // export default AudioPlayer;
 
+
 import React, { useState, useRef, useEffect } from "react";
 import { Play, Pause, Volume2, VolumeX, MoreVertical, Music } from "lucide-react";
 
@@ -236,72 +237,82 @@ const AudioPlayer = () => {
   const progress = duration ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div className="rounded-xl overflow-hidden" style={{ backgroundColor: "hsl(240 6% 20%)" }}>
-      <audio ref={audioRef} src="/music/smooth-operator.mp3" preload="auto" />
-      
-      <div className="flex items-center gap-3 p-3">
-        {/* Album Art / Music Icon */}
-        <div 
-          className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0"
-          style={{ backgroundColor: "hsl(270 50% 35%)" }}
-        >
-          <Music className="w-6 h-6 text-purple-300" />
-        </div>
-
-        {/* Track Info & Controls */}
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-white truncate">Smooth Operator</p>
-          <p className="text-xs text-gray-400">Sade</p>
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="rounded-xl overflow-hidden" style={{ backgroundColor: "hsl(240 6% 20%)" }}>
+          <audio ref={audioRef} src="/music/smooth-operator.mp3" preload="auto" crossOrigin="anonymous" />
           
-          {/* Playback Controls */}
-          <div className="flex items-center gap-2 mt-1">
-            {/* Play/Pause Button */}
-            <button 
-              onClick={togglePlay}
-              className="w-6 h-6 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
-            >
-              {isPlaying ? (
-                <Pause className="w-4 h-4" />
-              ) : (
-                <Play className="w-4 h-4" />
-              )}
-            </button>
-
-            {/* Time Display */}
-            <span className="text-[10px] text-gray-400 tabular-nums">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </span>
-
-            {/* Progress Bar */}
+          <div className="flex items-center gap-3 p-3">
+            {/* Album Art / Music Icon */}
             <div 
-              className="flex-1 h-1 bg-gray-600 rounded-full cursor-pointer group"
-              onClick={handleSeek}
+              className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0"
+              style={{ backgroundColor: "hsl(270 50% 35%)" }}
             >
-              <div 
-                className="h-full bg-gray-300 rounded-full relative transition-all"
-                style={{ width: `${progress}%` }}
-              >
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
+              <Music className="w-6 h-6 text-purple-300" />
             </div>
 
-            {/* Volume Button */}
-            <button 
-              onClick={toggleMute}
-              className="w-6 h-6 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
-            >
-              {isMuted ? (
-                <VolumeX className="w-4 h-4" />
-              ) : (
-                <Volume2 className="w-4 h-4" />
-              )}
-            </button>
+            {/* Track Info & Controls */}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-white truncate">Smooth Operator</p>
+              <p className="text-xs text-gray-400">Sade</p>
+              
+              {/* Playback Controls */}
+              <div className="flex items-center gap-2 mt-1">
+                {/* Play/Pause Button */}
+                <button 
+                  onClick={togglePlay}
+                  className="w-6 h-6 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
+                >
+                  {isPlaying ? (
+                    <Pause className="w-4 h-4" />
+                  ) : (
+                    <Play className="w-4 h-4" />
+                  )}
+                </button>
 
-            {/* More Options */}
-            <button className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white transition-colors">
-              <MoreVertical className="w-4 h-4" />
-            </button>
+                {/* Time Display */}
+                <span className="text-[10px] text-gray-400 tabular-nums">
+                  {formatTime(currentTime)} / {formatTime(duration)}
+                </span>
+
+                {/* Progress Bar */}
+                <div 
+                  className="flex-1 h-1 bg-gray-600 rounded-full cursor-pointer group"
+                  onClick={handleSeek}
+                >
+                  <div 
+                    className="h-full bg-gray-300 rounded-full relative transition-all"
+                    style={{ width: `${progress}%` }}
+                  >
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </div>
+
+                {/* Volume Button */}
+                <button 
+                  onClick={toggleMute}
+                  className="w-6 h-6 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
+                >
+                  {isMuted ? (
+                    <VolumeX className="w-4 h-4" />
+                  ) : (
+                    <Volume2 className="w-4 h-4" />
+                  )}
+                </button>
+
+                {/* More Options */}
+                <button className="w-6 h-6 flex items-center justify-center text-gray-400 hover:text-white transition-colors">
+                  <MoreVertical className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
           </div>
+        </div>
+        
+        <div className="mt-4 text-center text-gray-400 text-sm">
+          <p>Make sure your MP3 file is located at:</p>
+          <p className="text-gray-300 font-mono mt-1">public/music/smooth-operator.mp3</p>
+          <p className="mt-2 text-xs">Check browser console (F12) for any errors</p>
         </div>
       </div>
     </div>
