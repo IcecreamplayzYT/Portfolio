@@ -85,50 +85,7 @@ const Portfolio = () => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // Fetch Roblox data directly from Roblox API as primary source
-    const fetchRobloxData = async () => {
-      try {
-        // Fetch user info
-        const userRes = await fetch(`https://users.roblox.com/v1/users/${ROBLOX_ID}`);
-        const userData = userRes.ok ? await userRes.json() : null;
-        
-        // Fetch avatar
-        const avatarRes = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=420x420&format=Png&isCircular=false`);
-        const avatarData = avatarRes.ok ? await avatarRes.json() : null;
-        const avatarUrl = avatarData?.data?.[0]?.imageUrl || null;
-        
-        // Fetch friends count
-        const friendsRes = await fetch(`https://friends.roblox.com/v1/users/${ROBLOX_ID}/friends/count`);
-        const friendsData = friendsRes.ok ? await friendsRes.json() : { count: 0 };
-        
-        // Fetch followers count
-        const followersRes = await fetch(`https://friends.roblox.com/v1/users/${ROBLOX_ID}/followers/count`);
-        const followersData = followersRes.ok ? await followersRes.json() : { count: 0 };
-        
-        // Fetch following count
-        const followingRes = await fetch(`https://friends.roblox.com/v1/users/${ROBLOX_ID}/followings/count`);
-        const followingData = followingRes.ok ? await followingRes.json() : { count: 0 };
-        
-        if (userData) {
-          setProfileData(prev => ({
-            ...prev,
-            roblox: {
-              user_id: Number(ROBLOX_ID),
-              username: userData.name,
-              display_name: userData.displayName,
-              avatar_url: avatarUrl,
-              friends_count: friendsData.count || 0,
-              followers_count: followersData.count || 0,
-              following_count: followingData.count || 0,
-            }
-          }));
-        }
-      } catch (error) {
-        console.log("Error fetching Roblox data directly:", error);
-      }
-    };
-
-    // Fetch profile data from bot API (for Discord data)
+    // Fetch all profile data from bot API (Discord + Roblox)
     const fetchProfileData = async () => {
       try {
         const response = await fetch(API_ENDPOINT);
@@ -143,13 +100,11 @@ const Portfolio = () => {
           }
         }
       } catch (error) {
-        console.log("Bot API unavailable");
+        console.log("Bot API unavailable, using fallback data");
       }
     };
 
-    // Fetch both sources
     fetchProfileData();
-    fetchRobloxData();
 
     return () => window.removeEventListener('resize', checkMobile);
   }, [currentYear]);
@@ -200,7 +155,7 @@ const Portfolio = () => {
   if (isMobile) {
     return (
       <div 
-        className="min-h-screen w-screen overflow-x-hidden relative"
+        className="min-h-screen w-screen overflow-x-hidden overflow-y-auto relative"
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
@@ -208,9 +163,9 @@ const Portfolio = () => {
           backgroundAttachment: 'fixed',
         }}
       >
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/50 pointer-events-none" />
 
-        <div className="relative z-10 p-4 space-y-4 pb-24">
+        <div className="relative z-10 p-4 space-y-4 pb-24 overflow-y-auto">
           {/* Custom Audio Player */}
           <AudioPlayer 
             src="/music/smooth-operator.mp3"
