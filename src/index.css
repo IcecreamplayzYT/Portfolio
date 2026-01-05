@@ -207,8 +207,17 @@
   50% { transform: translateY(-5px); }
 }
 
-/* Full viewport height with no overflow */
+/* Full viewport height with no overflow (desktop) */
 html, body, #root {
   height: 100%;
   overflow: hidden;
+}
+
+/* Allow scrolling on mobile */
+@media (max-width: 767px) {
+  html, body, #root {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
 }
