@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import backgroundImage from "@/assets/background.jpg";
 import robloxBanner from "@/assets/roblox-banner.png";
+import AudioPlayer from "@/components/AudioPlayer";
 
 // Discord & Roblox IDs for integration
 const DISCORD_ID = "822804221425614903";
@@ -130,15 +131,9 @@ const Portfolio = () => {
     // Fetch profile data from bot API (for Discord data)
     const fetchProfileData = async () => {
       try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
-        
-        const response = await fetch(API_ENDPOINT, { signal: controller.signal });
-        clearTimeout(timeoutId);
-        
+        const response = await fetch(API_ENDPOINT);
         if (response.ok) {
           const data = await response.json();
-          console.log("Profile data from API:", data);
           setProfileData(data);
           
           // Update favicon with Discord avatar
@@ -148,7 +143,7 @@ const Portfolio = () => {
           }
         }
       } catch (error) {
-        console.log("Bot API not available, using Roblox API directly");
+        console.log("Bot API unavailable");
       }
     };
 
@@ -216,21 +211,12 @@ const Portfolio = () => {
         <div className="absolute inset-0 bg-black/50" />
 
         <div className="relative z-10 p-4 space-y-4 pb-24">
-          {/* Local Audio Player */}
-          <div className="glass-card-strong rounded-2xl p-3 overflow-hidden">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center shrink-0">
-                <span className="text-lg">🎵</span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-medium truncate">Smooth Operator</p>
-                <p className="text-[10px] text-muted-foreground">Sade</p>
-                <audio controls className="w-full h-6 mt-1" loop>
-                  <source src="/music/smooth-operator.mp3" type="audio/mpeg" />
-                </audio>
-              </div>
-            </div>
-          </div>
+          {/* Custom Audio Player */}
+          <AudioPlayer 
+            src="/music/smooth-operator.mp3"
+            title="Smooth Operator"
+            artist="Sade"
+          />
 
           {/* Profile Card */}
           <div className="glass-card-strong rounded-2xl p-4">
@@ -570,23 +556,14 @@ const Portfolio = () => {
 
         {/* Center Content */}
         <div className="flex-1 flex flex-col gap-4 min-w-0 overflow-hidden">
-          {/* Top Bar with Local Audio Player */}
+          {/* Top Bar with Custom Audio Player */}
           <div className="flex items-center justify-end gap-4">
-            {/* Local Audio Player */}
-            <div className="glass-card-strong rounded-2xl p-3 overflow-hidden max-w-md w-full">
-              <div className="flex items-center gap-3">
-                <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center shrink-0">
-                  <span className="text-xl">🎵</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">Smooth Operator</p>
-                  <p className="text-xs text-muted-foreground">Sade</p>
-                  <audio controls className="w-full h-7 mt-1" loop>
-                    <source src="/music/smooth-operator.mp3" type="audio/mpeg" />
-                  </audio>
-                </div>
-              </div>
-            </div>
+            <AudioPlayer 
+              src="/music/smooth-operator.mp3"
+              title="Smooth Operator"
+              artist="Sade"
+              className="max-w-md w-full"
+            />
           </div>
 
           {/* Hero Section */}
