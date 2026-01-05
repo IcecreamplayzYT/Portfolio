@@ -33,6 +33,7 @@ const Portfolio = () => {
   const [yearsOfExperience, setYearsOfExperience] = useState(3);
   const [techIndex, setTechIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Profile data from API
   const [profileData, setProfileData] = useState<{
@@ -86,6 +87,11 @@ const Portfolio = () => {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
+    // Loading timer - show loading screen for 1 second
+    const loadingTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
     // Fetch all profile data via edge function proxy (Discord + Roblox)
     const fetchProfileData = async () => {
       try {
@@ -114,7 +120,10 @@ const Portfolio = () => {
 
     fetchProfileData();
 
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      clearTimeout(loadingTimer);
+    };
   }, [currentYear]);
 
   // Get visible skills (3 at a time, infinite loop)
@@ -158,6 +167,26 @@ const Portfolio = () => {
     }
     return avatarImage;
   };
+
+  // Loading Screen
+  if (isLoading) {
+    return (
+      <div 
+        className="h-screen w-screen flex items-center justify-center relative"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="absolute inset-0 bg-black/70" />
+        <div className="relative z-10 flex flex-col items-center gap-4">
+          <div className="w-16 h-16 rounded-full border-4 border-primary/30 border-t-primary animate-spin" />
+          <p className="text-muted-foreground text-sm animate-pulse">Loading profile...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Mobile Layout
   if (isMobile) {
