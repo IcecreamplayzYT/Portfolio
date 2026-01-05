@@ -7,12 +7,13 @@ import {
 } from "lucide-react";
 import backgroundImage from "@/assets/background.jpg";
 import robloxBanner from "@/assets/roblox-banner.png";
+import avatarImage from "@/assets/avatar.png";
 import AudioPlayer from "@/components/AudioPlayer";
 
 // Discord & Roblox IDs for integration
 const DISCORD_ID = "822804221425614903";
 const ROBLOX_ID = "1610763045";
-const API_ENDPOINT = "http://209.74.83.91:25566/api/profile";
+const API_ENDPOINT = "http://209.74.83.91:25566/api/profile"; // Note: may be blocked on HTTPS due to mixed content
 
 // Technology skills with progress percentages
 const TECH_SKILLS = [
@@ -143,12 +144,12 @@ const Portfolio = () => {
     { name: "Email", icon: <Mail className="w-5 h-5" />, url: "mailto:tonasamya@gmail.com", color: "#EA4335" },
   ];
 
-  // Get Roblox avatar URL via the Roblox API (uses their thumbnail service)
+  // Get Roblox avatar URL (avoid thumbnails.roblox.com to prevent rate limits)
   const getRobloxAvatar = () => {
     if (robloxData.avatar_url && robloxData.avatar_url.startsWith('http')) {
       return robloxData.avatar_url;
     }
-    return `https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${ROBLOX_ID}&size=150x150&format=Png`;
+    return avatarImage;
   };
 
   // Mobile Layout
