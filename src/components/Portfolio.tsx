@@ -13,12 +13,18 @@ const DISCORD_ID = "822804221425614903";
 const ROBLOX_ID = "1610763045";
 const API_ENDPOINT = "http://209.74.83.91:25566/api/profile";
 
-// Spotify Track: "Smooth Operator" by Sade
-const SPOTIFY_TRACK = {
-  id: "4eU6Dvqjlpmp1UbQoMcRMm",
-  title: "Smooth Operator",
-  artist: "Sade",
-};
+// Technology skills with progress percentages
+const TECH_SKILLS = [
+  { name: "JavaScript", progress: 48, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" },
+  { name: "TypeScript", progress: 76, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" },
+  { name: "SQL", progress: 31, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg" },
+  { name: "MongoDB", progress: 100, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg" },
+  { name: "Supabase", progress: 83, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/supabase/supabase-original.svg" },
+  { name: "Firebase", progress: 68, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg" },
+  { name: "Discord Bot", progress: 88, icon: "https://cdn.simpleicons.org/discord/blurple" },
+  { name: "Roblox Scripting", progress: 58, icon: "https://cdn.simpleicons.org/roblox/white" },
+  { name: "React", progress: 64, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" },
+];
 
 const Portfolio = () => {
   const [currentYear] = useState(new Date().getFullYear());
@@ -153,25 +159,24 @@ const Portfolio = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, [currentYear]);
 
-  const skillIcons: { [key: string]: string } = {
-    "Python": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
-    "HTML": "https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg",
-    "Tailwind CSS": "https://cdn.simpleicons.org/tailwindcss/cobalt",
-    "JavaScript": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
-    "TypeScript": "https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg",
-    "MySQL": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg",
-    "MongoDB": "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg",
-    "Supabase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/supabase/supabase-original.svg",
-    "Firebase": "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg",
-    "Discord Bot": "https://cdn.simpleicons.org/discord/blurple",
-    "Roblox": "https://cdn.simpleicons.org/roblox/white",
-    "React": "https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg",
+  // Get visible skills (3 at a time, infinite loop)
+  const getVisibleSkills = () => {
+    const skills = [];
+    for (let i = 0; i < 3; i++) {
+      const index = (techIndex + i) % TECH_SKILLS.length;
+      skills.push(TECH_SKILLS[index]);
+    }
+    return skills;
+  };
+  const visibleSkills = getVisibleSkills();
+
+  const handlePrevTech = () => {
+    setTechIndex((prev) => (prev - 1 + TECH_SKILLS.length) % TECH_SKILLS.length);
   };
 
-  const skillsArray = Object.entries(skillIcons);
-  const visibleSkills = skillsArray.slice(techIndex, techIndex + 3);
-  const canScrollLeft = techIndex > 0;
-  const canScrollRight = techIndex + 3 < skillsArray.length;
+  const handleNextTech = () => {
+    setTechIndex((prev) => (prev + 1) % TECH_SKILLS.length);
+  };
 
   const projects = [
     { title: "Anti Nuke Bot", role: "Developer / Management", description: "Ultimate Discord Protection with over 1.5M users.", status: "Active", type: "Discord Bot", link: "https://discord.gg/R8jdmteT7X" },
@@ -211,18 +216,20 @@ const Portfolio = () => {
         <div className="absolute inset-0 bg-black/50" />
 
         <div className="relative z-10 p-4 space-y-4 pb-24">
-          {/* Spotify Player - Real Embed */}
-          <div className="glass-card-strong rounded-2xl p-2 overflow-hidden">
-            <iframe 
-              src={`https://open.spotify.com/embed/track/${SPOTIFY_TRACK.id}?utm_source=generator&theme=0`}
-              width="100%" 
-              height="80" 
-              frameBorder="0" 
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-              loading="lazy"
-              className="rounded-xl"
-              style={{ borderRadius: '12px' }}
-            />
+          {/* Local Audio Player */}
+          <div className="glass-card-strong rounded-2xl p-3 overflow-hidden">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center shrink-0">
+                <span className="text-lg">🎵</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-medium truncate">Smooth Operator</p>
+                <p className="text-[10px] text-muted-foreground">Sade</p>
+                <audio controls className="w-full h-6 mt-1" loop>
+                  <source src="/music/smooth-operator.mp3" type="audio/mpeg" />
+                </audio>
+              </div>
+            </div>
           </div>
 
           {/* Profile Card */}
@@ -324,39 +331,37 @@ const Portfolio = () => {
             </div>
           </div>
 
-          {/* Technologies Carousel */}
+          {/* Technologies Progress */}
           <div className="glass-card-strong rounded-2xl p-4">
             <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
               <Code className="w-4 h-4 text-primary" />
-              Technologies
+              Technologies Progress
             </h3>
             <div className="flex items-center gap-2">
               <Button 
                 variant="ghost" 
                 size="icon" 
                 className="w-8 h-8 rounded-full glass-card shrink-0"
-                onClick={() => setTechIndex(Math.max(0, techIndex - 1))}
-                disabled={!canScrollLeft}
+                onClick={handlePrevTech}
               >
                 <ChevronLeft className="w-4 h-4" />
               </Button>
-              <div className="flex-1 grid grid-cols-3 gap-2">
-                {visibleSkills.map(([skill, icon]) => (
-                  <div 
-                    key={skill}
-                    className="glass-card rounded-xl p-3 flex flex-col items-center justify-center gap-2 hover-glow cursor-default transition-all hover:scale-105"
-                  >
-                    <div className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10">
-                      <img 
-                        src={icon} 
-                        alt={skill} 
-                        className="w-5 h-5 object-contain" 
-                        onError={(e) => e.currentTarget.style.display = 'none'} 
+              <div className="flex-1 space-y-3">
+                {visibleSkills.map((skill) => (
+                  <div key={skill.name} className="glass-card rounded-xl p-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <img src={skill.icon} alt={skill.name} className="w-4 h-4" onError={(e) => e.currentTarget.style.display = 'none'} />
+                        <span className="text-xs font-medium">{skill.name}</span>
+                      </div>
+                      <span className="text-xs text-primary font-bold">{skill.progress}%</span>
+                    </div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-primary to-primary/60 rounded-full transition-all duration-500"
+                        style={{ width: `${skill.progress}%` }}
                       />
                     </div>
-                    <span className="text-[9px] font-medium text-center text-muted-foreground leading-tight">
-                      {skill}
-                    </span>
                   </div>
                 ))}
               </div>
@@ -364,8 +369,7 @@ const Portfolio = () => {
                 variant="ghost" 
                 size="icon" 
                 className="w-8 h-8 rounded-full glass-card shrink-0"
-                onClick={() => setTechIndex(Math.min(skillsArray.length - 3, techIndex + 1))}
-                disabled={!canScrollRight}
+                onClick={handleNextTech}
               >
                 <ChevronRight className="w-4 h-4" />
               </Button>
@@ -566,20 +570,22 @@ const Portfolio = () => {
 
         {/* Center Content */}
         <div className="flex-1 flex flex-col gap-4 min-w-0 overflow-hidden">
-          {/* Top Bar with Real Spotify Embed */}
+          {/* Top Bar with Local Audio Player */}
           <div className="flex items-center justify-end gap-4">
-            {/* Spotify Player - Real Embed */}
-            <div className="glass-card-strong rounded-2xl p-2 overflow-hidden max-w-lg w-full">
-              <iframe 
-                src={`https://open.spotify.com/embed/track/${SPOTIFY_TRACK.id}?utm_source=generator&theme=0`}
-                width="100%" 
-                height="80" 
-                frameBorder="0" 
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                loading="lazy"
-                className="rounded-xl"
-                style={{ borderRadius: '12px' }}
-              />
+            {/* Local Audio Player */}
+            <div className="glass-card-strong rounded-2xl p-3 overflow-hidden max-w-md w-full">
+              <div className="flex items-center gap-3">
+                <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center shrink-0">
+                  <span className="text-xl">🎵</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">Smooth Operator</p>
+                  <p className="text-xs text-muted-foreground">Sade</p>
+                  <audio controls className="w-full h-7 mt-1" loop>
+                    <source src="/music/smooth-operator.mp3" type="audio/mpeg" />
+                  </audio>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -612,39 +618,37 @@ const Portfolio = () => {
 
           {/* Main Content Grid */}
           <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-0 overflow-hidden">
-            {/* Skills - Carousel Style */}
+            {/* Skills - Progress Bars */}
             <div className="glass-card-strong rounded-2xl p-4 overflow-hidden flex flex-col">
               <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
                 <Code className="w-4 h-4 text-primary" />
-                Technologies
+                Technologies Progress
               </h3>
               <div className="flex items-center gap-3 flex-1">
                 <Button 
                   variant="ghost" 
                   size="icon" 
                   className="w-8 h-8 rounded-full glass-card shrink-0"
-                  onClick={() => setTechIndex(Math.max(0, techIndex - 1))}
-                  disabled={!canScrollLeft}
+                  onClick={handlePrevTech}
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </Button>
-                <div className="flex-1 grid grid-cols-3 gap-3">
-                  {visibleSkills.map(([skill, icon]) => (
-                    <div 
-                      key={skill}
-                      className="glass-card rounded-xl p-4 flex flex-col items-center justify-center gap-3 hover-glow cursor-default transition-all hover:scale-105 group"
-                    >
-                      <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/10 group-hover:bg-white/20 transition-colors">
-                        <img 
-                          src={icon} 
-                          alt={skill} 
-                          className="w-7 h-7 object-contain" 
-                          onError={(e) => e.currentTarget.style.display = 'none'} 
+                <div className="flex-1 space-y-3">
+                  {visibleSkills.map((skill) => (
+                    <div key={skill.name} className="glass-card rounded-xl p-3 hover-glow transition-all">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <img src={skill.icon} alt={skill.name} className="w-5 h-5" onError={(e) => e.currentTarget.style.display = 'none'} />
+                          <span className="text-sm font-medium">{skill.name}</span>
+                        </div>
+                        <span className="text-sm text-primary font-bold">{skill.progress}%</span>
+                      </div>
+                      <div className="h-2.5 bg-muted rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-primary to-primary/60 rounded-full transition-all duration-500"
+                          style={{ width: `${skill.progress}%` }}
                         />
                       </div>
-                      <span className="text-xs font-medium text-center text-muted-foreground group-hover:text-foreground transition-colors leading-tight">
-                        {skill}
-                      </span>
                     </div>
                   ))}
                 </div>
@@ -652,8 +656,7 @@ const Portfolio = () => {
                   variant="ghost" 
                   size="icon" 
                   className="w-8 h-8 rounded-full glass-card shrink-0"
-                  onClick={() => setTechIndex(Math.min(skillsArray.length - 3, techIndex + 1))}
-                  disabled={!canScrollRight}
+                  onClick={handleNextTech}
                 >
                   <ChevronRight className="w-4 h-4" />
                 </Button>
