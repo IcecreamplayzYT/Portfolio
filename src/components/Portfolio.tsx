@@ -210,6 +210,7 @@ const Portfolio = () => {
             title="Smooth Operator"
             artist="Sade"
             coverImage={smoothOperatorCover}
+            autoPlay
           />
 
           {/* Profile Card */}
@@ -557,6 +558,7 @@ const Portfolio = () => {
               title="Smooth Operator"
               artist="Sade"
               coverImage={smoothOperatorCover}
+              autoPlay
               className="max-w-md w-full"
             />
           </div>
