@@ -6,15 +6,17 @@ interface AudioPlayerProps {
   title: string;
   artist: string;
   coverImage?: string;
+  autoPlay?: boolean;
   className?: string;
 }
 
-const AudioPlayer = ({ src, title, artist, coverImage, className = "" }: AudioPlayerProps) => {
+const AudioPlayer = ({ src, title, artist, coverImage, autoPlay = false, className = "" }: AudioPlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isMuted, setIsMuted] = useState(false);
+  const [needsUserGesture, setNeedsUserGesture] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -26,7 +28,10 @@ const AudioPlayer = ({ src, title, artist, coverImage, className = "" }: AudioPl
       audio.currentTime = 0;
       audio.play().catch(() => {});
     };
-    const handlePlay = () => setIsPlaying(true);
+    const handlePlay = () => {
+      setIsPlaying(true);
+      setNeedsUserGesture(false);
+    };
     const handlePause = () => setIsPlaying(false);
 
     audio.addEventListener("timeupdate", updateTime);
@@ -43,6 +48,39 @@ const AudioPlayer = ({ src, title, artist, coverImage, className = "" }: AudioPl
       audio.removeEventListener("pause", handlePause);
     };
   }, []);
+
+  // Autoplay attempt (will be blocked unless user has interacted with the page)
+  useEffect(() => {
+    if (!autoPlay) return;
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const tryPlay = () => {
+      audio.play().catch(() => {
+        setNeedsUserGesture(true);
+      });
+    };
+
+    // Try once shortly after mount
+    const t = window.setTimeout(tryPlay, 50);
+
+    // If blocked, start on the next user interaction anywhere
+    const onFirstGesture = () => {
+      setNeedsUserGesture(false);
+      tryPlay();
+      window.removeEventListener("pointerdown", onFirstGesture);
+      window.removeEventListener("keydown", onFirstGesture);
+    };
+
+    window.addEventListener("pointerdown", onFirstGesture, { once: true });
+    window.addEventListener("keydown", onFirstGesture, { once: true });
+
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("pointerdown", onFirstGesture);
+      window.removeEventListener("keydown", onFirstGesture);
+    };
+  }, [autoPlay]);
 
   const togglePlay = () => {
     const audio = audioRef.current;
@@ -87,6 +125,14 @@ const AudioPlayer = ({ src, title, artist, coverImage, className = "" }: AudioPl
   return (
     <div className={`rounded-xl overflow-hidden ${className}`} style={{ backgroundColor: "hsl(240 6% 20%)" }}>
       <audio ref={audioRef} src={src} preload="metadata" />
+      {needsUserGesture && (
+        <button
+          type="button"
+          onClick={togglePlay}
+          className="sr-only"
+          aria-label="Tap to start audio"
+        />
+      )}
 
       <div className="flex items-center gap-3 p-3">
         {/* Album Art / Music Icon */}
