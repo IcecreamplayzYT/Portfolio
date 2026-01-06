@@ -68,8 +68,6 @@ const AudioPlayer = ({ src, title, artist, coverImage, autoPlay = false, classNa
     const onFirstGesture = () => {
       setNeedsUserGesture(false);
       tryPlay();
-      window.removeEventListener("pointerdown", onFirstGesture);
-      window.removeEventListener("keydown", onFirstGesture);
     };
 
     window.addEventListener("pointerdown", onFirstGesture, { once: true });
@@ -104,13 +102,9 @@ const AudioPlayer = ({ src, title, artist, coverImage, autoPlay = false, classNa
     setIsMuted(!isMuted);
   };
 
-  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    const audio = audioRef.current;
-    if (!audio || !duration) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const percent = (e.clientX - rect.left) / rect.width;
-    audio.currentTime = percent * duration;
+  // Seeking disabled by design.
+  const handleSeek = () => {
+    return;
   };
 
   const formatTime = (time: number) => {
@@ -124,7 +118,7 @@ const AudioPlayer = ({ src, title, artist, coverImage, autoPlay = false, classNa
 
   return (
     <div className={`rounded-xl overflow-hidden ${className}`} style={{ backgroundColor: "hsl(240 6% 20%)" }}>
-      <audio ref={audioRef} src={src} preload="metadata" />
+      <audio ref={audioRef} src={src} preload="metadata" loop />
       {needsUserGesture && (
         <button
           type="button"
@@ -167,17 +161,12 @@ const AudioPlayer = ({ src, title, artist, coverImage, autoPlay = false, classNa
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
 
-            {/* Progress Bar */}
-            <div
-              className="flex-1 h-1 bg-gray-600 rounded-full cursor-pointer group"
-              onClick={handleSeek}
-            >
+            {/* Progress Bar (display only) */}
+            <div className="flex-1 h-1 bg-gray-600 rounded-full">
               <div
                 className="h-full bg-gray-300 rounded-full relative transition-all"
                 style={{ width: `${progress}%` }}
-              >
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
+              />
             </div>
 
             {/* Volume Button */}
