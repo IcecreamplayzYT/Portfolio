@@ -9,6 +9,7 @@ import backgroundImage from "@/assets/background.jpg";
 import robloxBanner from "@/assets/roblox-banner.png";
 import avatarImage from "@/assets/avatar.png";
 import AudioPlayer from "@/components/AudioPlayer";
+import smoothOperatorCover from "@/assets/smooth-operator-cover.png";
 import { supabase } from "@/integrations/supabase/client";
 
 // Discord & Roblox IDs for integration
@@ -208,6 +209,7 @@ const Portfolio = () => {
             src={`${import.meta.env.BASE_URL}music/smooth-operator.mp3`}
             title="Smooth Operator"
             artist="Sade"
+            coverImage={smoothOperatorCover}
           />
 
           {/* Profile Card */}
@@ -551,9 +553,10 @@ const Portfolio = () => {
           {/* Top Bar with Custom Audio Player */}
           <div className="flex items-center justify-end gap-4">
             <AudioPlayer 
-              src="/music/smooth-operator.mp3"
+              src={`${import.meta.env.BASE_URL}music/smooth-operator.mp3`}
               title="Smooth Operator"
               artist="Sade"
+              coverImage={smoothOperatorCover}
               className="max-w-md w-full"
             />
           </div>
