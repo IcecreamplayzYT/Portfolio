@@ -205,7 +205,7 @@ const Portfolio = () => {
         <div className="relative z-10 p-4 space-y-4 pb-24 overflow-y-auto">
           {/* Custom Audio Player */}
           <AudioPlayer 
-            src="/music/smooth-operator.mp3"
+            src={`${import.meta.env.BASE_URL}music/smooth-operator.mp3`}
             title="Smooth Operator"
             artist="Sade"
           />
