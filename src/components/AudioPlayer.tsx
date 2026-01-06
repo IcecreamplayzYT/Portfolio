@@ -5,10 +5,11 @@ interface AudioPlayerProps {
   src: string;
   title: string;
   artist: string;
+  coverImage?: string;
   className?: string;
 }
 
-const AudioPlayer = ({ src, title, artist, className = "" }: AudioPlayerProps) => {
+const AudioPlayer = ({ src, title, artist, coverImage, className = "" }: AudioPlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -90,10 +91,14 @@ const AudioPlayer = ({ src, title, artist, className = "" }: AudioPlayerProps) =
       <div className="flex items-center gap-3 p-3">
         {/* Album Art / Music Icon */}
         <div
-          className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0"
+          className="w-12 h-12 rounded-lg flex items-center justify-center shrink-0 overflow-hidden"
           style={{ backgroundColor: "hsl(270 50% 35%)" }}
         >
-          <Music className="w-6 h-6 text-purple-300" />
+          {coverImage ? (
+            <img src={coverImage} alt={`${title} cover`} className="w-full h-full object-cover" />
+          ) : (
+            <Music className="w-6 h-6 text-purple-300" />
+          )}
         </div>
 
         {/* Track Info & Controls */}
