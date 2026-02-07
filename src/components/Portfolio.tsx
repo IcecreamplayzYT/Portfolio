@@ -411,7 +411,7 @@ const Portfolio = () => {
               </h3>
               <div className="glass-card rounded-lg p-2">
                 <p className="text-[10px] font-medium">Year 11 - IGCSE</p>
-                <p className="text-[9px] text-primary">Head of Database Dev</p>
+                <p className="text-[9px] text-primary">Technological Affairs of the Student Rep Council</p>
               </div>
             </div>
           </div>
@@ -699,7 +699,7 @@ const Portfolio = () => {
               <div className="glass-card rounded-lg p-3">
                 <p className="text-xs font-medium">High School - Year 11</p>
                 <p className="text-[10px] text-muted-foreground">Preparing for IGCSE</p>
-                <p className="text-[10px] text-primary mt-1">Head of Database Development</p>
+                <p className="text-[10px] text-primary mt-1">Technological Affairs of the Student Rep Council</p>
               </div>
               <div className="glass-card rounded-lg p-3">
                 <p className="text-xs font-medium">Future Studies</p>
