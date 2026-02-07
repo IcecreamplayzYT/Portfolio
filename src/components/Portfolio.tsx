@@ -206,7 +206,7 @@ const Portfolio = () => {
         <div className="relative z-10 p-4 space-y-4 pb-24 overflow-y-auto">
           {/* Custom Audio Player */}
           <AudioPlayer 
-            src="https://https://audio.jukehost.co.uk/d5VLHqvnkV5WTR1oQE2rUgLDOG1mWUtk"
+            src="https://audio.jukehost.co.uk/d5VLHqvnkV5WTR1oQE2rUgLDOG1mWUtk"
             title="Smooth Operator"
             artist="Sade"
             coverImage={smoothOperatorCover}
@@ -554,7 +554,7 @@ const Portfolio = () => {
           {/* Top Bar with Custom Audio Player */}
           <div className="flex items-center justify-end gap-4">
             <AudioPlayer 
-              src="https://https://audio.jukehost.co.uk/d5VLHqvnkV5WTR1oQE2rUgLDOG1mWUtk"
+              src="https://audio.jukehost.co.uk/d5VLHqvnkV5WTR1oQE2rUgLDOG1mWUtk"
               title="Smooth Operator"
               artist="Sade"
               coverImage={smoothOperatorCover}
