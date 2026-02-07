@@ -1,16 +1,4 @@
 """
-Profile Tracking Cog for Discord Bot with Flask API Server
-Tracks and stores Discord/Roblox profile data for portfolio display.
-Updates profile picture and data every 2 days automatically.
-Serves data via HTTP API at /api/profile
-
-Setup:
-1. pip install discord.py aiohttp flask flask-cors python-dotenv
-2. Add this cog to your existing Discord bot OR run standalone
-3. Set DISCORD_BOT_TOKEN in .env file
-4. The bot will automatically update data every 2 days
-5. API is served at http://your-ip:25566/api/profile
-
 Commands:
 - !profile - Manually update and display profile data
 - !profiledata - Get raw JSON profile data
@@ -31,7 +19,6 @@ import threading
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-# ==================== CONFIGURATION ====================
 # Update these with your IDs
 DISCORD_USER_ID = 822804221425614903
 ROBLOX_USER_ID = 1610763045
@@ -39,7 +26,6 @@ DATA_FILE = "profile_data.json"
 UPDATE_INTERVAL_DAYS = 2
 API_PORT = 25566
 API_HOST = "0.0.0.0"
-# ========================================================
 
 # Flask app for API
 api_app = Flask(__name__)
