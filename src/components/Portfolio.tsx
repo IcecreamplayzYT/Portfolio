@@ -148,9 +148,9 @@ const Portfolio = () => {
 
   const projects = [
     { title: "Anti Nuke Bot", role: "Developer / Management", description: "Ultimate Discord Protection with over 1.5M users.", status: "Active", type: "Discord Bot", link: "https://discord.gg/R8jdmteT7X" },
-    { title: "NeoDesigns Hosting", role: "Lead Developer", description: "The perfect place for all your hosting solutions.", status: "Active", type: "Hosting", link: "https://discord.gg/neodesigns" },
+    { title: "NeoDesigns Hosting", role: "Lead Developer", description: "The perfect place for all your hosting solutions.", status: "Ended", type: "Hosting", link: "https://discord.gg/neodesigns" },
     { title: "Starlit Profiles", role: "Developer", description: "Everything you need to showcase your creative work.", status: "Active", type: "Portfolio", link: "https://starlit-development.vercel.app" },
-    { title: "DiscordGPT", role: "CEO", description: "Discord bot connecting ChatGPT with advanced memory features.", status: "Active", type: "AI Integration" },
+    { title: "DiscordGPT", role: "CEO", description: "Discord bot connecting ChatGPT with advanced memory features.", status: "Ended", type: "AI Integration" },
     { title: "Guildly", role: "CEO", description: "Discord templating bot for server management.", status: "Ended", type: "Discord Bot" },
   ];
 
