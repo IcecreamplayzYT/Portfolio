@@ -18,15 +18,15 @@ const ROBLOX_ID = "1610763045";
 
 // Technology skills with progress percentages
 const TECH_SKILLS = [
-  { name: "JavaScript", progress: 48, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" },
-  { name: "TypeScript", progress: 76, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" },
-  { name: "SQL", progress: 31, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg" },
+  { name: "JavaScript", progress: 68, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" },
+  { name: "TypeScript", progress: 86, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" },
+  { name: "SQL", progress: 41, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg" },
   { name: "MongoDB", progress: 100, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original.svg" },
-  { name: "Supabase", progress: 83, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/supabase/supabase-original.svg" },
-  { name: "Firebase", progress: 68, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg" },
-  { name: "Discord Bot", progress: 88, icon: "https://cdn.simpleicons.org/discord/blurple" },
-  { name: "Roblox Scripting", progress: 58, icon: "https://cdn.simpleicons.org/roblox/white" },
-  { name: "React", progress: 64, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" },
+  { name: "Supabase", progress: 97, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/supabase/supabase-original.svg" },
+  { name: "Firebase", progress: 76, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/firebase/firebase-plain.svg" },
+  { name: "Discord Bot", progress: 100, icon: "https://cdn.simpleicons.org/discord/blurple" },
+  { name: "Roblox Scripting", progress: 37, icon: "https://cdn.simpleicons.org/roblox/white" },
+  { name: "React", progress: 89, icon: "https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" },
 ];
 
 const Portfolio = () => {
@@ -147,10 +147,10 @@ const Portfolio = () => {
   };
 
   const projects = [
-    { title: "Anti Nuke Bot", role: "Developer / Management", description: "Ultimate Discord Protection with over 1.5M users.", status: "Active", type: "Discord Bot", link: "https://discord.gg/R8jdmteT7X" },
+    { title: "Anti Nuke Bot", role: "Developer / Management", description: "Ultimate Discord Protection with over 1.8M users.", status: "Active", type: "Discord Bot", link: "https://discord.gg/R8jdmteT7X" },
+    { title: "Roblox Animation", role: "Freelancer", description: "Roblox Animator with ~3 years of experience", status: "Active", type: "Animation" },
     { title: "NeoDesigns Hosting", role: "Lead Developer", description: "The perfect place for all your hosting solutions.", status: "Ended", type: "Hosting", link: "https://discord.gg/neodesigns" },
     { title: "Starlit Profiles", role: "Developer", description: "Everything you need to showcase your creative work.", status: "Active", type: "Portfolio", link: "https://starlit-development.vercel.app" },
-    { title: "DiscordGPT", role: "CEO", description: "Discord bot connecting ChatGPT with advanced memory features.", status: "Ended", type: "AI Integration" },
     { title: "Guildly", role: "CEO", description: "Discord templating bot for server management.", status: "Ended", type: "Discord Bot" },
   ];
 
@@ -158,7 +158,7 @@ const Portfolio = () => {
     { name: "Twitter", icon: <Twitter className="w-5 h-5" />, url: "https://x.com/IcecreamplayzYT", color: "#1DA1F2" },
     { name: "YouTube", icon: <Youtube className="w-5 h-5" />, url: "https://www.youtube.com/@RealiceYT", color: "#FF0000" },
     { name: "Discord", icon: <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>, url: `https://discord.com/users/${DISCORD_ID}`, color: "#5865F2" },
-    { name: "Email", icon: <Mail className="w-5 h-5" />, url: "mailto:tonasamya@gmail.com", color: "#EA4335" },
+    { name: "Email", icon: <Mail className="w-5 h-5" />, url: "mailto:realice@starlit.you", color: "#EA4335" },
   ];
 
   // Get Roblox avatar URL (avoid thumbnails.roblox.com to prevent rate limits)
@@ -236,7 +236,7 @@ const Portfolio = () => {
               </div>
             </div>
 
-            <p className="text-xs text-muted-foreground mt-3 italic">"{discordData.custom_status || 'Life to no Limits'}"</p>
+            <p className="text-xs text-muted-foreground mt-3 italic">"{discordData.custom_status || 'fuck around and find out! exams are over tho'}"</p>
 
             <div className="grid grid-cols-3 gap-2 mt-3 text-center">
               <div className="glass-card rounded-lg p-2">
@@ -244,11 +244,11 @@ const Portfolio = () => {
                 <p className="text-[9px] text-muted-foreground">Years</p>
               </div>
               <div className="glass-card rounded-lg p-2">
-                <p className="text-base font-bold gradient-purple">5+</p>
+                <p className="text-base font-bold gradient-purple">10+</p>
                 <p className="text-[9px] text-muted-foreground">Projects</p>
               </div>
               <div className="glass-card rounded-lg p-2">
-                <p className="text-base font-bold gradient-purple">Y11</p>
+                <p className="text-base font-bold gradient-purple">As</p>
                 <p className="text-[9px] text-muted-foreground">Student</p>
               </div>
             </div>
@@ -569,8 +569,8 @@ const Portfolio = () => {
               <span className="life-limits-gradient">Life to no Limits</span>
             </h1>
             <p className="text-muted-foreground text-sm max-w-xl">
-              Passionate developer specializing in Python, Discord bots, and full-stack web development.
-              Currently in Year 11, preparing for IGCSE examinations.
+              Passionate developer specializing in Python, Discord bots, Roblox Animation, and Full-Stack Web Development.
+              Just Graduated, next step UNI!.
             </p>
             
             {/* Connections */}
@@ -697,13 +697,17 @@ const Portfolio = () => {
             </h3>
             <div className="space-y-3">
               <div className="glass-card rounded-lg p-3">
+                <p className="text-xs font-medium">As Levels</p>
+                <p className="text-[10px] text-muted-foreground">CS studies</p>
+              </div>
+              <div className="glass-card rounded-lg p-3">
                 <p className="text-xs font-medium">High School - Year 11</p>
                 <p className="text-[10px] text-muted-foreground">Preparing for IGCSE</p>
                 <p className="text-[10px] text-primary mt-1">Technological Affairs of the Student Rep Council</p>
               </div>
               <div className="glass-card rounded-lg p-3">
                 <p className="text-xs font-medium">Future Studies</p>
-                <p className="text-[10px] text-muted-foreground">Software Engineering @ University of Kentucky</p>
+                <p className="text-[10px] text-muted-foreground">Software Engineering @ University of Kentucky 🙏</p>
               </div>
             </div>
           </div>
